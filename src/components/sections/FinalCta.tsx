@@ -1,9 +1,9 @@
-import { ArrowRight } from "lucide-react";
 import { Reveal } from "../ui/Reveal";
-import { Button } from "../ui/Button";
+import { DemoRequestForm } from "./DemoRequestForm";
+import { CookieMascot } from "../ui/CookieMascot";
 import { Footer } from "../layout/Footer";
 import { publicAsset } from "../../lib/publicAsset";
-import { finalCta, site } from "../../data/site";
+import { finalCta } from "../../data/site";
 
 const CRUMB_COUNT = 23;
 const crumbSrc = (i: number) => publicAsset(`crumbs/crumb_${String(i).padStart(2, "0")}.png`);
@@ -33,8 +33,7 @@ const CRUMBS = Array.from({ length: 16 }, (_, i) => ({
 export function FinalCta() {
   return (
     <section
-      id="demo"
-      className="relative scroll-mt-24 overflow-hidden text-[#FBF3E4]"
+      className="relative overflow-hidden text-[#FBF3E4]"
       style={{
         background:
           "linear-gradient(180deg, #221610 0%, #191108 48%, #140d06 100%)",
@@ -78,22 +77,35 @@ export function FinalCta() {
       </div>
 
       {/* content */}
-      <div className="relative z-10 mx-auto max-w-[720px] px-6 py-20 text-center md:py-28">
+      <div className="relative z-10 mx-auto grid w-full max-w-[1120px] gap-8 px-6 py-20 md:grid-cols-[0.72fr_1.28fr] md:items-center md:py-28">
         <Reveal>
-          <span className="mx-auto mb-6 flex h-[58px] w-[58px] items-center justify-center rounded-2xl border border-white/12 bg-white/[0.06] font-display text-3xl font-extrabold text-[#FBF3E4]">
-            K
-          </span>
-          <h2 className="mx-auto max-w-[16ch] font-display text-[clamp(30px,4.8vw,50px)] font-extrabold leading-[1.05] text-[#FBF3E4]">
-            {finalCta.title}
-          </h2>
-          <p className="mx-auto mt-4 max-w-[52ch] text-lg text-[#c9b7a1]">{finalCta.body}</p>
-          <div className="mt-8 flex justify-center">
-            <Button href={site.demoHref} size="lg">
-              {finalCta.cta} <ArrowRight size={18} aria-hidden />
-            </Button>
+          <div>
+            <span className="mb-6 flex h-[58px] w-[58px] items-center justify-center rounded-2xl border border-white/12 bg-white/[0.06] font-display text-3xl font-extrabold text-[#FBF3E4]">
+              K
+            </span>
+            <h2 className="max-w-[13ch] font-display text-[clamp(30px,4.8vw,50px)] font-extrabold leading-[1.05] text-[#FBF3E4]">
+              {finalCta.title}
+            </h2>
+            <p className="mt-4 max-w-[38ch] text-lg leading-8 text-[#c9b7a1]">
+              {finalCta.body}
+            </p>
+            <div className="mt-6 grid gap-2 text-[13px] font-semibold text-[#a48d76] sm:grid-cols-3 md:grid-cols-1">
+              <span>EU Shopify merchants</span>
+              <span>NL / BE / DE first</span>
+              <span>English demos</span>
+            </div>
+            <div className="mt-16 flex justify-center md:mt-20 md:justify-start">
+              <CookieMascot bubble="Send me the good stores." mood="idle" />
+            </div>
           </div>
-          <div className="mt-4 text-[13px] text-[#a48d76]">{finalCta.note}</div>
         </Reveal>
+
+        <div>
+          <span id="demo" className="block scroll-mt-24" aria-hidden />
+          <Reveal delay={0.08}>
+            <DemoRequestForm />
+          </Reveal>
+        </div>
       </div>
 
       {/* footer, part of the same cocoa canvas */}
