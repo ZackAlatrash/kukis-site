@@ -4,12 +4,13 @@ import { Button } from "../ui/Button";
 import { ConsentChip } from "../ui/ConsentChip";
 import { Logo } from "../ui/Logo";
 import { hero, site } from "../../data/site";
+import { publicAsset } from "../../lib/publicAsset";
 import { usePrefersReducedMotion } from "../../lib/useReducedMotion";
 import { Hero } from "./Hero";
 
 const FRAMES = 96;
 const BG = "#FBF6E1"; // sampled from the 4K cookie clip's cream
-const framePath = (i: number) => `/cookie/f_${String(i + 1).padStart(3, "0")}.jpg`;
+const framePath = (i: number) => publicAsset(`cookie/f_${String(i + 1).padStart(3, "0")}.jpg`);
 
 const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const smoothstep = (a: number, b: number, x: number) => {
