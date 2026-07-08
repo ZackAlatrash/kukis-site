@@ -184,3 +184,27 @@ export const footer = {
   lang: "English",
   year: 2026,
 };
+
+export const demoRequest = {
+  endpoint: import.meta.env.VITE_DEMO_FORM_ENDPOINT || "",
+  fallbackEmail: "ziad.natrash@gmail.com",
+  heading: "Request a demo",
+  intro: "For EU Shopify merchants in NL, BE, and DE first.",
+  replyNote: "Reply in 1-2 days",
+  helper: "Helps us make the reply specific instead of generic.",
+  privacy: "Only used to reply to this demo request. No newsletter opt-in.",
+  successTitle: "Request sent.",
+  successBody: "Thanks. We will review your store and reply with a practical next step.",
+  mailtoTitle: "Opening your email app.",
+  mailtoBody: "Send the pre-filled email to finish the request.",
+  errorTitle: "The request did not send.",
+  errorBody: "Please try again, or use the fallback email link.",
+  countries: ["Netherlands", "Belgium", "Germany", "Other EU", "Outside EU"],
+  storeSizes: [
+    "Under EUR 100k GMV",
+    "EUR 100k-EUR 500k GMV",
+    "EUR 500k-EUR 2M GMV",
+    "Over EUR 2M GMV",
+    "Not sure",
+  ],
+};
