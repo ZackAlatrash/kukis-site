@@ -9,6 +9,7 @@ import { Check, X, ArrowRight } from "lucide-react";
 import { Section, SectionHead } from "../ui/Section";
 import { Reveal } from "../ui/Reveal";
 import { usePrefersReducedMotion } from "../../lib/useReducedMotion";
+import { publicAsset } from "../../lib/publicAsset";
 import { builtFor, site } from "../../data/site";
 
 // first-person versions of the real ICP traits, so the merchant can self-check
@@ -244,7 +245,7 @@ function CookieMascot({
         }
       >
         <img
-          src="/mascot/cookie.png"
+          src={publicAsset("mascot/cookie.png")}
           alt="Kukis cookie mascot"
           className="w-full select-none drop-shadow-[0_14px_22px_rgba(90,52,32,0.22)]"
           draggable={false}

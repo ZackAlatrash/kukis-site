@@ -16,6 +16,7 @@ import {
 import { Section, SectionHead } from "../ui/Section";
 import { Reveal } from "../ui/Reveal";
 import { usePrefersReducedMotion } from "../../lib/useReducedMotion";
+import { publicAsset } from "../../lib/publicAsset";
 import { widgets, type WidgetKey } from "../../data/site";
 
 type CardConfig = {
@@ -30,7 +31,7 @@ type CardConfig = {
 const CARDS: CardConfig[] = [
   {
     key: "cart",
-    img: "/widgets/cart.jpg",
+    img: publicAsset("widgets/cart.jpg"),
     chip: "Save my cart",
     blurb: "Your cart and a checkout link, emailed to you.",
     Icon: ShoppingCart,
@@ -38,7 +39,7 @@ const CARDS: CardConfig[] = [
   },
   {
     key: "later",
-    img: "/widgets/later.jpg",
+    img: publicAsset("widgets/later.jpg"),
     chip: "Save this for later",
     blurb: "One product, emailed so you can come back to it.",
     Icon: Bookmark,
@@ -46,7 +47,7 @@ const CARDS: CardConfig[] = [
   },
   {
     key: "wishlist",
-    img: "/widgets/wishlist.jpg",
+    img: publicAsset("widgets/wishlist.jpg"),
     chip: "Add to wishlist",
     blurb: "A saved list, emailed, with gentle reminders.",
     Icon: Heart,
@@ -54,7 +55,7 @@ const CARDS: CardConfig[] = [
   },
   {
     key: "stock",
-    img: "/widgets/stock.jpg",
+    img: publicAsset("widgets/stock.jpg"),
     chip: "Notify me when back",
     blurb: "One email the moment it's back in stock.",
     Icon: Bell,

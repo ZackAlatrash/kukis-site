@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Check, Cookie, User } from "lucide-react";
 import { usePrefersReducedMotion } from "../../lib/useReducedMotion";
+import { publicAsset } from "../../lib/publicAsset";
 
 const CRUMB_COUNT = 23;
-const crumbSrc = (i: number) => `/crumbs/crumb_${String(i + 1).padStart(2, "0")}.png`;
-const figureSrc = (i: number) => `/figures/figure_${String(i).padStart(2, "0")}.png`;
+const crumbSrc = (i: number) => publicAsset(`crumbs/crumb_${String(i + 1).padStart(2, "0")}.png`);
+const figureSrc = (i: number) => publicAsset(`figures/figure_${String(i).padStart(2, "0")}.png`);
 // recolor the dark silhouettes to a warm light tone so they read on espresso
 const FIG_FILTER =
   "brightness(0) invert(0.86) sepia(0.35) saturate(1.5) hue-rotate(-12deg) brightness(1.08)";

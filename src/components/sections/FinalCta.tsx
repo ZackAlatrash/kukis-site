@@ -2,10 +2,11 @@ import { ArrowRight } from "lucide-react";
 import { Reveal } from "../ui/Reveal";
 import { Button } from "../ui/Button";
 import { Footer } from "../layout/Footer";
+import { publicAsset } from "../../lib/publicAsset";
 import { finalCta, site } from "../../data/site";
 
 const CRUMB_COUNT = 23;
-const crumbSrc = (i: number) => `/crumbs/crumb_${String(i).padStart(2, "0")}.png`;
+const crumbSrc = (i: number) => publicAsset(`crumbs/crumb_${String(i).padStart(2, "0")}.png`);
 
 // deterministic pseudo-random so the scatter is stable across renders
 const rnd = (i: number, seed: number) => {
