@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+/* ---- Kukis design tokens (Milk & Cookie) ---- */
+@theme {
+  --color-milk: #fff6e7;
+  --color-cream: #fffbf3;
+  --color-cocoa: #2e1c10;
+  --color-cocoa-soft: #5a4636;
+  --color-blueberry: #2f6fb0;
+  --color-blueberry-soft: rgba(47, 111, 176, 0.1);
+  --color-cherry: #e24b3b;
+  --color-cherry-deep: #c83a2c;
+  --color-chip: #5a3420;
+  --color-crumb: #9a8672;
+  --color-amber: #e8b04b;
+  --color-consent: #2fa36b;
+
+  --font-display: "Gabarito", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 20px;
+
+  --shadow-hover: 0 12px 34px rgba(90, 52, 32, 0.12);
+  --shadow-soft: 0 8px 24px rgba(90, 52, 32, 0.08);
+}
+
+/* hairline border token used across cards */
+@layer base {
+  :root {
+    --hair: 1px solid rgba(90, 52, 32, 0.16);
+  }
+
+  * {
+    border-color: rgba(90, 52, 32, 0.16);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-milk);
+    color: var(--color-cocoa);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    /* clip (not hidden) so the body doesn't become a scroll container,
+       which would desync scroll position and break scroll-in-view reveals */
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    font-weight: 700;
+  }
+
+  ::selection {
+    background: rgba(47, 111, 176, 0.2);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-blueberry);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* utility: hairline card */
+.hairline {
+  border: var(--hair);
+}
+
+/* crumb particles drifting off the "lost" shoppers in the problem section */
+@keyframes crumbFloat {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(var(--dx, 0), -30px) scale(0.5);
+    opacity: 0;
+  }
+}
+.crumb-dot {
+  animation: crumbFloat 2.8s ease-in-out infinite;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes badgePop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  60% {
+    transform: scale(1.12);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* indeterminate progress bar for the "composing" state */
+@keyframes composingBar {
+  0% {
+    transform: translateX(-130%);
+  }
+  100% {
+    transform: translateX(340%);
+  }
+}
+.composing-bar {
+  animation: composingBar 1s ease-in-out infinite;
+}
+
+.composing-dots::after {
+  content: "";
+  animation: composingDots 1.4s steps(1, end) infinite;
+}
+@keyframes composingDots {
+  0% {
+    content: "";
+  }
+  25% {
+    content: ".";
+  }
+  50% {
+    content: "..";
+  }
+  75% {
+    content: "...";
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .composing-bar,
+  .composing-dots::after {
+    animation: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .crumb-dot {
+    animation: none;
+    opacity: 0.5;
+  }
+}
+
+/* gentle ambient drift for the final-CTA cookie crumbs */
+@keyframes ctaDrift {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(var(--r0, 0deg));
+  }
+  50% {
+    transform: translate(var(--dx, 0), var(--dy, -14px)) rotate(var(--r1, 10deg));
+  }
+}
+.cta-crumb {
+  animation: ctaDrift var(--dur, 8s) ease-in-out infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cta-crumb {
+    animation: none;
+  }
+}
