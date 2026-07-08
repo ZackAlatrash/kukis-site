@@ -15,6 +15,7 @@ Live site: https://zackalatrash.github.io/kukis-site/
 ```bash
 npm install     # install deps
 npm run dev      # local dev server → http://localhost:5185
+npm run test     # run unit tests
 npm run build    # typecheck + production build
 npm run preview  # preview the production build
 ```
@@ -44,7 +45,20 @@ src/
 9. `Faq` — accordion
 10. `FinalCta` — book a demo
 
-## Notes / TODO
-- The **Book a demo** CTA points to `#demo` (`site.demoHref`). Wire it to the real
-  demo-booking page when it exists.
+## Demo request form
+The final CTA renders a static request-demo form.
+
+By default, if `VITE_DEMO_FORM_ENDPOINT` is empty, submissions open a pre-filled
+email to the fallback address in `src/data/site.ts`.
+
+For a hosted form backend, create a static form endpoint such as Formspree and set:
+
+```bash
+VITE_DEMO_FORM_ENDPOINT=https://formspree.io/f/xabc1234
+```
+
+For GitHub Pages, add the value as a repository secret or workflow environment
+value before building.
+
+## Notes
 - No fabricated testimonials, logos, metrics, or legal-review/DPA/hosting claims — per `context.md`.
