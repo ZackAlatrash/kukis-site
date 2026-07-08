@@ -5,7 +5,7 @@ export const site = {
   name: "Kukis",
   tagline: "The yes cookie tools can't get.",
   taglinePlayful: "No cookies? No problem.",
-  demoHref: "#demo", // routes to the dedicated demo-booking page (TODO: real URL)
+  demoHref: "#demo", // opens the demo request modal
   nav: [
     { label: "How it works", href: "#how" },
     { label: "Widgets", href: "#widgets" },

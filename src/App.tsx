@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { CrumbCursor } from "./components/ui/CrumbCursor";
 import { Nav } from "./components/layout/Nav";
 import { CookieScrubHero } from "./components/sections/CookieScrubHero";
@@ -10,28 +10,50 @@ import { WhyKukis } from "./components/sections/WhyKukis";
 import { BuiltFor } from "./components/sections/BuiltFor";
 import { Faq } from "./components/sections/Faq";
 import { FinalCta } from "./components/sections/FinalCta";
+import { DemoRequestModal } from "./components/sections/DemoRequestModal";
+import { site } from "./data/site";
 
 export default function App() {
-  useEffect(() => {
-    const scrollToHash = () => {
-      const id = window.location.hash.slice(1);
-      if (!id) return;
-      const scroll = () => {
-        const target = document.getElementById(id);
-        if (!target) return;
-        const navOffset = 96;
-        const top = target.getBoundingClientRect().top + window.scrollY - navOffset;
-        window.scrollTo({ top: Math.max(0, top), behavior: "auto" });
-      };
+  const [demoRequestOpen, setDemoRequestOpen] = useState(false);
 
-      window.requestAnimationFrame(scroll);
-      window.setTimeout(scroll, 300);
+  const openDemoRequest = useCallback(() => {
+    setDemoRequestOpen(true);
+  }, []);
+
+  const closeDemoRequest = useCallback(() => {
+    setDemoRequestOpen(false);
+
+    if (window.location.hash === site.demoHref) {
+      window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as Element | null;
+      const link = target?.closest<HTMLAnchorElement>(`a[href="${site.demoHref}"]`);
+
+      if (!link) return;
+
+      event.preventDefault();
+      openDemoRequest();
     };
 
-    scrollToHash();
-    window.addEventListener("hashchange", scrollToHash);
-    return () => window.removeEventListener("hashchange", scrollToHash);
-  }, []);
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, [openDemoRequest]);
+
+  useEffect(() => {
+    const openFromHash = () => {
+      if (window.location.hash === site.demoHref) {
+        openDemoRequest();
+      }
+    };
+
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
+    return () => window.removeEventListener("hashchange", openFromHash);
+  }, [openDemoRequest]);
 
   return (
     <>
@@ -50,6 +72,7 @@ export default function App() {
         </main>
         <FinalCta />
       </div>
+      <DemoRequestModal open={demoRequestOpen} onClose={closeDemoRequest} />
     </>
   );
 }

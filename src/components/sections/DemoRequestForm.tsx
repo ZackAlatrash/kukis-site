@@ -40,7 +40,7 @@ function getDemoRequestValues(values: DemoRequestFormValues): DemoRequestValues 
   };
 }
 
-export function DemoRequestForm() {
+export function DemoRequestForm({ headingId }: { headingId?: string }) {
   const [values, setValues] = useState<DemoRequestFormValues>(initialValues);
   const [errors, setErrors] = useState<Partial<Record<keyof DemoRequestValues, string>>>({});
   const [status, setStatus] = useState<DemoRequestStatus>("idle");
@@ -128,7 +128,10 @@ export function DemoRequestForm() {
         <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-blueberry">
           {demoRequest.replyNote}
         </p>
-        <h2 className="mt-2 font-display text-[32px] font-extrabold leading-tight text-cocoa">
+        <h2
+          id={headingId}
+          className="mt-2 font-display text-[32px] font-extrabold leading-tight text-cocoa"
+        >
           {demoRequest.heading}
         </h2>
         <p className="mt-2 text-[15px] font-medium leading-6 text-cocoa-soft">

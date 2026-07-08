@@ -46,7 +46,7 @@ src/
 10. `FinalCta` — book a demo
 
 ## Demo request form
-The final CTA renders a static request-demo form.
+The "Book a demo" CTAs open a request-demo form in a modal.
 
 By default, if `VITE_DEMO_FORM_ENDPOINT` is empty, submissions open a pre-filled
 email to the fallback address in `src/data/site.ts`.
