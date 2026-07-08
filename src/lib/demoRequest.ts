@@ -9,6 +9,7 @@ export type DemoRequestValues = {
 export type DemoRequestErrors = Partial<Record<keyof DemoRequestValues, string>>;
 
 export type DemoRequestPayload = DemoRequestValues & {
+  storeSize?: string;
   submittedAt: string;
   source: "kukis-site";
 };
@@ -86,6 +87,7 @@ export function buildDemoRequestMailto(email: string, payload: DemoRequestPayloa
     `Email: ${payload.email}`,
     `Store URL: ${payload.storeUrl}`,
     `Country: ${payload.country}`,
+    `Store size: ${payload.storeSize?.trim() || "Not provided"}`,
     `Submitted at: ${payload.submittedAt}`,
     "",
     payload.message,

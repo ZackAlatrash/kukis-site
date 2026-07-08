@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  buildDemoRequestMailto,
   buildDemoRequestPayload,
   validateDemoRequest,
+  type DemoRequestPayload,
   type DemoRequestValues,
 } from "./demoRequest";
 
@@ -64,5 +66,42 @@ describe("buildDemoRequestPayload", () => {
       source: "kukis-site",
     });
     expect(new Date(payload.submittedAt).toISOString()).toBe(payload.submittedAt);
+  });
+});
+
+describe("buildDemoRequestMailto", () => {
+  const payload: DemoRequestPayload = {
+    ...completeValues,
+    submittedAt: "2026-07-08T10:00:00.000Z",
+    source: "kukis-site",
+  };
+
+  function getMailtoBody(mailto: string): string {
+    const query = mailto.split("?")[1];
+    const params = new URLSearchParams(query);
+
+    return params.get("body") ?? "";
+  }
+
+  it("includes the selected store size when provided", () => {
+    const body = getMailtoBody(
+      buildDemoRequestMailto("demo@example.com", {
+        ...payload,
+        storeSize: "EUR 100k-EUR 500k GMV",
+      }),
+    );
+
+    expect(body).toContain("Store size: EUR 100k-EUR 500k GMV");
+  });
+
+  it("includes Not provided when store size is empty", () => {
+    const body = getMailtoBody(
+      buildDemoRequestMailto("demo@example.com", {
+        ...payload,
+        storeSize: "",
+      }),
+    );
+
+    expect(body).toContain("Store size: Not provided");
   });
 });
