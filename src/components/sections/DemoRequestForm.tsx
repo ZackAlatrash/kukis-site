@@ -6,6 +6,7 @@ import {
   buildDemoRequestPayload,
   hasDemoRequestErrors,
   validateDemoRequest,
+  type DemoRequestPayload,
   type DemoRequestValues,
 } from "../../lib/demoRequest";
 
@@ -43,6 +44,9 @@ export function DemoRequestForm() {
   const [values, setValues] = useState<DemoRequestFormValues>(initialValues);
   const [errors, setErrors] = useState<Partial<Record<keyof DemoRequestValues, string>>>({});
   const [status, setStatus] = useState<DemoRequestStatus>("idle");
+  const [lastAttemptedPayload, setLastAttemptedPayload] = useState<DemoRequestPayload | null>(
+    null,
+  );
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
@@ -81,6 +85,7 @@ export function DemoRequestForm() {
       ...buildDemoRequestPayload(requestValues),
       storeSize: values.storeSize.trim(),
     };
+    setLastAttemptedPayload(payload);
 
     try {
       if (demoRequest.endpoint) {
@@ -109,6 +114,9 @@ export function DemoRequestForm() {
   };
 
   const isSubmitting = status === "submitting";
+  const fallbackHref = lastAttemptedPayload
+    ? buildDemoRequestMailto(demoRequest.fallbackEmail, lastAttemptedPayload)
+    : `mailto:${encodeURIComponent(demoRequest.fallbackEmail)}`;
 
   return (
     <form
@@ -303,6 +311,8 @@ export function DemoRequestForm() {
             icon={<AlertCircle size={20} aria-hidden />}
             title={demoRequest.errorTitle}
             body={demoRequest.errorBody}
+            actionHref={fallbackHref}
+            actionLabel="Email us instead"
           />
         ) : null}
       </div>
@@ -315,11 +325,15 @@ function StatusPanel({
   icon,
   title,
   body,
+  actionHref,
+  actionLabel,
 }: {
   tone: "success" | "error";
   icon: React.ReactNode;
   title: string;
   body: string;
+  actionHref?: string;
+  actionLabel?: string;
 }) {
   const toneClass =
     tone === "success"
@@ -332,6 +346,14 @@ function StatusPanel({
       <div>
         <p className="text-[14px] font-bold">{title}</p>
         <p className="mt-1 text-[13px] font-medium leading-5 text-cocoa-soft">{body}</p>
+        {actionHref && actionLabel ? (
+          <a
+            href={actionHref}
+            className="mt-3 inline-flex items-center justify-center rounded-full bg-cherry-deep px-4 py-2 text-[13px] font-semibold text-white transition-colors hover:bg-cherry"
+          >
+            {actionLabel}
+          </a>
+        ) : null}
       </div>
     </div>
   );

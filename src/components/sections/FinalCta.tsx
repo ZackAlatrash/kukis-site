@@ -33,8 +33,7 @@ const CRUMBS = Array.from({ length: 16 }, (_, i) => ({
 export function FinalCta() {
   return (
     <section
-      id="demo"
-      className="relative scroll-mt-24 overflow-hidden text-[#FBF3E4]"
+      className="relative overflow-hidden text-[#FBF3E4]"
       style={{
         background:
           "linear-gradient(180deg, #221610 0%, #191108 48%, #140d06 100%)",
@@ -101,9 +100,11 @@ export function FinalCta() {
           </div>
         </Reveal>
 
-        <Reveal delay={0.08}>
-          <DemoRequestForm />
-        </Reveal>
+        <div id="demo" className="scroll-mt-24">
+          <Reveal delay={0.08}>
+            <DemoRequestForm />
+          </Reveal>
+        </div>
       </div>
 
       {/* footer, part of the same cocoa canvas */}
