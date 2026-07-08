@@ -3,6 +3,8 @@
 Marketing site for **Kukis** — consent after cookies. Built from the project's own docs:
 [`context.md`](../context.md) (facts), [`brand-guidelines-final.md`](../brand-guidelines-final.md) (brand), [`design.md`](../design.md) (system).
 
+Live site: https://zackalatrash.github.io/kukis-site/
+
 ## Stack
 - **Vite + React 18 + TypeScript**
 - **Tailwind CSS v4** (design tokens = Milk & Cookie palette, in `src/index.css` `@theme`)
