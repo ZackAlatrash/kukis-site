@@ -100,7 +100,8 @@ export function FinalCta() {
           </div>
         </Reveal>
 
-        <div id="demo" className="scroll-mt-24">
+        <div>
+          <span id="demo" className="block scroll-mt-24" aria-hidden />
           <Reveal delay={0.08}>
             <DemoRequestForm />
           </Reveal>

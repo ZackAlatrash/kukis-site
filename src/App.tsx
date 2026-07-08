@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { CrumbCursor } from "./components/ui/CrumbCursor";
 import { Nav } from "./components/layout/Nav";
 import { CookieScrubHero } from "./components/sections/CookieScrubHero";
@@ -11,6 +12,27 @@ import { Faq } from "./components/sections/Faq";
 import { FinalCta } from "./components/sections/FinalCta";
 
 export default function App() {
+  useEffect(() => {
+    const scrollToHash = () => {
+      const id = window.location.hash.slice(1);
+      if (!id) return;
+      const scroll = () => {
+        const target = document.getElementById(id);
+        if (!target) return;
+        const navOffset = 96;
+        const top = target.getBoundingClientRect().top + window.scrollY - navOffset;
+        window.scrollTo({ top: Math.max(0, top), behavior: "auto" });
+      };
+
+      window.requestAnimationFrame(scroll);
+      window.setTimeout(scroll, 300);
+    };
+
+    scrollToHash();
+    window.addEventListener("hashchange", scrollToHash);
+    return () => window.removeEventListener("hashchange", scrollToHash);
+  }, []);
+
   return (
     <>
       <CrumbCursor />
