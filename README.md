@@ -51,14 +51,27 @@ The "Book a demo" CTAs open a request-demo form in a modal.
 By default, if `VITE_DEMO_FORM_ENDPOINT` is empty, submissions open a pre-filled
 email to the fallback address in `src/data/site.ts`.
 
-For a hosted form backend, create a static form endpoint such as Formspree and set:
+For a hosted form backend, create a free static-form endpoint and set
+`VITE_DEMO_FORM_ENDPOINT` to it. The code POSTs JSON and treats any `2xx`
+response as success, so several services are drop-in:
 
 ```bash
+# Formspree (free 50/mo, dashboard + spam filtering)
 VITE_DEMO_FORM_ENDPOINT=https://formspree.io/f/xabc1234
+
+# FormSubmit (free, unlimited) — the address receives the submissions
+VITE_DEMO_FORM_ENDPOINT=https://formsubmit.co/ajax/demos@yourdomain.com
 ```
 
-For GitHub Pages, add the value as a repository secret or workflow environment
-value before building.
+Set this as a build environment variable in your host's dashboard
+(e.g. Cloudflare Pages → Settings → Environment variables) before building.
+
+## Deploying
+`base` in `vite.config.ts` is `/`, which is correct for serving at the root of
+a custom domain (Cloudflare Pages, or GitHub Pages with a custom domain).
+Build command: `npm run build`. Output directory: `dist`.
+Use `base: "/kukis-site/"` only if serving from the `*.github.io/kukis-site/`
+project URL without a custom domain.
 
 ## Notes
 - No fabricated testimonials, logos, metrics, or legal-review/DPA/hosting claims — per `context.md`.

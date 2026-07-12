@@ -1,33 +1,79 @@
-import { useEffect } from "react";
+import { useEffect, useRef, type RefObject } from "react";
 import { X } from "lucide-react";
 import { DemoRequestForm } from "./DemoRequestForm";
 import { CookieCrumbBackdrop } from "../ui/CookieCrumbBackdrop";
 
+const FOCUSABLE =
+  'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+
 export function DemoRequestModal({
   open,
   onClose,
+  backgroundRef,
 }: {
   open: boolean;
   onClose: () => void;
+  /** The page content behind the modal; made `inert` while the dialog is open. */
+  backgroundRef: RefObject<HTMLElement | null>;
 }) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (!open) return;
 
+    // Remember what had focus so we can restore it when the dialog closes.
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const background = backgroundRef.current;
+    const dialog = dialogRef.current;
+
+    // Take the page behind the dialog out of the focus order and a11y tree.
+    if (background) background.inert = true;
     const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    // Move focus into the dialog; the container is focusable (tabIndex -1) so the
+    // dialog's accessible name (aria-labelledby) is announced on open.
+    dialog?.focus();
+
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         onClose();
+        return;
+      }
+      if (event.key !== "Tab" || !dialog) return;
+
+      const focusable = Array.from(
+        dialog.querySelectorAll<HTMLElement>(FOCUSABLE),
+      ).filter((el) => el.offsetParent !== null || el === dialog);
+      if (focusable.length === 0) {
+        event.preventDefault();
+        dialog.focus();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const activeEl = document.activeElement;
+
+      if (event.shiftKey && (activeEl === first || activeEl === dialog)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && activeEl === last) {
+        event.preventDefault();
+        first.focus();
       }
     };
 
-    document.body.style.overflow = "hidden";
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      // Restore the background BEFORE returning focus — a .focus() call on an
+      // element inside an `inert` subtree is a no-op.
+      if (background) background.inert = false;
+      previouslyFocused?.focus();
     };
-  }, [onClose, open]);
+  }, [open, onClose, backgroundRef]);
 
   if (!open) return null;
 
@@ -41,10 +87,12 @@ export function DemoRequestModal({
       }}
     >
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="demo-request-title"
-        className="relative max-h-[calc(100vh-40px)] w-full max-w-[980px] overflow-y-auto rounded-[28px] border border-white/10 text-[#FBF3E4] shadow-[0_28px_90px_rgba(0,0,0,0.44)]"
+        tabIndex={-1}
+        className="relative max-h-[calc(100vh-40px)] w-full max-w-[980px] overflow-y-auto rounded-[28px] border border-white/10 text-[#FBF3E4] shadow-[0_28px_90px_rgba(0,0,0,0.44)] focus:outline-none"
         style={{
           background:
             "linear-gradient(180deg, #221610 0%, #191108 48%, #140d06 100%)",

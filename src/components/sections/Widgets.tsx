@@ -145,18 +145,18 @@ function WidgetCard({ card, w }: { card: CardConfig; w: (typeof widgets)[number]
         className="absolute inset-y-0 right-0 flex w-[48%] flex-col justify-center pl-1 pr-5"
         style={{ transform: "translateZ(32px)" }}
       >
-        <div className="text-[11px] font-semibold uppercase tracking-[0.1em] text-blueberry">
+        <div className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-blueberry">
           {w.where}
         </div>
-        <h3 className="mt-1 font-display text-[19px] font-semibold leading-tight text-cocoa">
+        <h3 className="mt-1 font-display text-[1.1875rem] font-semibold leading-tight text-cocoa">
           {w.title}
         </h3>
-        <p className="mt-1.5 text-[13px] leading-snug text-cocoa-soft">{card.blurb}</p>
+        <p className="mt-1.5 text-[0.8125rem] leading-snug text-cocoa-soft">{card.blurb}</p>
       </div>
 
       {/* the real storefront button, lifting off the cookie */}
       <div
-        className="absolute bottom-3 left-3 inline-flex items-center gap-2 rounded-full bg-cocoa px-3.5 py-2 text-[12px] font-semibold text-milk shadow-[0_12px_26px_rgba(46,28,16,0.5)]"
+        className="absolute bottom-3 left-3 inline-flex items-center gap-2 rounded-full bg-cocoa px-3.5 py-2 text-[0.75rem] font-semibold text-milk shadow-[0_12px_26px_rgba(46,28,16,0.5)]"
         style={{ transform: "translateZ(62px)" }}
       >
         <card.Icon size={14} aria-hidden />

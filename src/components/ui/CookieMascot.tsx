@@ -54,7 +54,7 @@ export function CookieMascot({
         initial={reduced ? false : { opacity: 0, y: 6, scale: 0.92 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute -top-2 left-1/2 z-10 max-w-[180px] -translate-x-1/2 -translate-y-full rounded-2xl border border-chip/15 bg-milk px-3 py-1.5 text-center text-[12px] font-semibold leading-tight text-cocoa shadow-soft"
+        className="absolute -top-2 left-1/2 z-10 max-w-[180px] -translate-x-1/2 -translate-y-full rounded-2xl border border-chip/15 bg-milk px-3 py-1.5 text-center text-[0.75rem] font-semibold leading-tight text-cocoa shadow-soft"
       >
         {bubble}
         <span className="absolute -bottom-[5px] left-1/2 h-2.5 w-2.5 -translate-x-1/2 rotate-45 border-b border-r border-chip/15 bg-milk" />

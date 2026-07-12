@@ -8,12 +8,22 @@
   --color-cocoa-soft: #5a4636;
   --color-blueberry: #2f6fb0;
   --color-blueberry-soft: rgba(47, 111, 176, 0.1);
+  /* darker blue for text sitting on the blueberry-soft tint, where #2f6fb0 is only 4.26:1 */
+  --color-blueberry-ink: #245a8f;
   --color-cherry: #e24b3b;
   --color-cherry-deep: #c83a2c;
   --color-chip: #5a3420;
-  --color-crumb: #9a8672;
+  /* muted text — darkened from #9a8672 (3.25:1) to meet WCAG 1.4.3 on light bg (now ~5.9:1) */
+  --color-crumb: #6f5c48;
   --color-amber: #e8b04b;
+  /* dark "ink" amber for text/icons on LIGHT backgrounds (amber #e8b04b is only 1.8:1 there);
+     keep --color-amber for dark sections and decorative fills where it passes */
+  --color-amber-ink: #8a5a12;
   --color-consent: #2fa36b;
+  /* dark "ink" green for green text + white-on-green fills on LIGHT backgrounds
+     (consent #2fa36b is 3.0:1 as text / white-on-it is 3.2:1); keep --color-consent for
+     icons, meters, translucent fills and dark sections where it passes */
+  --color-consent-ink: #1f7a4f;
 
   --font-display: "Gabarito", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;

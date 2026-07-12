@@ -29,13 +29,13 @@ export function InvisibleHalf() {
         <div className="mt-9 grid gap-4 sm:grid-cols-3">
           {stats.map((s) => (
             <SpotlightCard key={s.label} className="p-6">
-              <div className="font-display text-[36px] font-extrabold leading-none tracking-[-0.03em] text-cherry">
+              <div className="font-display text-[2.25rem] font-extrabold leading-none tracking-[-0.03em] text-cherry">
                 {s.big}
               </div>
               <div className="mt-3 text-xs font-semibold uppercase tracking-[0.1em] text-amber">
                 {s.label}
               </div>
-              <p className="mt-2 text-[14.5px] text-[#c9b7a1]">{s.body}</p>
+              <p className="mt-2 text-[0.90625rem] text-[#c9b7a1]">{s.body}</p>
             </SpotlightCard>
           ))}
         </div>

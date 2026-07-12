@@ -222,7 +222,11 @@ export function CrumblingCrowd() {
   }, [reduced]);
 
   return (
-    <div ref={stageRef} className="relative mx-auto h-[500px] w-full max-w-[860px] sm:h-[560px]">
+    <div
+      ref={stageRef}
+      aria-hidden
+      className="relative mx-auto h-[500px] w-full max-w-[860px] sm:h-[560px]"
+    >
       {/* the crowd, near the top and much larger */}
       <div className="absolute inset-x-0 top-0 flex items-end justify-center gap-6 pt-2 sm:gap-14">
         {CROWD.map((c, i) => (
@@ -253,8 +257,8 @@ export function CrumblingCrowd() {
               <Cookie size={16} className="text-amber" aria-hidden />
             </span>
             <div className="leading-tight">
-              <div className="text-[14px] font-semibold text-[#FBF3E4]">Kukis inbox</div>
-              <div className="text-[11px] text-[#a48d76]">
+              <div className="text-[0.875rem] font-semibold text-[#FBF3E4]">Kukis inbox</div>
+              <div className="text-[0.6875rem] text-[#a48d76]">
                 {phase === "sending"
                   ? "2 re-engagement emails sent"
                   : phase === "composing"
@@ -264,14 +268,14 @@ export function CrumblingCrowd() {
             </div>
           </div>
           <span
-            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold ${
+            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.6875rem] font-semibold ${
               phase === "composing"
                 ? "bg-amber/15 text-amber"
                 : "bg-consent/15 text-consent"
             }`}
           >
             <span
-              className={`h-1.5 w-1.5 animate-pulse rounded-full ${
+              className={`h-1.5 w-1.5 animate-pulse rounded-full motion-reduce:animate-none ${
                 phase === "composing" ? "bg-amber" : "bg-consent"
               }`}
             />
@@ -295,12 +299,12 @@ export function CrumblingCrowd() {
                   </span>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="truncate text-[13.5px] font-semibold text-[#FBF3E4]">
+                      <span className="truncate text-[0.84375rem] font-semibold text-[#FBF3E4]">
                         Shopper captured
                       </span>
-                      <span className="shrink-0 text-[11px] text-[#a48d76]">now</span>
+                      <span className="shrink-0 text-[0.6875rem] text-[#a48d76]">now</span>
                     </div>
-                    <div className="truncate text-[12px] text-[#a48d76]">
+                    <div className="truncate text-[0.75rem] text-[#a48d76]">
                       Declined cookies, consented to email
                     </div>
                   </div>
@@ -314,7 +318,7 @@ export function CrumblingCrowd() {
 
           {phase === "composing" && (
             <div className="flex flex-1 flex-col justify-center gap-3.5 px-1">
-              <div className="composing-dots text-[13px] font-medium text-amber">
+              <div className="composing-dots text-[0.8125rem] font-medium text-amber">
                 Turning caught shoppers into re-engagement emails
               </div>
               <div className="h-2 overflow-hidden rounded-full bg-[#3a2716]">
@@ -336,17 +340,17 @@ export function CrumblingCrowd() {
                   </span>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="truncate text-[13.5px] font-semibold text-[#FBF3E4]">
+                      <span className="truncate text-[0.84375rem] font-semibold text-[#FBF3E4]">
                         {e.subject}
                       </span>
                       <span
-                        className="shrink-0 rounded bg-consent/15 px-1.5 py-0.5 text-[9.5px] font-bold uppercase tracking-wide text-consent"
+                        className="shrink-0 rounded bg-consent/15 px-1.5 py-0.5 text-[0.59375rem] font-bold uppercase tracking-wide text-consent"
                         style={{ animation: `badgePop 0.4s ease ${0.35 + k * 0.22}s backwards` }}
                       >
                         sent
                       </span>
                     </div>
-                    <div className="truncate text-[12px] text-[#a48d76]">{e.preview}</div>
+                    <div className="truncate text-[0.75rem] text-[#a48d76]">{e.preview}</div>
                   </div>
                 </div>
               ))}

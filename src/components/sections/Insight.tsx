@@ -68,12 +68,12 @@ export function Insight() {
               <br />
               Keep the yes.
             </h2>
-            <p className="mt-5 max-w-[52ch] text-[17px] text-cocoa-soft">
+            <p className="mt-5 max-w-[52ch] text-[1.0625rem] text-cocoa-soft">
               Under EU law, cookie consent and marketing consent are two separate
               decisions. A shopper can decline your banner and still give a clean,
               explicit yes to email.
             </p>
-            <p className="mt-4 max-w-[52ch] text-[17px] text-cocoa-soft">
+            <p className="mt-4 max-w-[52ch] text-[1.0625rem] text-cocoa-soft">
               A cookie-based form dies at that banner. Kukis never needed cookies in the
               first place.
             </p>
@@ -86,7 +86,7 @@ export function Insight() {
             <div className="relative rounded-[22px] border border-chip/15 bg-cream p-5 shadow-soft sm:p-6">
               <div className="mb-4 flex items-center gap-2">
                 <span className="h-2.5 w-2.5 rounded-full bg-crumb/25" />
-                <span className="text-[12.5px] font-semibold uppercase tracking-[0.12em] text-crumb">
+                <span className="text-[0.78125rem] font-semibold uppercase tracking-[0.12em] text-crumb">
                   The shopper's choices
                 </span>
               </div>
@@ -105,7 +105,7 @@ export function Insight() {
               {/* Independent divider */}
               <div className="relative my-1.5 flex items-center">
                 <span className="h-px flex-1 bg-chip/12" />
-                <span className="mx-3 rounded-full border border-chip/15 bg-milk px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-crumb">
+                <span className="mx-3 rounded-full border border-chip/15 bg-milk px-2.5 py-0.5 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-crumb">
                   independent
                 </span>
                 <span className="h-px flex-1 bg-chip/12" />
@@ -113,7 +113,7 @@ export function Insight() {
 
               {/* Marketing row */}
               <ConsentRow
-                icon={<Mail size={18} className="text-consent" aria-hidden />}
+                icon={<Mail size={18} className="text-consent-ink" aria-hidden />}
                 iconBg="bg-consent/15"
                 title="Marketing emails"
                 sub="The emails they asked for"
@@ -128,7 +128,7 @@ export function Insight() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.9 }}
                         transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                        className="pointer-events-none absolute -top-2 right-14 rounded-full bg-consent px-2 py-0.5 text-[11px] font-bold text-white shadow-sm"
+                        className="pointer-events-none absolute -top-2 right-14 rounded-full bg-consent-ink px-2 py-0.5 text-[0.6875rem] font-bold text-white shadow-sm"
                       >
                         unchanged
                       </motion.span>
@@ -140,7 +140,7 @@ export function Insight() {
               {/* Status strip */}
               <div
                 className={cn(
-                  "mt-4 flex items-center gap-2.5 rounded-2xl border px-4 py-3 text-[14.5px] font-medium transition-colors duration-300",
+                  "mt-4 flex items-center gap-2.5 rounded-2xl border px-4 py-3 text-[0.90625rem] font-medium transition-colors duration-300",
                   reachable
                     ? "border-consent/25 bg-consent/10 text-cocoa"
                     : "border-chip/15 bg-milk text-crumb"
@@ -159,7 +159,7 @@ export function Insight() {
               </div>
             </div>
 
-            <p className="mt-3 pl-1 text-[13px] text-crumb">
+            <p className="mt-3 pl-1 text-[0.8125rem] text-crumb">
               Go ahead, flip either switch. They don't touch each other.
             </p>
           </div>
@@ -202,13 +202,13 @@ function ConsentRow({
       <div className="min-w-0 flex-1">
         <div
           className={cn(
-            "text-[15px] font-semibold transition-colors",
+            "text-[0.9375rem] font-semibold transition-colors",
             on ? "text-cocoa" : "text-crumb line-through decoration-crumb/50"
           )}
         >
           {title}
         </div>
-        <div className="text-[13px] text-crumb">{sub}</div>
+        <div className="text-[0.8125rem] text-crumb">{sub}</div>
       </div>
       {badge}
       <Switch on={on} onToggle={onToggle} srLabel={srLabel} />

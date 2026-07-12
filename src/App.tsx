@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { CrumbCursor } from "./components/ui/CrumbCursor";
 import { Nav } from "./components/layout/Nav";
 import { CookieScrubHero } from "./components/sections/CookieScrubHero";
@@ -10,11 +10,13 @@ import { WhyKukis } from "./components/sections/WhyKukis";
 import { BuiltFor } from "./components/sections/BuiltFor";
 import { Faq } from "./components/sections/Faq";
 import { FinalCta } from "./components/sections/FinalCta";
+import { Footer } from "./components/layout/Footer";
 import { DemoRequestModal } from "./components/sections/DemoRequestModal";
 import { site } from "./data/site";
 
 export default function App() {
   const [demoRequestOpen, setDemoRequestOpen] = useState(false);
+  const backgroundRef = useRef<HTMLDivElement>(null);
 
   const openDemoRequest = useCallback(() => {
     setDemoRequestOpen(true);
@@ -58,9 +60,15 @@ export default function App() {
   return (
     <>
       <CrumbCursor />
-      <div className="relative z-[2]">
+      <div className="relative z-[2]" ref={backgroundRef}>
+        <a
+          href="#main-content"
+          className="sr-only rounded-full font-semibold focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:bg-cocoa focus:px-4 focus:py-2 focus:text-milk focus:outline-2 focus:outline-blueberry focus:outline-offset-2"
+        >
+          Skip to content
+        </a>
         <Nav />
-        <main>
+        <main id="main-content" tabIndex={-1} className="focus:outline-none">
           <CookieScrubHero />
           <InvisibleHalf />
           <Insight />
@@ -71,8 +79,13 @@ export default function App() {
           <Faq />
         </main>
         <FinalCta />
+        <Footer />
       </div>
-      <DemoRequestModal open={demoRequestOpen} onClose={closeDemoRequest} />
+      <DemoRequestModal
+        open={demoRequestOpen}
+        onClose={closeDemoRequest}
+        backgroundRef={backgroundRef}
+      />
     </>
   );
 }

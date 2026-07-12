@@ -53,7 +53,7 @@ export function WhyKukis() {
         <div className="mt-9 grid items-center gap-8 rounded-[24px] border border-chip/15 bg-cream p-6 md:grid-cols-[0.85fr_1.15fr] md:gap-12 md:p-8">
           {/* left: the number + message */}
           <div>
-            <span className="text-xs font-semibold uppercase tracking-[0.14em] text-amber">
+            <span className="text-xs font-semibold uppercase tracking-[0.14em] text-amber-ink">
               The cookie-crumb half
             </span>
             <AnimatePresence mode="wait">
@@ -66,19 +66,19 @@ export function WhyKukis() {
               >
                 <div
                   className={`mt-2 font-display text-[clamp(44px,6vw,66px)] font-extrabold leading-none tracking-[-0.03em] ${
-                    caught ? "text-amber" : "text-cherry"
+                    caught ? "text-amber-ink" : "text-cherry-deep"
                   }`}
                 >
                   ~50%
                 </div>
-                <div className="mt-2 text-[15.5px] font-semibold text-cocoa">
+                <div className="mt-2 text-[0.96875rem] font-semibold text-cocoa">
                   {caught
                     ? "decline cookies, caught by Kukis"
                     : "decline cookies and slip away"}
                 </div>
               </motion.div>
             </AnimatePresence>
-            <p className="mt-4 max-w-[40ch] text-[14.5px] leading-relaxed text-cocoa-soft">
+            <p className="mt-4 max-w-[40ch] text-[0.90625rem] leading-relaxed text-cocoa-soft">
               Cookie-based tools only see the shoppers who accept. The other half
               decline and vanish. Kukis never needed cookies, so it captures a
               consented email from that half, the crumbs everyone else drops.
@@ -87,7 +87,7 @@ export function WhyKukis() {
 
           {/* right: the crowd, split into two groups */}
           <div>
-            <div className="mb-3 text-[12.5px] font-medium text-crumb">
+            <div className="mb-3 text-[0.78125rem] font-medium text-crumb">
               Your EU shoppers, cookie choice by choice
             </div>
             <div ref={gridRef} className="grid grid-cols-10 gap-2">
@@ -111,7 +111,7 @@ export function WhyKukis() {
               })}
             </div>
             {/* legend */}
-            <div className="mt-3.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[12px] text-cocoa-soft">
+            <div className="mt-3.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[0.75rem] text-cocoa-soft">
               <span className="flex items-center gap-1.5">
                 <User size={13} className="text-amber" strokeWidth={2.5} aria-hidden />
                 Declined cookies, caught by Kukis
@@ -131,9 +131,9 @@ export function WhyKukis() {
           {compare.us.points.map((p) => (
             <div key={p} className="flex items-start gap-2.5">
               <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-consent/15">
-                <Check size={12} strokeWidth={3} className="text-consent" aria-hidden />
+                <Check size={12} strokeWidth={3} className="text-consent-ink" aria-hidden />
               </span>
-              <span className="text-[13.5px] leading-snug text-cocoa-soft">{p}</span>
+              <span className="text-[0.84375rem] leading-snug text-cocoa-soft">{p}</span>
             </div>
           ))}
         </div>

@@ -16,6 +16,16 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Native hash links scroll to the section but leave keyboard focus on the link.
+  // Move focus to the target so keyboard users continue from the section (WCAG 2.4.3).
+  const focusSection = (href: string) => {
+    if (href === site.demoHref || !href.startsWith("#")) return;
+    const el = document.getElementById(href.slice(1));
+    if (!el) return;
+    el.setAttribute("tabindex", "-1");
+    requestAnimationFrame(() => el.focus({ preventScroll: true }));
+  };
+
   return (
     <nav
       className={cn(
@@ -28,9 +38,14 @@ export function Nav() {
           <Logo />
         </a>
 
-        <div className="hidden items-center gap-7 text-[15px] md:flex">
+        <div className="hidden items-center gap-7 text-[0.9375rem] md:flex">
           {site.nav.map((l) => (
-            <a key={l.href} href={l.href} className="text-cocoa transition-colors hover:text-blueberry">
+            <a
+              key={l.href}
+              href={l.href}
+              onClick={() => focusSection(l.href)}
+              className="text-cocoa transition-colors hover:text-blueberry"
+            >
               {l.label}
             </a>
           ))}
@@ -47,21 +62,25 @@ export function Nav() {
           className="flex h-11 w-11 items-center justify-center rounded-full md:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
+          aria-controls="mobile-menu"
           onClick={() => setOpen((v) => !v)}
         >
-          {open ? <X size={22} /> : <Menu size={22} />}
+          {open ? <X size={22} aria-hidden /> : <Menu size={22} aria-hidden />}
         </button>
       </div>
 
       {open && (
-        <div className="border-t border-chip/15 bg-milk px-6 py-4 md:hidden">
+        <div id="mobile-menu" className="border-t border-chip/15 bg-milk px-6 py-4 md:hidden">
           <div className="flex flex-col gap-1">
             {site.nav.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
                 className="rounded-lg py-2.5 text-cocoa"
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  setOpen(false);
+                  focusSection(l.href);
+                }}
               >
                 {l.label}
               </a>

@@ -66,14 +66,14 @@ export function HowItWorks() {
                 <span className="font-display text-3xl font-extrabold text-white/25">
                   0{i + 1}
                 </span>
-                <span className="text-[12px] font-semibold uppercase tracking-[0.16em] text-amber">
+                <span className="text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-amber">
                   {step.tag}
                 </span>
               </div>
-              <h3 className="font-display text-[26px] font-bold text-[#FBF3E4]">
+              <h3 className="font-display text-[1.625rem] font-bold text-[#FBF3E4]">
                 {step.title}
               </h3>
-              <p className="mt-3 max-w-[46ch] text-[16px] leading-relaxed text-white/60">
+              <p className="mt-3 max-w-[46ch] text-[1rem] leading-relaxed text-white/60">
                 {step.body}
               </p>
               <div className="mt-6">
@@ -171,13 +171,13 @@ export function HowItWorks() {
                       <div className="font-display text-[clamp(90px,11vw,150px)] font-extrabold leading-[0.85] text-white/[0.16]">
                         0{active + 1}
                       </div>
-                      <div className="mt-4 text-[13px] font-semibold uppercase tracking-[0.18em] text-amber">
+                      <div className="mt-4 text-[0.8125rem] font-semibold uppercase tracking-[0.18em] text-amber">
                         {steps[active].tag}
                       </div>
                       <h3 className="mt-4 font-display text-[clamp(32px,4vw,52px)] font-bold leading-[1.04] text-[#FBF3E4]">
                         {steps[active].title}
                       </h3>
-                      <p className="mt-5 max-w-[42ch] text-[17px] leading-relaxed text-white/60">
+                      <p className="mt-5 max-w-[42ch] text-[1.0625rem] leading-relaxed text-white/60">
                         {steps[active].body}
                       </p>
                     </motion.div>
@@ -209,7 +209,7 @@ function Header() {
       <h2 className="mt-3 font-display text-[clamp(28px,4vw,42px)] font-bold text-[#FBF3E4]">
         Three steps. One clean email.
       </h2>
-      <p className="mt-3 max-w-[52ch] text-[16.5px] text-[#FBF3E4]/60">
+      <p className="mt-3 max-w-[52ch] text-[1.03125rem] text-[#FBF3E4]/60">
         No popups, no follow-up spam. The shopper chooses to click. That's the whole point.
       </p>
     </div>
@@ -239,7 +239,7 @@ function Device({ active, reduced }: { active: number; reduced: boolean }) {
           <span className="h-2.5 w-2.5 rounded-full bg-crumb/25" />
           <span className="h-2.5 w-2.5 rounded-full bg-crumb/25" />
           <span className="h-2.5 w-2.5 rounded-full bg-crumb/25" />
-          <div className="ml-2 flex min-w-0 flex-1 items-center gap-1.5 rounded-lg border border-chip/12 bg-cream px-3 py-1.5 text-[12px] font-medium text-crumb">
+          <div className="ml-2 flex min-w-0 flex-1 items-center gap-1.5 rounded-lg border border-chip/12 bg-cream px-3 py-1.5 text-[0.75rem] font-medium text-crumb">
             <Label.icon size={12} aria-hidden />
             <span className="truncate">{Label.text}</span>
           </div>
@@ -276,7 +276,7 @@ function DeviceBody({ stage, reduced }: { stage: number; reduced: boolean }) {
           <ImageIcon size={30} className="text-cocoa/25" aria-hidden />
           <img
             src="/how/product.jpg"
-            alt="Speckled ceramic mug"
+            alt=""
             className="absolute inset-0 h-full w-full object-cover"
             onError={(e) => {
               (e.currentTarget as HTMLImageElement).style.display = "none";
@@ -285,19 +285,19 @@ function DeviceBody({ stage, reduced }: { stage: number; reduced: boolean }) {
         </div>
         <div className="mt-3.5 flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <div className="truncate text-[15.5px] font-semibold text-cocoa">
+            <div className="truncate text-[0.96875rem] font-semibold text-cocoa">
               Speckled ceramic mug
             </div>
-            <div className="text-[12.5px] text-crumb">In your cart</div>
+            <div className="text-[0.78125rem] text-crumb">In your cart</div>
           </div>
-          <div className="shrink-0 font-display text-[17px] font-bold text-cocoa">€28</div>
+          <div className="shrink-0 font-display text-[1.0625rem] font-bold text-cocoa">€28</div>
         </div>
 
         <div className="relative mt-4">
           <button
             type="button"
             tabIndex={-1}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-cocoa px-4 py-3.5 text-[14.5px] font-semibold text-milk"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-cocoa px-4 py-3.5 text-[0.90625rem] font-semibold text-milk"
           >
             <Cookie size={17} aria-hidden />
             Save my cart
@@ -315,7 +315,7 @@ function DeviceBody({ stage, reduced }: { stage: number; reduced: boolean }) {
             aria-hidden
           />
         </div>
-        <p className="mt-3.5 text-center text-[12px] text-crumb">
+        <p className="mt-3.5 text-center text-[0.75rem] text-crumb">
           A button in the page. Never a popup.
         </p>
       </div>
@@ -325,10 +325,10 @@ function DeviceBody({ stage, reduced }: { stage: number; reduced: boolean }) {
   if (stage === 1) {
     return (
       <div>
-        <div className="text-[12px] font-medium text-crumb">Your email</div>
-        <div className="mt-1.5 flex items-center rounded-xl border border-chip/20 bg-milk px-3 py-2.5 text-[13px] text-cocoa">
+        <div className="text-[0.75rem] font-medium text-crumb">Your email</div>
+        <div className="mt-1.5 flex items-center rounded-xl border border-chip/20 bg-milk px-3 py-2.5 text-[0.8125rem] text-cocoa">
           emma@herstore.nl
-          <span className="ml-0.5 inline-block h-4 w-px animate-pulse bg-cocoa/50" />
+          <span className="ml-0.5 inline-block h-4 w-px animate-pulse bg-cocoa/50 motion-reduce:animate-none" />
         </div>
 
         <div className="mt-3 flex items-start gap-2.5 rounded-xl border border-consent/25 bg-consent/[0.08] p-3">
@@ -336,10 +336,10 @@ function DeviceBody({ stage, reduced }: { stage: number; reduced: boolean }) {
             <Check size={13} strokeWidth={3} aria-hidden />
           </span>
           <div>
-            <div className="text-[13px] leading-snug text-cocoa">
+            <div className="text-[0.8125rem] leading-snug text-cocoa">
               Email me my cart, and yes to the occasional offer.
             </div>
-            <div className="mt-1 text-[11px] text-crumb">
+            <div className="mt-1 text-[0.6875rem] text-crumb">
               Unchecked by default, timestamped, scoped.
             </div>
           </div>
@@ -348,7 +348,7 @@ function DeviceBody({ stage, reduced }: { stage: number; reduced: boolean }) {
         <button
           type="button"
           tabIndex={-1}
-          className="mt-4 w-full rounded-xl bg-consent px-4 py-3 text-[14px] font-semibold text-white"
+          className="mt-4 w-full rounded-xl bg-consent-ink px-4 py-3 text-[0.875rem] font-semibold text-white"
         >
           Email it to me
         </button>
@@ -365,13 +365,13 @@ function DeviceBody({ stage, reduced }: { stage: number; reduced: boolean }) {
           </span>
           <div className="min-w-0 flex-1">
             <div className="flex items-baseline justify-between gap-2">
-              <span className="text-[13.5px] font-semibold text-cocoa">Kukis</span>
-              <span className="shrink-0 text-[11px] text-crumb">just now</span>
+              <span className="text-[0.84375rem] font-semibold text-cocoa">Kukis</span>
+              <span className="shrink-0 text-[0.6875rem] text-crumb">just now</span>
             </div>
-            <div className="truncate text-[13px] font-semibold text-cocoa">
-              Your cart, saved 🍪
+            <div className="truncate text-[0.8125rem] font-semibold text-cocoa">
+              Your cart, saved <span aria-hidden>🍪</span>
             </div>
-            <div className="truncate text-[12px] text-crumb">
+            <div className="truncate text-[0.75rem] text-crumb">
               Pick up right where you left off.
             </div>
           </div>
@@ -379,13 +379,13 @@ function DeviceBody({ stage, reduced }: { stage: number; reduced: boolean }) {
         <button
           type="button"
           tabIndex={-1}
-          className="mt-3.5 flex w-full items-center justify-center gap-1.5 rounded-xl bg-blueberry px-4 py-2.5 text-[13px] font-semibold text-white"
+          className="mt-3.5 flex w-full items-center justify-center gap-1.5 rounded-xl bg-blueberry px-4 py-2.5 text-[0.8125rem] font-semibold text-white"
         >
           Return to checkout
           <ArrowRight size={14} aria-hidden />
         </button>
       </div>
-      <p className="mt-4 text-center text-[12px] text-crumb">
+      <p className="mt-4 text-center text-[0.75rem] text-crumb">
         One clean email. A discount only if they opted in.
       </p>
     </div>

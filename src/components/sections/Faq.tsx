@@ -24,11 +24,13 @@ export function Faq() {
             <Reveal key={f.q} delay={i * 0.04}>
               <div className="border-b border-chip/15">
                 <button
+                  id={`faq-trigger-${i}`}
                   onClick={() => setOpen(isOpen ? null : i)}
                   aria-expanded={isOpen}
+                  aria-controls={`faq-panel-${i}`}
                   className="flex w-full cursor-pointer items-center justify-between gap-4 py-5 text-left"
                 >
-                  <span className="font-display text-[18px] font-semibold text-cocoa">
+                  <span className="font-display text-[1.125rem] font-semibold text-cocoa">
                     {f.q}
                   </span>
                   <Plus
@@ -42,13 +44,16 @@ export function Faq() {
                 <AnimatePresence initial={false}>
                   {isOpen && (
                     <motion.div
+                      id={`faq-panel-${i}`}
+                      role="region"
+                      aria-labelledby={`faq-trigger-${i}`}
                       initial={reduced ? false : { height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={reduced ? undefined : { height: 0, opacity: 0 }}
                       transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
                       className="overflow-hidden"
                     >
-                      <p className="pb-5 pr-8 text-[15.5px] text-cocoa-soft">{f.a}</p>
+                      <p className="pb-5 pr-8 text-[0.96875rem] text-cocoa-soft">{f.a}</p>
                     </motion.div>
                   )}
                 </AnimatePresence>

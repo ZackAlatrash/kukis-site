@@ -2,7 +2,6 @@ import { ArrowRight } from "lucide-react";
 import { Reveal } from "../ui/Reveal";
 import { Button } from "../ui/Button";
 import { CookieCrumbBackdrop } from "../ui/CookieCrumbBackdrop";
-import { Footer } from "../layout/Footer";
 import { finalCta, site } from "../../data/site";
 
 /** The closer: a full-bleed cocoa block with cookie crumbs drifting behind it. */
@@ -45,13 +44,8 @@ export function FinalCta() {
               {finalCta.cta} <ArrowRight size={18} aria-hidden />
             </Button>
           </div>
-          <div className="mt-4 text-[13px] text-[#a48d76]">{finalCta.note}</div>
+          <div className="mt-4 text-[0.8125rem] text-[#a48d76]">{finalCta.note}</div>
         </Reveal>
-      </div>
-
-      {/* footer, part of the same cocoa canvas */}
-      <div className="relative z-10">
-        <Footer />
       </div>
     </section>
   );
