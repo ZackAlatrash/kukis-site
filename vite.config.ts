@@ -5,9 +5,10 @@ import tailwindcss from "@tailwindcss/vite";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  // Served at the root of a custom domain (Cloudflare Pages, or GitHub Pages
-  // with a custom domain). Use "/kukis-site/" only for the github.io project URL.
-  base: "/",
+  // Deployed to the github.io project URL (github.io/kukis-site/), so assets
+  // must be served from that subpath. Switch to "/" only once a custom domain
+  // (Cloudflare Pages, or GitHub Pages + CNAME) is actually configured.
+  base: "/kukis-site/",
   server: { port: 5185, host: true },
   preview: { port: 5185, host: true },
 });
