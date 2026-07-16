@@ -17,7 +17,7 @@ type Env = {
   DEMO_TO_EMAIL: string;
   DEMO_FROM_EMAIL: string;
   /** Optional. When set, every submission must carry a valid Turnstile token. */
-  TURNSTILE_SECRET_KEY?: string;
+  TURNSTILE_SECRET_KEY: string;
 };
 
 type DemoPayload = {
@@ -100,6 +100,14 @@ export const onRequest = async ({
     return json({ ok: false, error: "Email is not configured." }, 500);
   }
 
+  // Fail closed. An earlier version skipped verification when the secret was
+  // absent, so a misnamed or unbound key silently disabled the protection while
+  // still sending mail. A guard that can't run must refuse, not wave through.
+  if (!env.TURNSTILE_SECRET_KEY) {
+    console.error("TURNSTILE_SECRET_KEY is not bound — refusing to send.");
+    return json({ ok: false, error: "Verification is not configured." }, 503);
+  }
+
   let body: DemoPayload;
   try {
     body = (await request.json()) as DemoPayload;
@@ -123,16 +131,17 @@ export const onRequest = async ({
   }
 
   // Proof-of-human, checked before we spend a single Resend send.
-  if (env.TURNSTILE_SECRET_KEY) {
-    const token = str(body.turnstileToken, 2048);
-    if (!token) {
-      return json({ ok: false, error: "Verification missing. Please reload and try again." }, 400);
-    }
-    const ip = request.headers.get("CF-Connecting-IP");
-    const human = await verifyTurnstile(env.TURNSTILE_SECRET_KEY, token, ip);
-    if (!human) {
-      return json({ ok: false, error: "Verification failed. Please reload and try again." }, 403);
-    }
+  const token = str(body.turnstileToken, 2048);
+  if (!token) {
+    return json({ ok: false, error: "Verification missing. Please reload and try again." }, 400);
+  }
+  const human = await verifyTurnstile(
+    env.TURNSTILE_SECRET_KEY,
+    token,
+    request.headers.get("CF-Connecting-IP"),
+  );
+  if (!human) {
+    return json({ ok: false, error: "Verification failed. Please reload and try again." }, 403);
   }
 
   const rows: [string, string][] = [
