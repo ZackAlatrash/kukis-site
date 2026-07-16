@@ -2,13 +2,69 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- viewport-fit=cover exposes env(safe-area-inset-*), which the demo form's
+         pinned submit bar uses to clear the home indicator. interactive-widget
+         shrinks the layout viewport when the keyboard opens, so 100dvh means
+         "above the keyboard" and the bar stays reachable while typing. -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content"
+    />
     <title>Kukis — The yes cookie tools can't get</title>
     <meta
       name="description"
       content="Kukis captures email and marketing consent from EU Shopify shoppers who decline your cookies — the roughly half that cookie-based tools can't reach. No popups, no cookies."
     />
     <meta name="theme-color" content="#FFF6E7" />
+    <link rel="canonical" href="https://kukis.nl/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://kukis.nl/" />
+    <meta property="og:site_name" content="Kukis" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Kukis — The yes cookie tools can't get" />
+    <meta
+      property="og:description"
+      content="Kukis captures email and marketing consent from EU Shopify shoppers who decline your cookies — the roughly half that cookie-based tools can't reach. No popups, no cookies."
+    />
+    <!-- summary, not summary_large_image: the large card reserves a hero slot and
+         renders it as an empty box when og:image is absent. Switch to
+         summary_large_image in the same breath as adding og:image. -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Kukis — The yes cookie tools can't get" />
+    <meta
+      name="twitter:description"
+      content="Consent capture for EU Shopify shoppers who decline your cookies. No popups, no cookies."
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://kukis.nl/#organization",
+            "name": "Kukis",
+            "url": "https://kukis.nl/",
+            "email": "hello@kukis.nl",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://kukis.nl/mascot/cookie.png"
+            },
+            "description": "Kukis captures email and marketing consent from EU Shopify shoppers who decline cookies."
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://kukis.nl/#website",
+            "url": "https://kukis.nl/",
+            "name": "Kukis",
+            "publisher": { "@id": "https://kukis.nl/#organization" },
+            "inLanguage": "en"
+          }
+        ]
+      }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
