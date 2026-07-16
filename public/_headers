@@ -1,0 +1,18 @@
+# Cloudflare Pages reads this file and applies these headers to every response.
+# Kept deliberately tight: the site loads nothing but its own assets + Google Fonts.
+#
+#   style-src 'unsafe-inline'  — framer-motion animates via inline style attributes.
+#   connect-src 'self'         — the hero fetches its 96 cookie frames, and the demo
+#                                form POSTs to /api/demo. Both same-origin.
+#   frame-ancestors 'none'     — closes clickjacking (X-Frame-Options is the legacy twin).
+#
+# HSTS has no `preload` on purpose: preloading is baked into browsers and is
+# painful to undo. includeSubDomains is safe here — no subdomain serves HTTP.
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
+  Cross-Origin-Opener-Policy: same-origin
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; upgrade-insecure-requests

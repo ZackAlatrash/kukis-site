@@ -41,6 +41,14 @@ const json = (body: unknown, status = 200) =>
 /** Trim + cap an incoming string field. */
 const str = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 
+/**
+ * Collapse CR/LF before interpolating into the subject line. Resend takes JSON
+ * and sanitises, so this is defence-in-depth against header injection rather
+ * than a live hole — but the subject is the one place raw input reaches a mail
+ * header, so don't rely on someone else's escaping.
+ */
+const oneLine = (s: string) => s.replace(/[\r\n\t]+/g, " ").trim();
+
 /** Escape for safe interpolation into the HTML email body. */
 const esc = (s: string) =>
   s.replace(/[&<>"']/g, (c) =>
@@ -124,7 +132,7 @@ export const onRequest = async ({
       from: env.DEMO_FROM_EMAIL,
       to: [env.DEMO_TO_EMAIL],
       reply_to: email, // hitting reply goes straight to the merchant
-      subject: `Kukis demo request — ${name} (${storeUrl})`,
+      subject: oneLine(`Kukis demo request — ${name} (${storeUrl})`),
       text,
       html,
     }),
