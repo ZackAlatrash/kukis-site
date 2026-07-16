@@ -116,7 +116,7 @@ export function DemoRequestModal({
           <X size={18} aria-hidden />
         </button>
         <div className="relative z-10 p-3 md:p-4">
-          <DemoRequestForm headingId="demo-request-title" />
+          <DemoRequestForm headingId="demo-request-title" onDone={onClose} />
         </div>
       </div>
     </div>

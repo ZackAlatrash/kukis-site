@@ -1,4 +1,11 @@
-import { useRef, useState, type CSSProperties, type ChangeEvent, type FormEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ChangeEvent,
+  type FormEvent,
+} from "react";
 import { AlertCircle, ArrowRight, CheckCircle } from "lucide-react";
 import { CookieMascot } from "../ui/CookieMascot";
 import { demoRequest } from "../../data/site";
@@ -70,7 +77,14 @@ function getDemoRequestValues(values: DemoRequestFormValues): DemoRequestValues 
   };
 }
 
-export function DemoRequestForm({ headingId }: { headingId?: string }) {
+export function DemoRequestForm({
+  headingId,
+  onDone,
+}: {
+  headingId?: string;
+  /** Closes the surrounding dialog from the confirmation's button. */
+  onDone?: () => void;
+}) {
   const [values, setValues] = useState<DemoRequestFormValues>(initialValues);
   const [errors, setErrors] = useState<Partial<Record<keyof DemoRequestValues, string>>>({});
   const [status, setStatus] = useState<DemoRequestStatus>("idle");
@@ -78,6 +92,17 @@ export function DemoRequestForm({ headingId }: { headingId?: string }) {
     null,
   );
   const errorSummaryRef = useRef<HTMLDivElement>(null);
+  const successRef = useRef<HTMLDivElement>(null);
+
+  const submitted = status === "success";
+  const firstName = values.name.trim().split(/\s+/)[0];
+
+  // The form (and the submit button holding focus) unmounts on success, which
+  // would drop focus to <body>. Move it to the confirmation so it's announced
+  // and keyboard users stay inside the dialog.
+  useEffect(() => {
+    if (submitted) successRef.current?.focus();
+  }, [submitted]);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
@@ -180,8 +205,8 @@ export function DemoRequestForm({ headingId }: { headingId?: string }) {
 
             <div className="mb-2 mt-12 flex flex-1 items-center justify-center md:my-8">
               <CookieMascot
-                bubble="I'll take a look."
-                mood="idle"
+                bubble={submitted ? "On it!" : "I'll take a look."}
+                mood={submitted ? "happy" : "idle"}
                 className="mx-auto w-[124px] md:w-[172px]"
               />
             </div>
@@ -189,6 +214,36 @@ export function DemoRequestForm({ headingId }: { headingId?: string }) {
         </aside>
 
         <div className="rounded-[20px] border border-white/60 bg-cream p-4 shadow-[0_26px_60px_-24px_rgba(0,0,0,0.55)] ring-1 ring-black/[0.04] md:p-5">
+          {submitted ? (
+            <div
+              ref={successRef}
+              tabIndex={-1}
+              role="status"
+              className="flex min-h-[25rem] flex-col items-center justify-center px-6 py-10 text-center focus:outline-none"
+            >
+              <span className="flex h-16 w-16 items-center justify-center rounded-full bg-consent-ink text-white">
+                <CheckCircle size={32} strokeWidth={2.5} aria-hidden />
+              </span>
+              <h3 className="mt-6 font-display text-[1.75rem] font-extrabold leading-tight text-cocoa">
+                {demoRequest.successTitle}
+              </h3>
+              <p className="mt-3 max-w-[34ch] text-[0.9375rem] leading-6 text-cocoa-soft">
+                {firstName ? `Thanks, ${firstName}. ` : "Thanks. "}
+                {demoRequest.successBody}
+              </p>
+              <p className="mt-2.5 text-[0.8125rem] font-medium text-crumb">
+                We'll reply to {values.email.trim()}
+              </p>
+              <button
+                type="button"
+                onClick={onDone}
+                className="mt-8 inline-flex items-center justify-center rounded-full bg-cherry-deep px-6 py-3 text-[0.9375rem] font-semibold text-white transition-[transform,box-shadow] hover:-translate-y-px hover:shadow-[var(--shadow-hover)] active:translate-y-0"
+              >
+                {demoRequest.successClose}
+              </button>
+            </div>
+          ) : (
+            <>
           {hasDemoRequestErrors(errors) ? (
             <div
               ref={errorSummaryRef}
@@ -386,15 +441,8 @@ export function DemoRequestForm({ headingId }: { headingId?: string }) {
             </button>
           </div>
 
+          {/* success takes over the panel above; these are the fallback paths */}
           <div aria-live="polite" className="mt-5">
-            {status === "success" ? (
-              <StatusPanel
-                tone="success"
-                icon={<CheckCircle size={20} aria-hidden />}
-                title={demoRequest.successTitle}
-                body={demoRequest.successBody}
-              />
-            ) : null}
             {status === "mailto" ? (
               <StatusPanel
                 tone="success"
@@ -414,6 +462,8 @@ export function DemoRequestForm({ headingId }: { headingId?: string }) {
               />
             ) : null}
           </div>
+            </>
+          )}
         </div>
       </div>
     </form>
