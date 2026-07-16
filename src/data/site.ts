@@ -191,7 +191,10 @@ export const footer = {
 
 export const demoRequest = {
   endpoint: import.meta.env.VITE_DEMO_FORM_ENDPOINT || "",
-  fallbackEmail: "ziad.natrash@gmail.com",
+  // Public (ships in the bundle): the mailto: shown if /api/demo ever fails, so a
+  // demo request is never silently lost. Must be a receiving address on the root
+  // domain — contact.kukis.nl is send-only and has no inbox.
+  fallbackEmail: "hello@kukis.nl",
   heading: "Request a demo",
   intro: "For EU Shopify merchants in NL, BE, and DE first.",
   replyNote: "Reply in 1-2 days",
