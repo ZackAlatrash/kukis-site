@@ -3,8 +3,10 @@ import { X } from "lucide-react";
 import { DemoRequestForm } from "./DemoRequestForm";
 import { CookieCrumbBackdrop } from "../ui/CookieCrumbBackdrop";
 
+// `iframe` matters: Turnstile renders one, and an iframe is focusable. Leave it
+// out and Tab walks straight through the widget and escapes the dialog.
 const FOCUSABLE =
-  'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+  'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),iframe,[tabindex]:not([tabindex="-1"])';
 
 export function DemoRequestModal({
   open,

@@ -191,6 +191,10 @@ export const footer = {
 
 export const demoRequest = {
   endpoint: import.meta.env.VITE_DEMO_FORM_ENDPOINT || "",
+  // Public by design — the site key is meant to ship in the page. The secret
+  // lives server-side as TURNSTILE_SECRET_KEY. Blank locally, which disables
+  // the widget so dev works without it.
+  turnstileSiteKey: import.meta.env.VITE_TURNSTILE_SITE_KEY || "",
   // Public (ships in the bundle): the mailto: shown if /api/demo ever fails, so a
   // demo request is never silently lost. Must be a receiving address on the root
   // domain — contact.kukis.nl is send-only and has no inbox.

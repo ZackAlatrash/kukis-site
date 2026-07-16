@@ -16,6 +16,8 @@ type Env = {
   RESEND_API_KEY: string;
   DEMO_TO_EMAIL: string;
   DEMO_FROM_EMAIL: string;
+  /** Optional. When set, every submission must carry a valid Turnstile token. */
+  TURNSTILE_SECRET_KEY?: string;
 };
 
 type DemoPayload = {
@@ -27,7 +29,35 @@ type DemoPayload = {
   storeSize?: unknown;
   submittedAt?: unknown;
   source?: unknown;
+  turnstileToken?: unknown;
 };
+
+/**
+ * Verify a Turnstile token with Cloudflare. The browser widget alone proves
+ * nothing — anyone can POST straight to this endpoint — so the token has to be
+ * checked server-side or it's decoration.
+ */
+async function verifyTurnstile(secret: string, token: string, ip: string | null): Promise<boolean> {
+  const form = new FormData();
+  form.append("secret", secret);
+  form.append("response", token);
+  if (ip) form.append("remoteip", ip);
+
+  try {
+    const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      body: form,
+    });
+    if (!res.ok) return false;
+    const data = (await res.json()) as { success?: boolean; "error-codes"?: string[] };
+    if (!data.success) console.error("Turnstile rejected:", data["error-codes"]);
+    return data.success === true;
+  } catch (err) {
+    // Fail closed: if we can't verify, we don't send.
+    console.error("Turnstile verify failed:", err);
+    return false;
+  }
+}
 
 const MAX = { name: 120, email: 200, storeUrl: 300, country: 80, storeSize: 80, message: 4000 };
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -90,6 +120,19 @@ export const onRequest = async ({
   }
   if (!EMAIL_RE.test(email)) {
     return json({ ok: false, error: "Invalid email address." }, 400);
+  }
+
+  // Proof-of-human, checked before we spend a single Resend send.
+  if (env.TURNSTILE_SECRET_KEY) {
+    const token = str(body.turnstileToken, 2048);
+    if (!token) {
+      return json({ ok: false, error: "Verification missing. Please reload and try again." }, 400);
+    }
+    const ip = request.headers.get("CF-Connecting-IP");
+    const human = await verifyTurnstile(env.TURNSTILE_SECRET_KEY, token, ip);
+    if (!human) {
+      return json({ ok: false, error: "Verification failed. Please reload and try again." }, 403);
+    }
   }
 
   const rows: [string, string][] = [

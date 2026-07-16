@@ -8,6 +8,7 @@ import {
 } from "react";
 import { AlertCircle, ArrowRight, CheckCircle } from "lucide-react";
 import { CookieMascot } from "../ui/CookieMascot";
+import { Turnstile } from "../ui/Turnstile";
 import { demoRequest } from "../../data/site";
 import {
   buildDemoRequestMailto,
@@ -91,6 +92,8 @@ export function DemoRequestForm({
   const [lastAttemptedPayload, setLastAttemptedPayload] = useState<DemoRequestPayload | null>(
     null,
   );
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileReset, setTurnstileReset] = useState(0);
   const errorSummaryRef = useRef<HTMLDivElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
 
@@ -154,7 +157,10 @@ export function DemoRequestForm({
             Accept: "application/json",
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(payload),
+          // The token rides alongside the payload — it's proof-of-human for the
+          // Function, not part of the demo request itself, so it's kept out of
+          // `payload` (which also backs the mailto: fallback).
+          body: JSON.stringify({ ...payload, turnstileToken }),
         });
 
         if (!response.ok) {
@@ -169,6 +175,8 @@ export function DemoRequestForm({
       setStatus("mailto");
     } catch {
       setStatus("error");
+      // Tokens are single-use: a retry with the spent one would be rejected.
+      setTurnstileReset((n) => n + 1);
     }
   };
 
@@ -426,6 +434,14 @@ export function DemoRequestForm({
           ) : null}
         </div>
           </div>
+
+          {demoRequest.turnstileSiteKey ? (
+            <Turnstile
+              siteKey={demoRequest.turnstileSiteKey}
+              onToken={setTurnstileToken}
+              resetSignal={turnstileReset}
+            />
+          ) : null}
 
           <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-[0.75rem] font-semibold leading-5 text-cocoa-soft">
