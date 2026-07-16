@@ -6,9 +6,10 @@ export const site = {
   tagline: "The yes cookie tools can't get.",
   taglinePlayful: "No cookies? No problem.",
   demoHref: "#demo", // opens the demo request modal
+  // Order mirrors the page's section order.
   nav: [
-    { label: "How it works", href: "#how" },
     { label: "Widgets", href: "#widgets" },
+    { label: "How it works", href: "#how" },
     { label: "Why Kukis", href: "#why" },
     { label: "FAQ", href: "#faq" },
   ],
@@ -24,16 +25,18 @@ export const hero = {
   secondary: "See how it works",
 };
 
+// Order matters: the unique problem (cookie rejection) leads, cart abandonment is
+// its consequence, and 2 ≠ 1 lands last as the hint that a fix exists.
 export const stats = [
-  {
-    big: "~70%",
-    label: "of carts abandoned",
-    body: "of shopping carts are abandoned, and most of those shoppers never left you an email.",
-  },
   {
     big: "~50%",
     label: "reject the cookie banner",
     body: "of EU shoppers reject cookies. Cookie-based tools then can't track them or show a form.",
+  },
+  {
+    big: "~70%",
+    label: "of carts abandoned",
+    body: "of shopping carts are abandoned, and most of those shoppers never left you an email.",
   },
   {
     big: "2 ≠ 1",
@@ -52,8 +55,8 @@ export const steps = [
   {
     n: 2,
     tag: "Consent",
-    title: "Email + one tickbox",
-    body: "They enter their email and see one box, unchecked by default: consent to marketing. Explicit, timestamped, scoped.",
+    title: "Email + one optional tickbox",
+    body: "They enter their email and get their cart either way. Marketing is a separate box, unchecked by default. Explicit, timestamped, scoped.",
   },
   {
     n: 3,
@@ -155,7 +158,7 @@ export const faqs = [
   },
   {
     q: "Is this GDPR / AVG compliant?",
-    a: "Kukis is built consent-first: the marketing checkbox is unchecked by default, and every consent is explicit, timestamped, and scoped. The widgets use no cookies at all. The shopper actively clicks and opts in.",
+    a: "Yes. Kukis is built consent-first. The marketing checkbox is unchecked by default — a shopper can receive their cart link or product email without ticking it. Every marketing consent is explicit, timestamped, and scoped to the brand they're shopping with. Consent records include the exact text the shopper agreed to, the widget it came from, and the time it was given — everything you need for an AP audit. The widgets use no cookies at all.",
   },
   {
     q: "How can you email someone who rejected cookies?",
@@ -175,6 +178,7 @@ export const finalCta = {
   title: "See Kukis on your store.",
   body: "Book a short demo and we'll show you how much of your EU traffic you're currently leaving unreachable, and how Kukis brings it back with consent.",
   cta: "Book a demo",
+  beta: "Now in private beta with Dutch Shopify merchants. Be among the first.",
   note: "EU Shopify merchants · NL / BE / DE first · English",
 };
 

@@ -69,11 +69,13 @@ export default function App() {
         </a>
         <Nav />
         <main id="main-content" tabIndex={-1} className="focus:outline-none">
+          {/* AIDA order: hook → the problem (incl. the crumble scene) → why it's
+              fixable → what the widgets are → how they work → proof → fit → FAQ */}
           <CookieScrubHero />
           <InvisibleHalf />
           <Insight />
-          <HowItWorks />
           <Widgets />
+          <HowItWorks />
           <WhyKukis />
           <BuiltFor />
           <Faq />

@@ -19,9 +19,10 @@ export function InvisibleHalf() {
             Most of your shoppers leave no trace.
           </h2>
           <p className="mt-4 text-lg text-[#c9b7a1]">
-            Around 70% of carts are abandoned, and in the EU, roughly half of shoppers reject the
-            cookie banner. The tools built for cookies can't see them. They browse, and they crumble
-            away.
+            In the EU, roughly half of your shoppers reject the cookie banner. At that moment, the
+            tools you use to run your store lose them completely — no tracking, no forms, no
+            recovery flows. They browse your store, add items to their cart, and crumble away
+            without leaving a trace.
           </p>
         </div>
 

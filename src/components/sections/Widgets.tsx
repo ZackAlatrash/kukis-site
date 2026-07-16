@@ -41,7 +41,7 @@ const CARDS: CardConfig[] = [
     key: "later",
     img: publicAsset("widgets/later.jpg"),
     chip: "Save this for later",
-    blurb: "One product, emailed so you can come back to it.",
+    blurb: "One product, one email, one link back. No sequence.",
     Icon: Bookmark,
     rot: 2.5,
   },
@@ -75,8 +75,8 @@ export function Widgets() {
       <Reveal>
         <SectionHead
           eyebrow="The widgets"
-          title="Four small buttons. One way to ask."
-          sub="Each widget sits on a different part of the store and trades a useful service for a consented email."
+          title="Four surfaces. One consent model."
+          sub="Each widget sits on a different part of your store. Each one offers shoppers something genuinely useful — their cart saved, a product remembered, a restock notified, a wishlist built. In exchange: a consented email. No popups. No interruptions. Never a cookie."
         />
       </Reveal>
 

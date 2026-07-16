@@ -74,8 +74,7 @@ export function Insight() {
               explicit yes to email.
             </p>
             <p className="mt-4 max-w-[52ch] text-[1.0625rem] text-cocoa-soft">
-              A cookie-based form dies at that banner. Kukis never needed cookies in the
-              first place.
+              A cookie-based form dies at that banner. Kukis never needed one.
             </p>
           </div>
         </Reveal>

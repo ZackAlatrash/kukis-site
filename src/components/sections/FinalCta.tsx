@@ -44,7 +44,8 @@ export function FinalCta() {
               {finalCta.cta} <ArrowRight size={18} aria-hidden />
             </Button>
           </div>
-          <div className="mt-4 text-[0.8125rem] text-[#a48d76]">{finalCta.note}</div>
+          <p className="mt-5 text-[0.875rem] font-semibold text-amber">{finalCta.beta}</p>
+          <div className="mt-2 text-[0.8125rem] text-[#a48d76]">{finalCta.note}</div>
         </Reveal>
       </div>
     </section>

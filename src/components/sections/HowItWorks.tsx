@@ -149,6 +149,7 @@ export function HowItWorks() {
                 {steps.map((_, i) => (
                   <span
                     key={i}
+                    aria-hidden
                     style={{ top: `${(i / (steps.length - 1)) * 100}%` }}
                     className={`absolute left-0 h-3.5 w-3.5 -translate-y-1/2 rounded-full border-2 transition-colors duration-300 ${
                       active >= i
@@ -331,16 +332,27 @@ function DeviceBody({ stage, reduced }: { stage: number; reduced: boolean }) {
           <span className="ml-0.5 inline-block h-4 w-px animate-pulse bg-cocoa/50 motion-reduce:animate-none" />
         </div>
 
-        <div className="mt-3 flex items-start gap-2.5 rounded-xl border border-consent/25 bg-consent/[0.08] p-3">
-          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-consent text-white">
-            <Check size={13} strokeWidth={3} aria-hidden />
-          </span>
-          <div>
-            <div className="text-[0.8125rem] leading-snug text-cocoa">
-              Email me my cart, and yes to the occasional offer.
-            </div>
-            <div className="mt-1 text-[0.6875rem] text-crumb">
-              Unchecked by default, timestamped, scoped.
+        {/* Two separate consents: the transactional email never depends on the
+            marketing opt-in. This mirrors the compliant consent architecture. */}
+        <div className="mt-3 space-y-2.5 rounded-xl border border-consent/25 bg-consent/[0.08] p-3">
+          {/* transactional — ticked, it's what they asked for */}
+          <div className="flex items-start gap-2.5">
+            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-consent-ink text-white">
+              <Check size={13} strokeWidth={3} aria-hidden />
+            </span>
+            <div className="text-[0.8125rem] leading-snug text-cocoa">Email me my cart</div>
+          </div>
+
+          {/* marketing — separate, and unchecked by default */}
+          <div className="flex items-start gap-2.5">
+            <span className="mt-0.5 h-5 w-5 shrink-0 rounded-md border-[1.5px] border-chip/60 bg-cream" />
+            <div>
+              <div className="text-[0.8125rem] leading-snug text-cocoa">
+                Yes to occasional offers from this store
+              </div>
+              <div className="mt-1 text-[0.6875rem] text-crumb">
+                Unchecked by default, timestamped, scoped.
+              </div>
             </div>
           </div>
         </div>
