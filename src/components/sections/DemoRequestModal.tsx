@@ -81,20 +81,26 @@ export function DemoRequestModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[#140d06]/78 px-4 py-5 backdrop-blur-md"
+      className="fixed inset-0 z-50 flex justify-center bg-[#140d06]/78 backdrop-blur-md sm:items-center sm:px-4 sm:py-5"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) {
           onClose();
         }
       }}
     >
+      {/* Phones get a full-screen sheet, not a centered box: a centered dialog
+          forces scrolling inside a viewport smaller than the one available, and
+          surrounds a half-filled form with a tappable dismiss target. The sheet
+          owns no scrolling itself — the form scrolls its own field area — so the
+          close button below stays pinned instead of scrolling away. From `sm:`
+          up this is the original centered dialog. */}
       <div
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="demo-request-title"
         tabIndex={-1}
-        className="relative max-h-[calc(100vh-40px)] w-full max-w-[980px] overflow-y-auto rounded-[28px] border border-white/10 text-[#FBF3E4] shadow-[0_28px_90px_rgba(0,0,0,0.44)] focus:outline-none"
+        className="relative flex h-dvh w-full flex-col overflow-hidden border-white/10 text-[#FBF3E4] shadow-[0_28px_90px_rgba(0,0,0,0.44)] focus:outline-none sm:block sm:h-auto sm:max-h-[calc(100dvh-40px)] sm:max-w-[980px] sm:overflow-y-auto sm:rounded-[28px] sm:border"
         style={{
           background:
             "linear-gradient(180deg, #221610 0%, #191108 48%, #140d06 100%)",
@@ -113,11 +119,11 @@ export function DemoRequestModal({
           type="button"
           aria-label="Close demo request form"
           onClick={onClose}
-          className="absolute right-3 top-3 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-cream text-cocoa shadow-[0_10px_30px_rgba(0,0,0,0.24)] transition-colors hover:bg-milk focus-visible:outline-2 focus-visible:outline-blueberry focus-visible:outline-offset-2"
+          className="absolute right-3 top-3 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-cream text-cocoa shadow-[0_10px_30px_rgba(0,0,0,0.24)] transition-colors hover:bg-milk focus-visible:outline-2 focus-visible:outline-blueberry focus-visible:outline-offset-2 sm:h-10 sm:w-10"
         >
           <X size={18} aria-hidden />
         </button>
-        <div className="relative z-10 p-3 md:p-4">
+        <div className="relative z-10 flex min-h-0 flex-1 flex-col sm:block sm:p-3 md:p-4">
           <DemoRequestForm headingId="demo-request-title" onDone={onClose} />
         </div>
       </div>

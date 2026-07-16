@@ -44,8 +44,10 @@ const REQUIRED_FIELDS: { key: keyof DemoRequestValues; id: string; label: string
   { key: "message", id: "demo-message", label: "Message" },
 ];
 
+// `demo-field` is the hook for the 16px rule in index.css that keeps iOS from
+// zooming the viewport on focus. Don't drop it from a control.
 const fieldBaseClass =
-  "demo-field w-full rounded-[14px] border px-4 py-3.5 text-[0.9375rem] font-semibold text-cocoa shadow-[inset_0_1px_0_rgba(255,255,255,0.62)] transition-[background,border-color,box-shadow,transform] placeholder:text-crumb focus-visible:outline-2 focus-visible:outline-blueberry focus-visible:outline-offset-2 focus:-translate-y-px focus:shadow-[0_0_0_4px_rgba(47,111,176,0.30),inset_0_1px_0_rgba(255,255,255,0.72)]";
+  "demo-field min-h-11 w-full rounded-[14px] border px-4 py-3.5 text-[0.9375rem] font-semibold text-cocoa shadow-[inset_0_1px_0_rgba(255,255,255,0.62)] transition-[background,border-color,box-shadow,transform] placeholder:text-crumb focus-visible:outline-2 focus-visible:outline-blueberry focus-visible:outline-offset-2 focus:-translate-y-px focus:shadow-[0_0_0_4px_rgba(47,111,176,0.30),inset_0_1px_0_rgba(255,255,255,0.72)]";
 const labelClass = "text-[0.8125rem] font-bold text-cocoa";
 const errorClass = "text-[0.75rem] font-semibold text-cherry-deep";
 
@@ -94,11 +96,35 @@ export function DemoRequestForm({
   );
   const [turnstileToken, setTurnstileToken] = useState("");
   const [turnstileReset, setTurnstileReset] = useState(0);
+  const [rejectedSubmits, setRejectedSubmits] = useState(0);
   const errorSummaryRef = useRef<HTMLDivElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
 
   const submitted = status === "success";
   const firstName = values.name.trim().split(/\s+/)[0];
+
+  // Bring the summary into view, not just into the DOM. The summary and the
+  // per-field messages render *above* wherever the user is standing, and the
+  // browser's scroll anchoring then compensates to hold the view steady — so on
+  // a phone, where the submit button is pinned and reachable from the bottom of
+  // the form, a rejected submit would otherwise scroll nothing and look inert.
+  //
+  // Keyed on a submit counter rather than on `errors`: identical errors twice in
+  // a row must still scroll back, and `errors` also changes as fields are fixed,
+  // which would yank the view mid-typing.
+  useEffect(() => {
+    if (rejectedSubmits === 0) return;
+
+    const summary = errorSummaryRef.current;
+    if (!summary) return;
+
+    // Instant, not smooth: a smooth scroll started here doesn't survive the
+    // relayout the new errors cause and lands short or not at all. An error the
+    // user just asked for should arrive immediately regardless.
+    summary.scrollIntoView({ block: "start" });
+    // scrollIntoView above already put it in view; focus() would scroll again.
+    summary.focus({ preventScroll: true });
+  }, [rejectedSubmits]);
 
   // The form (and the submit button holding focus) unmounts on success, which
   // would drop focus to <body>. Move it to the confirmation so it's announced
@@ -135,9 +161,10 @@ export function DemoRequestForm({
     setErrors(nextErrors);
 
     if (hasDemoRequestErrors(nextErrors)) {
-      // Move focus to the error summary so the failure is announced and the
-      // keyboard user lands on the list of problems (WCAG 3.3.1 / 2.4.3).
-      requestAnimationFrame(() => errorSummaryRef.current?.focus());
+      // Hands off to the effect above, which scrolls the summary into view and
+      // focuses it so the failure is announced and the keyboard user lands on
+      // the list of problems (WCAG 3.3.1 / 2.4.3).
+      setRejectedSubmits((n) => n + 1);
       return;
     }
 
@@ -188,11 +215,11 @@ export function DemoRequestForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-[24px] font-sans text-cocoa"
+      className="flex min-h-0 flex-1 flex-col font-sans text-cocoa sm:block sm:rounded-[24px]"
       noValidate
     >
-      <div className="grid gap-5 lg:grid-cols-[0.82fr_1.18fr]">
-        <aside className="relative flex flex-col overflow-hidden rounded-[20px] p-5 md:p-7">
+      <div className="flex min-h-0 flex-1 flex-col sm:grid sm:gap-5 lg:grid-cols-[0.82fr_1.18fr]">
+        <aside className="relative flex shrink-0 flex-col overflow-hidden px-4 pb-4 pt-5 sm:rounded-[20px] sm:p-5 md:p-7">
           <div
             aria-hidden
             className="absolute -right-14 -top-16 h-52 w-52 rounded-full bg-amber/25 blur-[80px]"
@@ -201,17 +228,21 @@ export function DemoRequestForm({
             <p className="text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-amber">
               {demoRequest.replyNote}
             </p>
+            {/* pr-12 clears the close button, which overlaps this row on phones */}
             <h2
               id={headingId}
-              className="mt-2.5 max-w-[11ch] font-display text-[2.125rem] font-extrabold leading-[0.98] tracking-[-0.03em] text-[#FBF3E4] md:text-[2.625rem]"
+              className="mt-1.5 pr-12 font-display text-[1.75rem] font-extrabold leading-[1.02] tracking-[-0.03em] text-[#FBF3E4] sm:mt-2.5 sm:max-w-[11ch] sm:pr-0 sm:text-[2.125rem] sm:leading-[0.98] md:text-[2.625rem]"
             >
               {demoRequest.heading}
             </h2>
-            <p className="mt-3 max-w-[34ch] text-[0.9375rem] font-medium leading-6 text-[#dccbb0]">
+            <p className="mt-2 max-w-[34ch] text-[0.875rem] font-medium leading-5 text-[#dccbb0] sm:mt-3 sm:text-[0.9375rem] sm:leading-6">
               {demoRequest.intro}
             </p>
 
-            <div className="mb-2 mt-12 flex flex-1 items-center justify-center md:my-8">
+            {/* The mascot's pupils track the cursor — there's no cursor on touch,
+                so on a phone it's ~300px of scroll before the first field in
+                exchange for an interaction that can't happen. */}
+            <div className="mb-2 mt-12 hidden flex-1 items-center justify-center sm:flex md:my-8">
               <CookieMascot
                 bubble={submitted ? "On it!" : "I'll take a look."}
                 mood={submitted ? "happy" : "idle"}
@@ -221,13 +252,13 @@ export function DemoRequestForm({
           </div>
         </aside>
 
-        <div className="rounded-[20px] border border-white/60 bg-cream p-4 shadow-[0_26px_60px_-24px_rgba(0,0,0,0.55)] ring-1 ring-black/[0.04] md:p-5">
+        <div className="flex min-h-0 flex-1 flex-col rounded-t-[20px] bg-cream shadow-[0_26px_60px_-24px_rgba(0,0,0,0.55)] ring-1 ring-black/[0.04] sm:block sm:rounded-[20px] sm:border sm:border-white/60 sm:p-4 md:p-5">
           {submitted ? (
             <div
               ref={successRef}
               tabIndex={-1}
               role="status"
-              className="flex min-h-[25rem] flex-col items-center justify-center px-6 py-10 text-center focus:outline-none"
+              className="flex min-h-0 flex-1 flex-col items-center justify-center px-6 py-10 text-center focus:outline-none sm:min-h-[25rem]"
             >
               <span className="flex h-16 w-16 items-center justify-center rounded-full bg-consent-ink text-white">
                 <CheckCircle size={32} strokeWidth={2.5} aria-hidden />
@@ -252,11 +283,17 @@ export function DemoRequestForm({
             </div>
           ) : (
             <>
+          {/* The one scroll container on a phone: the sheet itself doesn't
+              scroll, so the header stays put above and the submit bar below.
+              overscroll-contain stops a flick at either end from chaining out
+              to the page behind. From `sm:` up the dialog scrolls as before and
+              this is an ordinary block. */}
+          <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pt-4 sm:overflow-visible sm:p-0">
           {hasDemoRequestErrors(errors) ? (
             <div
               ref={errorSummaryRef}
               tabIndex={-1}
-              className="mb-4 rounded-2xl border border-cherry-deep/40 bg-cherry-deep/[0.06] p-4 focus-visible:outline-2 focus-visible:outline-cherry-deep focus-visible:outline-offset-2"
+              className="mb-4 scroll-mt-4 rounded-2xl border border-cherry-deep/40 bg-cherry-deep/[0.06] p-4 focus-visible:outline-2 focus-visible:outline-cherry-deep focus-visible:outline-offset-2"
             >
               <p className="text-[0.8125rem] font-bold text-cherry-deep">
                 Please fix the highlighted{" "}
@@ -300,6 +337,7 @@ export function DemoRequestForm({
             aria-invalid={Boolean(errors.name)}
             aria-describedby={errors.name ? "demo-name-error" : undefined}
             autoComplete="name"
+            enterKeyHint="next"
             className={getFieldClass(Boolean(errors.name))}
             style={getFieldStyle(Boolean(errors.name))}
           />
@@ -324,6 +362,13 @@ export function DemoRequestForm({
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? "demo-email-error" : undefined}
             autoComplete="email"
+            // Phones capitalise and autocorrect free text by default, which is
+            // wrong for every one of these: an address is lowercase and not a word.
+            inputMode="email"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
+            enterKeyHint="next"
             className={getFieldClass(Boolean(errors.email))}
             style={getFieldStyle(Boolean(errors.email))}
           />
@@ -341,12 +386,21 @@ export function DemoRequestForm({
           <input
             id="demo-store-url"
             name="storeUrl"
+            // type=url gets the keyboard with the "/" and ".com" keys. It can't
+            // reject a bare domain here — the form is noValidate, so
+            // validateDemoRequest is the only gate and it prepends the scheme.
+            type="url"
             value={values.storeUrl}
             onChange={handleChange}
             required
             aria-invalid={Boolean(errors.storeUrl)}
             aria-describedby={errors.storeUrl ? "demo-store-url-error" : "demo-store-url-helper"}
             autoComplete="url"
+            inputMode="url"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
+            enterKeyHint="next"
             className={getFieldClass(Boolean(errors.storeUrl))}
             style={getFieldStyle(Boolean(errors.storeUrl))}
           />
@@ -421,10 +475,13 @@ export function DemoRequestForm({
             value={values.message}
             onChange={handleChange}
             required
-            rows={5}
+            // Starting height where field-sizing isn't supported; elsewhere the
+            // min-height below sets the floor and it grows from there.
+            rows={3}
             aria-invalid={Boolean(errors.message)}
             aria-describedby={errors.message ? "demo-message-error" : undefined}
-            className={`${getFieldClass(Boolean(errors.message))} min-h-[132px] resize-y`}
+            enterKeyHint="enter"
+            className={`${getFieldClass(Boolean(errors.message))} min-h-[104px] resize-y sm:min-h-[132px]`}
             style={getFieldStyle(Boolean(errors.message))}
           />
           {errors.message ? (
@@ -442,23 +499,33 @@ export function DemoRequestForm({
               resetSignal={turnstileReset}
             />
           ) : null}
+          </div>
 
-          <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-[0.75rem] font-semibold leading-5 text-cocoa-soft">
+          {/* Pinned to the bottom of the sheet on a phone, so the primary action
+              is reachable without scrolling the form to its end. Pinned with
+              flex rather than `position: fixed`, which fights the keyboard.
+              pb clears the home indicator without stealing padding on devices
+              that have no inset. */}
+          <div className="shrink-0 border-t border-chip/15 bg-cream px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 sm:mt-5 sm:border-0 sm:bg-transparent sm:p-0">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+            <p className="text-[0.6875rem] font-semibold leading-4 text-cocoa-soft sm:text-[0.75rem] sm:leading-5">
               {demoRequest.privacy}
             </p>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-cherry-deep px-5 py-3 text-[0.9375rem] font-semibold text-white transition-[transform,box-shadow] hover:-translate-y-px hover:shadow-[var(--shadow-hover)] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-cherry-deep px-5 py-3 text-[0.9375rem] font-semibold text-white transition-[transform,box-shadow] hover:-translate-y-px hover:shadow-[var(--shadow-hover)] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
             >
               {isSubmitting ? "Sending..." : "Request demo"}
               <ArrowRight size={18} aria-hidden />
             </button>
           </div>
 
-          {/* success takes over the panel above; these are the fallback paths */}
-          <div aria-live="polite" className="mt-5">
+          {/* success takes over the panel above; these are the fallback paths.
+              The margin is conditional rather than the box being hidden: this is
+              a live region, and display:none can cost the announcement. Empty, it
+              has no margin and no height, so it costs the pinned bar nothing. */}
+          <div aria-live="polite" className="[&:not(:empty)]:mt-4 sm:[&:not(:empty)]:mt-5">
             {status === "mailto" ? (
               <StatusPanel
                 tone="success"
@@ -477,6 +544,7 @@ export function DemoRequestForm({
                 actionLabel="Email us instead"
               />
             ) : null}
+          </div>
           </div>
             </>
           )}
