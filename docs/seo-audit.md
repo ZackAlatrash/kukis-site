@@ -1,131 +1,84 @@
-# SEO Audit — https://kukis.nl
+# SEO Audit — kukis.nl
 
-Date: 2026-07-16
-Method: Agentic-SEO-Skill (`seo` skill) evidence scripts + rendered-DOM comparison
-Site type: Vite + React SPA, client-rendered, hosted on Cloudflare Pages
+Audit 1: 2026-07-16 · Audit 2: 2026-07-17 (this document supersedes audit 1)
+Method: Agentic SEO skill evidence scripts + puppeteer measurement under production CSP
+Site: Vite + React SPA, single route, Cloudflare Pages
 
 ---
 
-## Headline
+## Standing position
 
-The site's content is **invisible to any crawler that does not execute JavaScript**.
+Two different answers, and the distinction is the whole story.
 
-| Measurement | Value |
+| | Live kukis.nl | Built from `seo-improvements` |
+|---|---|---|
+| Raw HTML | 1,019 bytes | 91,342 bytes |
+| Body text without JS | **0 chars** | **5,556 chars** |
+| canonical | ✗ | ✓ |
+| OG / Twitter | 0 tags (0/100) | ✓ |
+| JSON-LD | ✗ | Organization + WebSite |
+| sitemap.xml | SPA shell, 200 text/html | real, application/xml |
+
+**Nothing is deployed.** The live site is byte-identical to audit 1 — Cloudflare builds from `main`, and the work sits on an unpushed branch. Every audit-1 finding is still live and still true today.
+
+So the crawler-visibility problems are *solved but not shipped*. Deploying is the single action that converts audit 1's work into results.
+
+---
+
+## New findings (audit 2)
+
+Invisible in audit 1 because the PageSpeed API was rate-limited — the exact gap flagged there as an environment limitation. Measured directly with puppeteer instead.
+
+### 🔴 Critical — the hero downloads 11.5 MB on every visit
+
+- Evidence: 96 requests to `/cookie/f_*.jpg`, **11.5 MB of frames, 15.8 MB page total**, measured identically at desktop 1280px and mobile 412px. `dist/cookie/` is 15 MB on disk; frames average ~128 KB.
+- Cause: `CookieScrubHero` fetches all 96 frames eagerly in one loop (`for (let i = 0; i < FRAMES; i++) fetch(framePath(i))`) — by design, so scrubbing is jank-free.
+- Impact: This dominates every other performance consideration on the site. On a typical 4G connection 11.5 MB is roughly 10+ seconds of transfer, and on a metered plan it is 11.5 MB per visit. Mobile-first indexing means Google assesses the phone experience. The product's own audience is EU Shopify *mobile* shoppers.
+- Note: `resizeWidth: 760` on mobile reduces **decode memory**, not bytes downloaded — the code comment says exactly this and is accurate. Phones still download full-size frames.
+- Confidence: **Confirmed**
+
+### 🔴 Critical — reduced-motion users pay the 11.5 MB for an animation they never see
+
+- Evidence: with `prefers-reduced-motion: reduce` emulated, all 96 frames still download (11.5 MB) even though the static `<Hero/>` renders and `Scrub` is never on screen.
+- Cause: `usePrefersReducedMotion` initialises to `false` and only flips in an effect. First render therefore mounts `<Scrub>`, whose effect fires all 96 fetches; the hook then resolves, `<Hero/>` swaps in and `Scrub` unmounts — with the fetches already in flight and uncancelled.
+- Impact: The accessibility path costs *more* than it saves. Users who asked for less motion get the full payload and none of the benefit.
+- Confidence: **Confirmed**
+
+### ✅ Pass — layout stability
+
+- CLS **0** prerendered (vs 0.0002 plain), FCP ~320 ms local. Prerendering introduces no layout shift; settled DOM and screenshots are byte-identical to the plain build.
+- Confidence: **Confirmed** (lab, localhost — see limitations)
+
+---
+
+## Carried over from audit 1 — fixed on branch, not live
+
+| Finding | Status |
 |---|---|
-| Body text in served HTML (raw fetch) | **0 characters** |
-| Body text after JS renders | **4,699 characters** |
+| Zero server-rendered content | Fixed on branch (prerender) — **not deployed** |
+| No canonical | Fixed on branch — **not deployed** |
+| No OG/Twitter (0/100) | Fixed on branch (minus `og:image`) — **not deployed** |
+| sitemap.xml was the SPA shell | Fixed on branch — **not deployed** |
+| No JSON-LD | Fixed on branch — **not deployed** |
 
-The served HTML is a 1,023-byte shell whose `<body>` contains only `<div id="root"></div>`.
-Everything else — the h1, nine h2 sections, the FAQ, the pricing framing — exists only after
-the React bundle executes.
+## Carried over — still open everywhere
 
-Google *can* render JS, but does so in a deferred second wave, and it is not guaranteed.
-Most AI/answer engines (and social scrapers) do **not** execute JS at all. For those, this
-site is a blank page with a title.
+| Finding | Notes |
+|---|---|
+| 26 of 27 images have no `alt` | Decorative frames want `alt=""`; content images want real alt |
+| Soft 404s | `/anything` returns 200 + HTML. Demonstrated: `/how/product.jpg` and `/favicon.ico` both return `200 text/html` in production |
+| No favicon | No `<link rel="icon">`, no `favicon.ico` |
+| No `og:image` | Tags ship without it; `twitter:card` stays `summary` until art exists |
+| No `Sitemap:` in robots.txt | robots.txt is Cloudflare-managed; use Search Console instead |
 
----
+## Decided, not a defect
 
-## Findings
-
-### 🔴 Critical
-
-**1. Zero server-rendered content (SPA shell)**
-- Evidence: raw fetch body text = 0 chars; rendered DOM = 4,699 chars, 1×h1, 9×h2.
-- Impact: Delayed/unreliable indexing on Google; effectively zero visibility in AI answer
-  engines and social unfurls. This is the root cause of several findings below.
-- Fix: Prerender to static HTML at build time. For a marketing site with a fixed set of
-  routes this is the cheapest correct fix — no server needed, output stays static.
-- Confidence: **Confirmed**
-
-**2. `sitemap.xml`, `llms.txt`, `llms-full.txt` do not actually exist**
-- Evidence: all three return `HTTP 200` with `content-type: text/html` and the SPA shell as
-  the body. So does `/totally-made-up-page-xyz`. The Cloudflare Pages SPA catch-all rewrites
-  every unmatched path to `index.html`.
-- Impact: Two compounding problems.
-  (a) There is no sitemap — search engines get no crawl map.
-  (b) **Soft 404s**: every nonexistent URL returns 200 + content. Google treats this as a
-      quality signal problem and can waste crawl budget on infinite phantom URLs.
-- Note: This is exactly the kind of thing status-code-only tooling gets wrong. The skill's
-  own `llms_txt_checker.py` scored this **"✅ Found (HTTP 200)"** — a false positive. It was
-  caught by checking content-type and body, not the status code.
-- Confidence: **Confirmed**
-
-**3. No canonical URL**
-- Evidence: `document.querySelector('link[rel=canonical]')` → `null`.
-- Impact: With a 200-returning catch-all, any URL can serve the homepage, so duplicate-URL
-  variants are trivially creatable. A canonical is the guardrail.
-- Confidence: **Confirmed**
-
-### ⚠️ Warning
-
-**4. No Open Graph or Twitter Card tags — social meta score 0/100**
-- Evidence: `social_meta.py` — og:title, og:description, og:image, og:url, og:type all missing;
-  twitter:card missing.
-- Impact: Every share on LinkedIn/Slack/X/WhatsApp renders as a bare link with no title card
-  or image. For a B2B SaaS site that is distributed largely by link-sharing, this is a direct
-  top-of-funnel loss — arguably higher near-term ROI than ranking work.
-- Confidence: **Confirmed**
-
-**5. 26 of 27 images have no `alt` attribute**
-- Evidence: rendered DOM — `imgs: 27`, `imgsNoAlt: 26`.
-- Impact: Accessibility failure first, image-SEO loss second. Note many of these are the 96
-  cookie animation frames, where `alt=""` (explicitly empty = decorative) is the *correct*
-  answer, not descriptive alt text. Content images (mascot, figures, widget shots) need real
-  alt.
-- Confidence: **Confirmed**
-
-**6. No structured data (JSON-LD)**
-- Evidence: zero `script[type="application/ld+json"]` blocks.
-- Impact: No `Organization` / `SoftwareApplication` / `WebSite` entity for Google's knowledge
-  graph. Reduces eligibility for rich presentation and entity understanding.
-- Fix: Add `Organization` + `WebSite` JSON-LD. **Do not add FAQPage schema** despite the FAQ
-  section — FAQ rich results were restricted to government/health authority sites in Aug 2023
-  and no longer render for commercial sites.
-- Confidence: **Confirmed**
-
-**7. No `Sitemap:` directive in robots.txt**
-- Evidence: `robots_checker.py` — no Sitemap line. (Moot until a sitemap exists — see #2.)
-- Confidence: **Confirmed**
-
-**8. Duplicate h2 text**
-- Evidence: `"Three steps. One clean email."` appears twice in the h2 list.
-- Impact: Minor. Likely mobile/desktop variants of the same section both in the DOM. Worth
-  confirming only one is exposed to assistive tech / crawlers.
-- Confidence: **Likely** (cause not verified)
-
-### ℹ️ Info — needs a decision from you, not a fix
-
-**9. robots.txt blocks AI crawlers while the site advertises llms.txt**
-- Evidence: Cloudflare-managed robots.txt sets `Content-Signal: search=yes, ai-train=no,
-  use=reference` and `Disallow: /` for GPTBot, ClaudeBot, CCBot, Google-Extended,
-  Applebot-Extended, Bytespider, Amazonbot, meta-externalagent.
-- This is **Cloudflare's managed robots.txt feature**, not a file in your repo (`public/` has
-  no robots.txt). It may be on by default rather than by your choice.
-- The tension: blocking AI crawlers is a legitimate IP position, but it is the opposite of
-  "rank well in AI search". You cannot fully have both. Worth noting:
-  - `Google-Extended` blocks Gemini *training* only — it does **not** affect Google Search
-    ranking. Blocking it costs you nothing in classic SEO.
-  - `GPTBot`/`ClaudeBot` are training crawlers. The *retrieval* bots that fetch pages to
-    answer a live user question (`OAI-SearchBot`, `ChatGPT-User`, `PerplexityBot`) are
-    currently **unmanaged** and inherit `Allow: /`.
-  - So today you block training but allow live retrieval — which, if you want AI-search
-    visibility without donating training data, is arguably already the right posture.
-- Recommendation: **leave as-is unless you want AI-search presence**, in which case decide
-  deliberately. Either way, fixing #1 (prerender) is what actually makes the retrieval bots
-  able to read you — they don't run JS.
-- Confidence: **Confirmed** (facts) / decision is yours
+**AI crawler posture.** Cloudflare-managed robots.txt blocks training crawlers (GPTBot, ClaudeBot, CCBot, Google-Extended…) while retrieval bots (OAI-SearchBot, ChatGPT-User, PerplexityBot) inherit `Allow: /`. Reviewed and deliberately kept. `Google-Extended` blocks Gemini training only and costs nothing in Google Search.
 
 ---
 
 ## Environment Limitations
 
-- **PageSpeed Insights / Core Web Vitals: not collected.** Google's API rate-limited the
-  request (no API key configured). This is a tooling limit, **not** a site finding — no
-  conclusion about LCP/INP/CLS should be drawn from its absence. Re-run with a
-  `PAGESPEED_API_KEY`, or use the Chrome UX Report / Lighthouse in DevTools.
-- Playwright-based visual scripts not run (not installed).
-
-## Not assessed
-
-Single-page audit only. The site is one route, so crawl-depth, internal-link graph, and
-orphan-page analysis are not meaningful here.
+- **PageSpeed Insights / CrUX field data: still unavailable.** Rate-limited on two separate attempts, no API key configured. CWV numbers here are **lab data from localhost** — no network latency, no real-device CPU. Treat FCP/LCP as directional only. The 11.5 MB figure is a byte count and does not depend on that caveat; it is exact.
+- LCP produced no entry under mobile emulation (likely the canvas hero); not chased.
+- Turnstile unverified — `VITE_TURNSTILE_SITE_KEY` unset locally, so the widget never mounts.

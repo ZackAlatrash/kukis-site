@@ -1,138 +1,75 @@
 # SEO Action Plan — kukis.nl
 
-Ordered by (impact ÷ effort). Items 1–3 are worth doing; the rest is polish.
+Updated 2026-07-17 after audit 2. Ordered by impact ÷ effort.
 
 ---
 
-## 1. Add OG + Twitter Card tags  ← do this first
-**Effort:** ~15 min · **Impact:** high, immediate
+## 1. Deploy what's already built  ← nothing else matters until this happens
+**Effort:** merge + push · **Impact:** converts every completed fix into an actual result
 
-Not the biggest *SEO* issue, but the biggest *business* issue and the cheapest fix. Every
-time kukis.nl is shared in a Slack, a LinkedIn post, or a DM to a merchant, it currently
-renders as a naked URL. You already have the copy and the mascot art to make a good card.
+`seo-improvements` holds canonical, OG/Twitter, JSON-LD, a real sitemap and prerendering — all verified, none of it live. Cloudflare builds from `main`, so until this merges the site scores exactly as it did before any of the work started.
 
-Static tags in `index.html` — no prerendering needed, works today:
-```html
-<link rel="canonical" href="https://kukis.nl/" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://kukis.nl/" />
-<meta property="og:site_name" content="Kukis" />
-<meta property="og:title" content="Kukis — The yes cookie tools can't get" />
-<meta property="og:description" content="Kukis captures email and marketing consent from EU Shopify shoppers who decline your cookies — the roughly half that cookie-based tools can't reach. No popups, no cookies." />
-<meta property="og:image" content="https://kukis.nl/og-card.png" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Kukis — The yes cookie tools can't get" />
-<meta name="twitter:description" content="Consent capture for EU Shopify shoppers who decline cookies." />
-<meta name="twitter:image" content="https://kukis.nl/og-card.png" />
-```
-Needs a 1200×630 `public/og-card.png`. Ships with the canonical fix (#3 in the report) for free.
+Watch on the first deploy:
+- **Turnstile** — the one surface prerendering could plausibly disturb, unverifiable locally (`VITE_TURNSTILE_SITE_KEY` unset). Check the demo form on the preview URL.
+- **Build time** — puppeteer pulls ~200 MB of Chromium in the Pages container. The build fails loudly if prerendering can't run, deliberately: a silent skip would look green and change nothing.
 
-Verify: paste the URL into LinkedIn Post Inspector and Slack after deploying.
+Then: submit `https://kukis.nl/sitemap.xml` in Google Search Console (robots.txt is Cloudflare-managed, so a `Sitemap:` directive isn't available without dropping the AI-crawler rules).
 
 ---
 
-## 2. Prerender to static HTML
-**Effort:** ~1–2 hrs · **Impact:** high, compounding · **Root cause of most findings**
+## 2. Stop shipping 11.5 MB of hero frames
+**Effort:** hours · **Impact:** the largest single fact about this site's performance
 
-Turns 0 rendered chars into 4,699 for every crawler, JS or not. For a single-route marketing
-site this is a build step, not an architecture change — output stays static on Cloudflare Pages.
+96 JPEGs, 11.5 MB, on every visit, phone included. No amount of meta tags competes with this. Mobile-first indexing judges the phone experience, and the audience *is* mobile shoppers.
 
-Options, cheapest first:
-- **`vite-plugin-prerender` / `puppeteer` post-build step** — renders each route to real HTML
-  at build time. Minimal change to your existing Vite setup.
-- **`vite-react-ssg`** — a bit more integrated, still static output.
-- Migrating to Astro/Next is *not* warranted for one page.
+Two fixes, independent — do (a) regardless:
 
-Because your CSP is strict (`script-src 'self' https://challenges.cloudflare.com`), verify the
-prerendered output still hydrates and that Turnstile still loads after this change.
+**(a) Don't fetch frames the user won't see.** Reduced-motion visitors currently download all 11.5 MB and then get the static `<Hero/>`. Resolve the preference before first paint — read `matchMedia` in the `useState` initialiser instead of an effect — so `<Scrub>` never mounts. Add an `AbortController` so an unmounting `Scrub` cancels its in-flight fetches. Cheap, strictly correct, and fixes an accessibility path that currently costs more than it saves.
 
----
+**(b) Shrink the payload itself.** Options, roughly in order of payoff:
+- **Encode as video** (h.264/webm) and scrub via `currentTime` — a 96-frame sequence is a video. Typically an order of magnitude smaller.
+- **WebP/AVIF instead of JPEG** — often 30–50% off for free.
+- **Fewer frames** — 96 is a lot; 24–36 with interpolation may be indistinguishable.
+- **Responsive frames** — phones fetch full-size images and then downscale to 760px at decode. Serve a 760px set.
+- **Progressive load** — fetch every 8th frame first so scrubbing works early, backfill after.
 
-## 3. Ship a real sitemap.xml + fix the soft-404 catch-all
-**Effort:** ~30 min · **Impact:** medium-high
-
-Two parts, same root cause:
-
-**(a) Real sitemap.** Drop a literal `public/sitemap.xml` (one URL, it's one page):
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://kukis.nl/</loc><lastmod>2026-07-16</lastmod></url>
-</urlset>
-```
-Files in `public/` are served as real static assets and win over the SPA catch-all.
-Then confirm `curl -I https://kukis.nl/sitemap.xml` returns `content-type: application/xml`,
-**not** `text/html` — that's the test that it actually took.
-
-**(b) Real 404s.** Right now `/anything-at-all` returns `200` + the shell. Configure a proper
-404 so nonexistent paths return a 404 status. On Cloudflare Pages this is a `_routes.json` /
-`404.html` concern. Since you deploy via Cloudflare Pages with `functions/`, check how the SPA
-fallback is configured there.
-
-**(c)** Once (a) is live, add `Sitemap: https://kukis.nl/sitemap.xml` to robots.txt — but note
-robots.txt is currently **Cloudflare-managed**, so you'll need to either disable that feature
-and ship your own `public/robots.txt`, or add the directive through the Cloudflare dashboard.
+Worth deciding deliberately: the scrub hero is the site's signature moment and the code comments show it was a considered choice. This is a real trade-off between craft and reach, not an obvious win — but 11.5 MB is a big price, and (a) is free.
 
 ---
 
-## 4. Fix image alt attributes
-**Effort:** ~30 min · **Impact:** medium (accessibility ≫ SEO here)
+## 3. Real 404s
+**Effort:** ~30 min · **Impact:** medium
 
-26 of 27 images lack `alt`. Do **not** blanket-fill with descriptive text:
-- **Decorative** (the 96 cookie animation frames, background figures) → `alt=""`. Explicitly
-  empty is correct and tells screen readers to skip them. Filling these with text is worse
-  than leaving them empty.
-- **Meaningful** (mascot, widget screenshots, diagram figures) → short, factual alt describing
-  what it shows.
-
-The 96-frame hero is one logical image; consider `role="img"` + a single `aria-label` on the
-container rather than alt on each frame.
+`/anything` returns `200` + your homepage. Concretely, in production today: `/how/product.jpg` and `/favicon.ico` both return `200 text/html`. Google reads infinite phantom 200s as a crawl-budget and quality problem. Configure the Pages SPA fallback to serve a real 404 status for unmatched paths.
 
 ---
 
-## 5. Add Organization + WebSite JSON-LD
-**Effort:** ~20 min · **Impact:** low-medium
+## 4. Favicon + og:image
+**Effort:** ~20 min once art exists · **Impact:** medium (brand/CTR)
 
-```html
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Kukis",
-  "url": "https://kukis.nl/",
-  "logo": "https://kukis.nl/mascot/<logo>.png",
-  "description": "Consent capture for EU Shopify shoppers who decline cookies.",
-  "email": "hello@kukis.nl"
-}
-</script>
-```
-
-**Do not add FAQPage schema** even though you have an FAQ section — FAQ rich results have been
-restricted to government/health authority sites since Aug 2023 and won't render for you.
-Likewise avoid HowTo (deprecated Sept 2023).
+No `<link rel="icon">` and no `favicon.ico` at all — browsers request it and get HTML. Needs a 1200×630 `og-card.png` too; when it lands, flip `twitter:card` from `summary` to `summary_large_image` in the same commit.
 
 ---
 
-## 6. Decide your AI-crawler posture — a choice, not a bug
-**Effort:** a decision · **Impact:** depends entirely on strategy
+## 5. Image alt attributes
+**Effort:** ~30 min · **Impact:** medium (accessibility ≫ SEO)
 
-See finding #9 in the audit. Your current Cloudflare-managed robots.txt blocks AI *training*
-crawlers while allowing *retrieval* bots. That's a coherent position and plausibly the one you
-want. Don't let an SEO tool talk you out of it just because it scores "AI readiness" low —
-`llms.txt` is not a Google ranking factor and has no confirmed adoption by any major engine.
+26 of 27 images lack `alt`. Do **not** blanket-fill:
+- **Decorative** (cookie frames, background figures) → `alt=""`. Explicitly empty is correct; filling these is worse than leaving them.
+- **Meaningful** (mascot, widget screenshots, figures) → short factual alt.
+- The 96-frame hero is one logical image — consider `role="img"` + a single `aria-label` on the container.
 
-The thing that actually gates AI visibility is #2 (prerender): retrieval bots don't run JS.
+---
+
+## 6. Get real Core Web Vitals
+**Effort:** minutes · **Impact:** unblocks measurement
+
+PageSpeed has been rate-limited twice; everything performance-related here is localhost lab data. Get a free PageSpeed API key, or just run Lighthouse in Chrome DevTools against the deployed preview. Do this *after* #1 so you're measuring the real thing.
 
 ---
 
 ## Deliberately not recommended
-- **FAQPage / HowTo schema** — restricted/deprecated, no rich result for commercial sites.
-- **A real `llms.txt`** — low/no confirmed payoff; skip until an engine commits to it.
-- **Framework migration** — one page doesn't justify it. Prerender instead.
-
-## Still unmeasured
-Core Web Vitals — PageSpeed API rate-limited. Re-run with an API key, or just use Lighthouse
-in Chrome DevTools. Given a fonts-from-Google + framer-motion + 96-frame animation hero, LCP
-and CLS are genuinely worth measuring before assuming they're fine.
+- **FAQPage / HowTo schema** — restricted/deprecated; no rich result for commercial sites.
+- **A real `llms.txt`** — no confirmed adoption by any major engine; not a ranking factor.
+- **Framework migration** — one page. Prerendering already solved the crawler problem.
+- **Opening up to AI training crawlers** — reviewed and deliberately declined; see the audit.
