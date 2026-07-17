@@ -2,9 +2,11 @@
 
 Updated 2026-07-17. Items 2, 3 and 5 are done on the `seo-improvements` branch; item 1 is the only thing standing between the work and any result. Items 4 and 6 are with you.
 
+**Deployed 2026-07-17.** Live and verified: raw HTML 92,760 bytes / 5,354 chars of text (was 1,019 / 0), sitemap `application/xml`, unmatched paths 404, phone page weight 6.39 MB (was 15.8), Turnstile issuing tokens.
+
 | # | Item | Status |
 |---|---|---|
-| 1 | Deploy the branch | **open — blocks everything** |
+| 1 | Deploy the branch | ✅ done — merged to `main`, built, verified in production |
 | 2 | Hero payload | ✅ done — phone 11.5 MB → 2.38 MB, decode 512 MB → 116 MB |
 | 3 | Real 404s | ✅ done — `public/404.html`, verifies after deploy |
 | 4 | Favicon + `og:image` | open — **you're making the art** |
@@ -13,16 +15,24 @@ Updated 2026-07-17. Items 2, 3 and 5 are done on the `seo-improvements` branch; 
 
 ---
 
-## 1. Deploy what's already built  ← nothing else matters until this happens
-**Effort:** merge + push · **Impact:** converts every completed fix into an actual result
+## 1. Deploy — ✅ done 2026-07-17
 
-`seo-improvements` holds canonical, OG/Twitter, JSON-LD, a real sitemap and prerendering — all verified, none of it live. Cloudflare builds from `main`, so until this merges the site scores exactly as it did before any of the work started.
+Merged to `main` and built in under a minute; the Chromium download was a non-event in the Pages container.
 
-Watch on the first deploy:
-- **Turnstile** — the one surface prerendering could plausibly disturb, unverifiable locally (`VITE_TURNSTILE_SITE_KEY` unset). Check the demo form on the preview URL.
-- **Build time** — puppeteer pulls ~200 MB of Chromium in the Pages container. The build fails loudly if prerendering can't run, deliberately: a silent skip would look green and change nothing.
+Verified in production:
 
-Then: submit `https://kukis.nl/sitemap.xml` in Google Search Console (robots.txt is Cloudflare-managed, so a `Sitemap:` directive isn't available without dropping the AI-crawler rules).
+| check | result |
+|---|---|
+| raw HTML | 92,760 bytes, 5,354 chars of text (was 1,019 / 0) |
+| h1, JSON-LD, canonical, OG | all present without JS |
+| `sitemap.xml` | 200 `application/xml` |
+| unmatched path | 404 (cache-bust to see it — the CDN holds old 200s) |
+| phone page weight | 6.39 MB (was 15.8) |
+| **Turnstile** | mounts and issues a real 794-char token |
+
+Turnstile was the rollback trigger and it survived prerendering.
+
+**Still to do — yours:** submit `https://kukis.nl/sitemap.xml` in Google Search Console. robots.txt is Cloudflare-managed, so a `Sitemap:` directive would mean dropping the AI-crawler rules; Search Console does the same job with no tradeoff.
 
 ---
 
