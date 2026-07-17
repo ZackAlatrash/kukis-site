@@ -94,6 +94,31 @@
   border: var(--hair);
 }
 
+/* Demo form controls.
+
+   iOS Safari zooms the viewport when a focused control's text is under 16px,
+   and the design size is 15px. Raising the font is the fix; `maximum-scale=1`
+   would also stop the zoom but takes pinch-zoom away from everyone.
+
+   Two conditions, because neither covers it alone: `pointer: coarse` catches
+   touch at any width, but reports `fine` on a tablet with a trackpad attached;
+   the width query is the same 640px where the form switches to its phone sheet,
+   so the sheet layout always gets the 16px that layout implies. Desktop keeps
+   the 15px design size in the centered dialog. */
+@media (pointer: coarse), (max-width: 639px) {
+  .demo-field {
+    font-size: 16px;
+  }
+}
+
+/* Grow with the text instead of reserving five empty rows up front: in a phone
+   sheet a tall textarea pushes the submit bar off-screen and makes the form
+   read as longer than it is. Capped so it can't swallow the sheet. */
+textarea.demo-field {
+  field-sizing: content;
+  max-height: 40dvh;
+}
+
 /* crumb particles drifting off the "lost" shoppers in the problem section */
 @keyframes crumbFloat {
   0% {

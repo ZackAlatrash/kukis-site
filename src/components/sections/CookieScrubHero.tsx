@@ -1,14 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 import { Button } from "../ui/Button";
 import { ConsentChip } from "../ui/ConsentChip";
 import { Logo } from "../ui/Logo";
 import { hero, site } from "../../data/site";
-import { publicAsset } from "../../lib/publicAsset";
+import { FRAMES, framePath } from "../../lib/cookieFrames";
+import { useMediaQuery } from "../../lib/useMediaQuery";
 import { usePrefersReducedMotion } from "../../lib/useReducedMotion";
 import { Hero } from "./Hero";
 
-const FRAMES = 96;
 // How much the landscape cookie clip is scaled up on phones. 1 = fit the whole
 // frame to the screen width (small, lots of cream); higher fills more of the
 // screen and lets the outermost break pieces bleed off the edges.
@@ -16,7 +16,6 @@ const MOBILE_FILL = 2.3;
 const BG = "#FBF6E1"; // sampled from the 4K cookie clip's cream
 const CREAM = "#FBF8E7"; // averaged from the frame corners — the letterbox backdrop
 const CREAM_T = "rgba(251,248,231,0)";
-const framePath = (i: number) => publicAsset(`cookie/f_${String(i + 1).padStart(3, "0")}.jpg`);
 
 const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const smoothstep = (a: number, b: number, x: number) => {
@@ -72,21 +71,17 @@ function featherBandX(
  *
  * Runs on both desktop and mobile (the phone is where most shoppers land, so it
  * keeps the signature moment). Only prefers-reduced-motion falls back to the
- * static <Hero/>. On phones the frames decode at a smaller size to keep memory
- * in check and the landscape frame is fit to width so the breaking pieces never
- * get cropped off the sides.
+ * static <Hero/>. On phones the frames are fetched and decoded at a smaller size
+ * and the landscape frame is fit to width so the breaking pieces never get
+ * cropped off the sides.
+ *
+ * Both queries resolve on the first render, which is load-bearing rather than
+ * tidy: <Scrub>'s decode loop is one-shot and fires on mount, so a preference
+ * that arrives an effect later arrives after 96 fetches have already started.
  */
 export function CookieScrubHero() {
   const reduced = usePrefersReducedMotion();
-  const [isSmall, setIsSmall] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 820px)");
-    const on = () => setIsSmall(mq.matches);
-    on();
-    mq.addEventListener("change", on);
-    return () => mq.removeEventListener("change", on);
-  }, []);
+  const isSmall = useMediaQuery("(max-width: 820px)");
 
   if (reduced) return <Hero />;
   return <Scrub mobile={isSmall} />;
@@ -206,15 +201,21 @@ function Scrub({ mobile }: { mobile: boolean }) {
       raf = requestAnimationFrame(loop);
     };
 
-    // decode every frame off-thread, once; draw each as it lands. Phones decode
-    // at a smaller width to keep the total bitmap memory reasonable.
+    // decode every frame off-thread, once; draw each as it lands. Phones fetch
+    // the 760 set and decode at that width, so the bitmaps stay a quarter of the
+    // pixels — the frames are landscape and 1600 wide, which adds up fast at 96.
+    //
+    // Deliberately not cancelled on unmount: startedRef + bitmapsRef exist so
+    // StrictMode's double mount doesn't refetch, which means the first mount's
+    // requests are the ones that fill the cache. Aborting them would leave the
+    // second mount with startedRef already set and nothing to draw.
     if (!startedRef.current) {
       startedRef.current = true;
       const decodeOpts = mobileRef.current
         ? ({ resizeWidth: 760, resizeQuality: "high" } as ImageBitmapOptions)
         : undefined;
       for (let i = 0; i < FRAMES; i++) {
-        fetch(framePath(i))
+        fetch(framePath(i, mobileRef.current))
           .then((res) => res.blob())
           .then((blob) =>
             decodeOpts
