@@ -1,6 +1,15 @@
 # SEO Action Plan — kukis.nl
 
-Updated 2026-07-17 after audit 2. Ordered by impact ÷ effort.
+Updated 2026-07-17. Items 2, 3 and 5 are done on the `seo-improvements` branch; item 1 is the only thing standing between the work and any result. Items 4 and 6 are with you.
+
+| # | Item | Status |
+|---|---|---|
+| 1 | Deploy the branch | **open — blocks everything** |
+| 2 | Hero payload | ✅ done — phone 11.5 MB → 2.38 MB, decode 512 MB → 116 MB |
+| 3 | Real 404s | ✅ done — `public/404.html`, verifies after deploy |
+| 4 | Favicon + `og:image` | open — **you're making the art** |
+| 5 | Image `alt` | ✅ no work needed — the finding was a measurement bug, see the audit |
+| 6 | Real Core Web Vitals | open — **you're getting a PageSpeed key** |
 
 ---
 
@@ -17,30 +26,28 @@ Then: submit `https://kukis.nl/sitemap.xml` in Google Search Console (robots.txt
 
 ---
 
-## 2. Stop shipping 11.5 MB of hero frames
-**Effort:** hours · **Impact:** the largest single fact about this site's performance
+## 2. Stop shipping 11.5 MB of hero frames — ✅ done
 
-96 JPEGs, 11.5 MB, on every visit, phone included. No amount of meta tags competes with this. Mobile-first indexing judges the phone experience, and the audience *is* mobile shoppers.
+All three symptoms shared one cause: `prefers-reduced-motion` and `isSmall` resolved in effects, and React runs child effects first, so `Scrub`'s one-shot decode loop always read the wrong answer.
 
-Two fixes, independent — do (a) regardless:
+| | before | after |
+|---|---|---|
+| reduced-motion visitor | 96 requests, 11.5 MB | **0 requests** |
+| phone payload | 11.5 MB | **2.38 MB** (−79%) |
+| phone decode | 1600×873, ~512 MB RAM | **760×415, ~116 MB** (−77%) |
+| desktop payload | 11.5 MB | **7.51 MB** (−35%) |
 
-**(a) Don't fetch frames the user won't see.** Reduced-motion visitors currently download all 11.5 MB and then get the static `<Hero/>`. Resolve the preference before first paint — read `matchMedia` in the `useState` initialiser instead of an effect — so `<Scrub>` never mounts. Add an `AbortController` so an unmounting `Scrub` cancels its in-flight fetches. Cheap, strictly correct, and fixes an accessibility path that currently costs more than it saves.
+Responsive WebP (`cookie/760/`, `cookie/1600/`) rather than video: phones already downscaled to 760, so the 760 set is the picture they were seeing anyway. SSIM 0.982–0.989 vs source. Video would have saved another 1.3 MB and put `currentTime` scrubbing on iOS Safari in the critical path — the thing the ImageBitmap design exists to avoid.
 
-**(b) Shrink the payload itself.** Options, roughly in order of payoff:
-- **Encode as video** (h.264/webm) and scrub via `currentTime` — a 96-frame sequence is a video. Typically an order of magnitude smaller.
-- **WebP/AVIF instead of JPEG** — often 30–50% off for free.
-- **Fewer frames** — 96 is a lot; 24–36 with interpolation may be indistinguishable.
-- **Responsive frames** — phones fetch full-size images and then downscale to 760px at decode. Serve a 760px set.
-- **Progressive load** — fetch every 8th frame first so scrubbing works early, backfill after.
+No `AbortController`, despite the earlier plan: `startedRef` exists so StrictMode's double mount doesn't refetch, so aborting the first mount's requests would leave the second with nothing to draw. The reduced-motion case it was meant to fix is handled by not mounting `Scrub` at all.
 
-Worth deciding deliberately: the scrub hero is the site's signature moment and the code comments show it was a considered choice. This is a real trade-off between craft and reach, not an obvious win — but 11.5 MB is a big price, and (a) is free.
+Re-measure any time with `npm run build && node scripts/verify-hero.mjs`. Regenerate the frames from source art with `node scripts/encode-frames.mjs <dir-of-jpgs>`.
 
 ---
 
-## 3. Real 404s
-**Effort:** ~30 min · **Impact:** medium
+## 3. Real 404s — ✅ done, verifies on deploy
 
-`/anything` returns `200` + your homepage. Concretely, in production today: `/how/product.jpg` and `/favicon.ico` both return `200 text/html`. Google reads infinite phantom 200s as a crawl-budget and quality problem. Configure the Pages SPA fallback to serve a real 404 status for unmatched paths.
+`public/404.html` added. Cloudflare Pages serves it with a real 404 status once it exists, instead of falling back to `index.html` with 200. Safe because the site is one route with same-document hash navigation — nothing needed the catch-all. Locally `/nope-not-a-page` returns 404 and `/` returns 200; the Pages behaviour itself can only be confirmed after deploy.
 
 ---
 
@@ -51,13 +58,9 @@ No `<link rel="icon">` and no `favicon.ico` at all — browsers request it and g
 
 ---
 
-## 5. Image alt attributes
-**Effort:** ~30 min · **Impact:** medium (accessibility ≫ SEO)
+## 5. Image alt attributes — ✅ nothing to do
 
-26 of 27 images lack `alt`. Do **not** blanket-fill:
-- **Decorative** (cookie frames, background figures) → `alt=""`. Explicitly empty is correct; filling these is worse than leaving them.
-- **Meaningful** (mascot, widget screenshots, figures) → short factual alt.
-- The 96-frame hero is one logical image — consider `role="img"` + a single `aria-label` on the container.
+The "26 of 27 images lack alt" finding was **wrong**: the audit filtered with `!getAttribute('alt')`, and `alt=""` is falsy, so correctly-marked-up decorative images were counted as missing. Re-measured: 0 images lack the attribute. 25 decorative carry `alt=""` (most also `aria-hidden`), the mascot carries a real alt. Already correct; no change made.
 
 ---
 
