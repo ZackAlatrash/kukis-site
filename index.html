@@ -16,6 +16,10 @@
       content="Kukis captures email and marketing consent from EU Shopify shoppers who decline your cookies — the roughly half that cookie-based tools can't reach. No popups, no cookies."
     />
     <meta name="theme-color" content="#FFF6E7" />
+    <!-- Also set in index.css. Here too because the stylesheet is a separate
+         request: this is in the first bytes of the document, so Chrome knows
+         before it has anything to repaint. -->
+    <meta name="color-scheme" content="only light" />
     <link rel="canonical" href="https://kukis.nl/" />
 
     <meta property="og:type" content="website" />
