@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+/* `only light`, not `light`: Chrome's Auto Dark Mode repaints any page it
+   decides hasn't got an opinion, and cream becomes dark olive — the palette is
+   hand-picked and the hero canvas isn't repainted with it, so the page comes
+   apart. The `only` keyword is what actually declines the repaint; plain
+   `light` still reads as a page that simply hasn't implemented dark mode.
+
+   This is a claim that the design is light on purpose. If Kukis ever grows a
+   real dark theme, this becomes `light dark` and the theme does the work. */
+:root {
+  color-scheme: only light;
+}
+
 /* ---- Kukis design tokens (Milk & Cookie) ---- */
 @theme {
   --color-milk: #fff6e7;
