@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sub-processors — Kukis</title>
+<meta name="description" content="The companies Kukis relies on to run the service, what each one does, and where." />
+<link rel="stylesheet" href="/legal/_style.css" />
+</head>
+<body>
+<main class="wrap">
+<a class="home" href="/">← kukis.nl</a>
+<p class="meta">Kukis</p>
+<h1>Sub-processors</h1>
+<p class="meta">Last updated: 20 September 2026</p>
+
+<p>These are the companies Kukis relies on to run the service. Each one may
+process personal data of a merchant's shoppers on our behalf, under a data
+processing agreement with us.</p>
+
+<table>
+  <tr><th>Company</th><th>What it does for Kukis</th><th>Data it can see</th><th>Where</th></tr>
+  <tr>
+    <td>Shopify International Ltd.</td>
+    <td>The platform the app runs in: authentication, the admin, the storefront, webhooks and billing</td>
+    <td>Shop and customer data the merchant already holds in Shopify</td>
+    <td>Global, under Shopify's terms</td>
+  </tr>
+  <tr>
+    <td>Fly.io, Inc.</td>
+    <td>Runs the application and its background worker</td>
+    <td>Everything the app processes, while it is being processed</td>
+    <td>Frankfurt, Germany. Fly.io is a US company operating that region</td>
+  </tr>
+  <tr>
+    <td>Neon Inc.</td>
+    <td>The PostgreSQL database and its backups</td>
+    <td>All stored data: email addresses and hashes, consent records, saved carts and wishlists, delivery events</td>
+    <td>Frankfurt, Germany (aws-eu-central-1)</td>
+  </tr>
+  <tr>
+    <td>Resend (Plus Five Five, Inc.)</td>
+    <td>Sends the app's email and reports delivery events</td>
+    <td>Recipient address and the content of each email sent</td>
+    <td>United States</td>
+  </tr>
+  <tr>
+    <td>Sentry (Functional Software, Inc.)</td>
+    <td>Server-side error reports. Optional, and personal data is scrubbed before sending</td>
+    <td>Error messages and technical context, with addresses, tokens and keys removed</td>
+    <td>EU region</td>
+  </tr>
+</table>
+
+<h2>Transfers outside the EU</h2>
+<p>The application and the database run in the EU. Email is sent through
+Resend, a US provider, so recipient addresses and email content are processed in
+the United States under the EU Standard Contractual Clauses. Fly.io is a US
+company, but the compute and storage used here are in its Frankfurt region.</p>
+
+<h2>Changes</h2>
+<p>We give notice before adding or replacing a sub-processor, so merchants have
+the chance to object. To be told about changes, email
+<a href="mailto:main@kukis.nl">main@kukis.nl</a>.</p>
+
+<p>See also the <a href="/legal/privacy">privacy policy</a> and the
+<a href="/legal/dpa">data processing agreement</a>.</p>
+
+<footer>
+<p>Kukis is not a law firm and this page is not legal advice.</p>
+</footer>
+</main>
+</body>
+</html>

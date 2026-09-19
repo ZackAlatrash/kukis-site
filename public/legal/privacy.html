@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Privacy policy — Kukis</title>
+<meta name="description" content="How Kukis handles personal data for merchants and their shoppers." />
+<link rel="stylesheet" href="/legal/_style.css" />
+</head>
+<body>
+<main class="wrap">
+<a class="home" href="/">← kukis.nl</a>
+<p class="meta">Kukis</p>
+<h1>Privacy policy</h1>
+<p class="meta">Last updated: 20 September 2026</p>
+
+<p>Kukis is a Shopify app. Shoppers use it to email themselves a cart, a saved
+product or a wishlist, and merchants use it to keep a record of the marketing
+consent those shoppers gave. This page explains what we do with personal data,
+both as a business and on behalf of the merchants who install the app.</p>
+
+<h2>Two different roles</h2>
+<ul>
+  <li><strong>For shopper data, we are the processor.</strong> The merchant
+  whose store you shopped in decides what is collected and why. We act on that
+  merchant's instructions under the data processing agreement below.</li>
+  <li><strong>For merchant data, we are the controller.</strong> That covers the
+  account details of the shop that installs Kukis, and anyone who contacts us.</li>
+</ul>
+<p>If you are a shopper and want your data corrected or deleted, contact the
+store you bought from. They can action it in Kukis, and Shopify's own privacy
+requests reach us automatically.</p>
+
+<h2>What we process for merchants (shopper data)</h2>
+<table>
+  <tr><th>Data</th><th>Why</th><th>Kept for</th></tr>
+  <tr><td>Email address (and a one-way hash of it)</td><td>To send the cart, product or wishlist the shopper asked for, and any marketing email they agreed to</td><td>Until the merchant deletes it or the retention windows below elapse</td></tr>
+  <tr><td>Consent records: the exact wording shown, its version and language, the date and time, the page it happened on, and the cookie choice at that moment</td><td>Proof that consent was given or refused (GDPR Art. 7)</td><td>1,095 days by default, set by the merchant</td></tr>
+  <tr><td>Cart contents, saved products, wishlist items</td><td>To put them in the email and on the wishlist page</td><td>90 days by default, set by the merchant</td></tr>
+  <tr><td>IP address and browser user agent</td><td>Fraud and abuse limits, and as part of the consent record. Stored shortened (the last part of the IP removed)</td><td>90 days by default</td></tr>
+  <tr><td>Email delivery events: sent, delivered, bounced, complained, clicked</td><td>To show the merchant whether their email arrived</td><td>365 days by default</td></tr>
+  <tr><td>Shopify customer ID and marketing status, only if the merchant switches on Shopify customer sync</td><td>To keep the shopper's marketing choice in step with the merchant's Shopify customer record</td><td>For as long as sync is on</td></tr>
+</table>
+<p>Kukis sets no tracking, analytics or advertising cookies. It sets one
+strictly necessary cookie, <code>cc_wishlist_id</code>, and only when a shopper
+uses the wishlist, so their list can be shown back to them. It lasts one year.</p>
+<p>The marketing checkbox is never ticked in advance. If a shopper leaves it
+unticked, we record that refusal too, because a merchant has to be able to show
+what was asked and what was answered.</p>
+
+<h2>What we process as a business (merchant data)</h2>
+<ul>
+  <li>Shop domain, store name, the sender name and addresses configured in the app, and the app's settings.</li>
+  <li>The Shopify access token for the shop, held so the app can work.</li>
+  <li>Billing is handled by Shopify. We never see card details.</li>
+  <li>Messages you send us, for example a demo request or a support email.</li>
+</ul>
+<p>Our lawful basis is the contract with the merchant, and our legitimate
+interest in running and securing the service.</p>
+
+<h2>Who else touches the data</h2>
+<table>
+  <tr><th>Provider</th><th>What for</th><th>Where</th></tr>
+  <tr><td>Shopify</td><td>The store platform the app runs in</td><td>Global, under Shopify's own terms</td></tr>
+  <tr><td>Fly.io</td><td>Runs the application</td><td>Frankfurt, Germany. Fly.io is a US company operating that region</td></tr>
+  <tr><td>Neon</td><td>The database</td><td>Frankfurt, Germany</td></tr>
+  <tr><td>Resend</td><td>Sends the email</td><td>United States</td></tr>
+  <tr><td>Sentry (optional)</td><td>Server error reports, with personal data scrubbed</td><td>EU region</td></tr>
+</table>
+<p>The application and its database run in the EU. Email is sent through a US
+provider, so email content and recipient addresses are processed in the United
+States under the EU Standard Contractual Clauses. We say this plainly rather
+than claim that all data stays in the EU, because it does not.</p>
+
+<h2>How the data is protected</h2>
+<ul>
+  <li>Encrypted in transit (HTTPS) and at rest at our hosting providers.</li>
+  <li>Unsubscribe and wishlist links are random tokens, stored only as hashes.</li>
+  <li>Logs are scrubbed of email addresses, tokens and keys before they are written.</li>
+  <li>Access to production systems is limited to the people who need it, each with their own account and two-factor login.</li>
+  <li>We keep a written security incident response procedure, and tell affected merchants without undue delay.</li>
+</ul>
+
+<h2>Retention and deletion</h2>
+<p>Merchants choose their own retention windows in the app, within limits of 30
+to 2,555 days. When a window elapses, cart contents, IP addresses and user
+agents are cleared, delivery history is deleted, and consent records are deleted
+at the end of their own, longer window. Uninstalling the app starts Shopify's
+48-hour redaction process, after which the shop's data is erased.</p>
+
+<h2>Your rights</h2>
+<p>You can ask for access, correction, deletion, restriction, portability, and
+you can object to processing. Shoppers should ask the store they bought from;
+merchants can email us directly. You also have the right to complain to your
+data protection authority. In the Netherlands that is the Autoriteit
+Persoonsgegevens.</p>
+
+<h2>Contact</h2>
+<p>Kukis — <a href="mailto:main@kukis.nl">main@kukis.nl</a></p>
+<p>See also the <a href="/legal/dpa">data processing agreement</a>.</p>
+
+<footer>
+<p>Kukis is not a law firm and this page is not legal advice.</p>
+</footer>
+</main>
+</body>
+</html>
