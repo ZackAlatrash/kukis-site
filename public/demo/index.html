@@ -67,16 +67,6 @@ because the page is published publicly. A merchant sees them in full.</p>
 </footer>
 </main>
 
-<script>
-  // Chapter links, without putting a timestamp in the URL: the page is linked
-  // from an app listing, and a reviewer landing mid-film would be confusing.
-  var video = document.getElementById("demo");
-  document.querySelectorAll(".chapters button").forEach(function (button) {
-    button.addEventListener("click", function () {
-      video.currentTime = Number(button.dataset.at);
-      video.play();
-    });
-  });
-</script>
+<script src="/demo/chapters.js"></script>
 </body>
 </html>
