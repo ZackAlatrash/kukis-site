@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./_base.css" />
+<style>
+  /* Deliberately no figures. Invented totals on a store listing read as
+     typical results, which is a claim this app cannot make for anyone's shop.
+     The dashboard is explained by the questions it answers instead. */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .card { text-align: left; min-height: 260px; display: flex; flex-direction: column; }
+  .q {
+    font-family: Gabarito, Fraunces, Georgia, serif;
+    font-size: 31px;
+    line-height: 1.25;
+    color: var(--cream);
+    margin-bottom: 16px;
+  }
+  .a { font-size: 19px; color: var(--cream-dim); line-height: 1.5; margin-top: auto; }
+  .chip {
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--amber);
+    border: 1px solid rgba(47,111,176,0.4);
+    background: rgba(47,111,176,0.10);
+    border-radius: 999px;
+    padding: 7px 15px;
+    margin-bottom: 22px;
+  }
+  .spark { display: flex; align-items: flex-end; gap: 7px; height: 56px; margin: 20px 0 4px; }
+  .spark i {
+    flex: 1;
+    background: var(--amber);
+    border-radius: 3px 3px 0 0;
+    transform-origin: bottom;
+    transform: scaleY(0);
+    animation: grow .7s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  @keyframes grow { to { transform: scaleY(1); } }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <h1 class="rise" style="animation-delay:.15s">A dashboard that answers <em>three questions</em></h1>
+    <p class="lede rise" style="animation-delay:.45s">Not a wall of numbers — the ones that decide whether this is working</p>
+
+    <div class="grid">
+      <div class="card pop" style="animation-delay:.95s">
+        <span class="chip">Reach</span>
+        <div class="q">How many shoppers can you email?</div>
+        <div class="spark">
+          <i style="height:34%;animation-delay:1.25s"></i>
+          <i style="height:52%;animation-delay:1.32s"></i>
+          <i style="height:45%;animation-delay:1.39s"></i>
+          <i style="height:70%;animation-delay:1.46s"></i>
+          <i style="height:88%;animation-delay:1.53s"></i>
+        </div>
+        <div class="a">Unique addresses with marketing consent on record</div>
+      </div>
+
+      <div class="card pop" style="animation-delay:1.2s">
+        <span class="chip">Intent</span>
+        <div class="q">What did they save?</div>
+        <div class="spark">
+          <i style="height:60%;animation-delay:1.5s;background:var(--amber-brand)"></i>
+          <i style="height:40%;animation-delay:1.57s;background:var(--amber-brand)"></i>
+          <i style="height:76%;animation-delay:1.64s;background:var(--amber-brand)"></i>
+          <i style="height:58%;animation-delay:1.71s;background:var(--amber-brand)"></i>
+          <i style="height:82%;animation-delay:1.78s;background:var(--amber-brand)"></i>
+        </div>
+        <div class="a">Carts, products and wishlists, split by widget</div>
+      </div>
+
+      <div class="card pop" style="animation-delay:1.45s">
+        <span class="chip">Return</span>
+        <div class="q">What came back as orders?</div>
+        <div class="spark">
+          <i style="height:28%;animation-delay:1.75s;background:var(--good)"></i>
+          <i style="height:48%;animation-delay:1.82s;background:var(--good)"></i>
+          <i style="height:62%;animation-delay:1.89s;background:var(--good)"></i>
+          <i style="height:55%;animation-delay:1.96s;background:var(--good)"></i>
+          <i style="height:90%;animation-delay:2.03s;background:var(--good)"></i>
+        </div>
+        <div class="a">Orders traced back to a saved cart, and their value</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

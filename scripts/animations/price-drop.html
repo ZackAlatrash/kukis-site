@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./_base.css" />
+<style>
+  /* A saved wishlist item drops in price and the shopper hears about it —
+     but only if they ticked the alert box, which is separate from marketing. */
+  .row { display: grid; grid-template-columns: 1fr 460px; gap: 56px; align-items: center; margin-top: 4px; }
+  .item {
+    display: flex; align-items: center; gap: 24px;
+    padding: 26px 28px; border-radius: 16px;
+    background: var(--bark-lift); border: 1px solid var(--line);
+  }
+  .thumb { width: 92px; height: 92px; border-radius: 12px; background: rgba(46,28,16,0.07); flex: none; }
+  .name { font-size: 24px; color: var(--cream); font-weight: 500; margin-bottom: 10px; }
+  .price { font-size: 30px; font-family: Gabarito, Fraunces, Georgia, serif; font-weight: 700; }
+  .was { color: var(--cream-dim); text-decoration: line-through; margin-right: 14px; font-size: 25px; }
+  .now { color: var(--good); opacity: 0; animation: popIn .6s cubic-bezier(0.22,1,0.36,1) forwards 2.2s; }
+
+  .mail {
+    padding: 30px 30px; border-radius: 16px;
+    border: 1px solid rgba(47,111,176,0.45); background: rgba(47,111,176,0.06);
+    opacity: 0; animation: rise .7s cubic-bezier(0.22,1,0.36,1) forwards 3.2s;
+  }
+  .mail .from { font-size: 17px; color: var(--cream-dim); margin-bottom: 9px; }
+  .mail .subj { font-size: 25px; color: var(--amber); font-family: Gabarito, Fraunces, Georgia, serif; font-weight: 600; }
+  .mail .body { font-size: 18px; color: var(--cream-dim); margin-top: 13px; line-height: 1.45; }
+
+  .gate {
+    display: flex; align-items: flex-start; gap: 15px;
+    margin-top: 44px; padding: 22px 26px; border-radius: 14px;
+    background: rgba(46,28,16,0.04); border: 1px solid var(--line);
+    opacity: 0; animation: rise .7s cubic-bezier(0.22,1,0.36,1) forwards 4.6s;
+  }
+  .tick {
+    width: 30px; height: 30px; border-radius: 7px; flex: none; margin-top: 2px;
+    border: 2px solid var(--good); display: grid; place-items: center;
+  }
+  .tick svg { width: 17px; height: 17px; stroke: var(--good); stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .gate p { font-size: 20px; color: var(--cream); line-height: 1.5; }
+  .gate b { color: var(--amber); font-weight: 600; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <h1 class="rise" style="animation-delay:.15s">When a saved item <em>drops in price</em></h1>
+    <p class="lede rise" style="animation-delay:.45s">The reason they saved it becomes the reason they come back</p>
+
+    <div class="row">
+      <div class="item pop" style="animation-delay:.95s">
+        <div class="thumb"></div>
+        <div>
+          <div class="name">Light Puffer Jacket</div>
+          <div class="price"><span class="was">$149.00</span><span class="now">$119.00</span></div>
+        </div>
+      </div>
+
+      <div class="mail">
+        <div class="from">from store@mail.yourshop.com</div>
+        <div class="subj">The jacket you saved just dropped</div>
+        <div class="body">Sent from your own domain, with an unsubscribe link in every one.</div>
+      </div>
+    </div>
+
+    <div class="gate">
+      <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+      <p>Only to shoppers who ticked the alert box — <b>a separate yes from marketing email</b>, asked for on its own.</p>
+    </div>
+  </div>
+</body>
+</html>

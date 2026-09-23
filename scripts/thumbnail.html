@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@800&display=swap" rel="stylesheet" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* kukis-logo/tokens.json */
+  :root {
+    --milk: #fff6e7;
+    --cocoa: #2e1c10;
+    --blueberry: #2f6fb0;
+  }
+
+  html, body { width: 1280px; height: 720px; overflow: hidden; }
+
+  body {
+    background: var(--milk);
+    color: var(--cocoa);
+    font-family: Gabarito, -apple-system, system-ui, sans-serif;
+    display: grid;
+    grid-template-columns: 470px 1fr;
+    column-gap: 44px;
+    align-items: center;
+    padding: 0 56px 0 40px;
+    position: relative;
+  }
+
+  /* A warm bloom behind the mascot, so it sits in light rather than on a flat field. */
+  body::before {
+    content: "";
+    position: absolute;
+    left: -120px; top: 50%;
+    transform: translateY(-50%);
+    width: 760px; height: 760px;
+    background: radial-gradient(circle, rgba(47,111,176,0.13) 0%, rgba(47,111,176,0.04) 44%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .mascot { position: relative; width: 470px; z-index: 1; }
+  .mascot img { width: 100%; display: block; filter: drop-shadow(0 26px 48px rgba(46,28,16,0.18)); }
+
+  /* Pupils copied exactly from animations/outro.html, which uses the same
+     470px mascot: the artwork ships with blank eyes. Static here — no
+     entrance or glance, since a thumbnail is a single frame. */
+  .eye { position: absolute; }
+  .eye.l { left: 33.59%; top: 47.51%; }
+  .eye.r { left: 63.48%; top: 47.07%; }
+  .pupil {
+    position: absolute;
+    width: 29px; height: 29px;
+    margin-left: -14.5px; margin-top: -14.5px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 34% 28%, #6b5140 0%, #33200f 42%, #1d120a 100%);
+    box-shadow: 0 1px 2px rgba(29, 18, 10, 0.45);
+  }
+  .eye.r .pupil { width: 27px; height: 27px; margin-left: -13.5px; margin-top: -13.5px; }
+  .pupil::after {
+    content: "";
+    position: absolute;
+    left: 24%; top: 20%;
+    width: 30%; height: 30%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+  }
+
+  .copy { position: relative; z-index: 1; }
+
+  h1 {
+    font-weight: 800;
+    font-size: 88px;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+  }
+  h1 span { display: block; white-space: nowrap; }
+  h1 .yes { color: var(--blueberry); }
+
+  /* The SVG's glyphs start 327 units into a 2971-wide viewBox, so the image
+     is pulled left by that share to line the K up with the headline. */
+  .wordmark { margin-top: 26px; }
+  .wordmark img { width: 250px; display: block; margin-left: calc(-250px * 327 / 2971); }
+</style>
+</head>
+<body>
+  <div class="mascot">
+    <img src="./animations/assets/mascot.png" alt="" />
+    <span class="eye l"><span class="pupil"></span></span>
+    <span class="eye r"><span class="pupil"></span></span>
+  </div>
+
+  <div class="copy">
+    <h1><span>Declined cookies.</span><span class="yes">Still said yes.</span></h1>
+    <div class="wordmark"><img src="./animations/assets/wordmark-transparent.svg" alt="Kukis" /></div>
+  </div>
+</body>
+</html>

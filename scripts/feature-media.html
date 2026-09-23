@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* kukis-logo/tokens.json */
+  :root {
+    --bark: #fff6e7;
+    --bark-soft: #fffbf3;
+    --amber: #2f6fb0;
+    --cream: #2e1c10;
+    --crumb: #6f5c48;
+  }
+
+  html, body { width: 1600px; height: 900px; }
+
+  body {
+    background: var(--bark);
+    color: var(--cream);
+    font-family: Inter, -apple-system, system-ui, sans-serif;
+    display: grid;
+    grid-template-columns: 1fr 640px;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* A warm bloom behind the mascot, so it sits in light rather than on a flat field. */
+  .glow {
+    position: absolute;
+    right: -140px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 900px;
+    height: 900px;
+    background: radial-gradient(circle, rgba(47,111,176,0.13) 0%, rgba(47,111,176,0.04) 44%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .copy { padding: 0 0 0 104px; position: relative; z-index: 1; }
+
+  .wordmark { margin-bottom: 34px; }
+  .wordmark img { width: 240px; display: block; }
+
+  h1 {
+    font-family: Gabarito, Fraunces, Georgia, serif;
+    font-weight: 600;
+    font-size: 70px;
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    margin-bottom: 30px;
+    max-width: 14ch;
+  }
+
+  h1 em { font-style: normal; color: var(--amber); }
+
+  .sub {
+    font-size: 25px;
+    line-height: 1.45;
+    color: var(--crumb);
+    max-width: 30ch;
+    margin-bottom: 46px;
+  }
+
+  ul { list-style: none; display: grid; gap: 17px; }
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 21px;
+    font-weight: 500;
+    color: var(--cream);
+  }
+
+  .tick {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(47, 111, 176, 0.12);
+    border: 1px solid rgba(47, 111, 176, 0.40);
+    display: grid;
+    place-items: center;
+    flex: none;
+  }
+
+  .tick svg { width: 15px; height: 15px; stroke: var(--amber); fill: none; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+
+  .art { position: relative; z-index: 1; display: grid; place-items: center; }
+  .art .face { position: relative; width: 560px; height: 560px; }
+  .art img { width: 560px; height: 560px; object-fit: contain; display: block; filter: drop-shadow(0 26px 48px rgba(46,28,16,0.18)); }
+
+  /* The mascot ships with blank eyes. Positions and pupil styling are copied
+     from animations/outro.html (measured on the 1024px square artwork), with
+     the sizes scaled from its 470px mascot to this 560px one: 29px -> 34.6px,
+     27px -> 32.2px. */
+  .eye { position: absolute; }
+  .eye.l { left: 33.59%; top: 47.51%; }
+  .eye.r { left: 63.48%; top: 47.07%; }
+  .pupil {
+    position: absolute;
+    width: 34.6px; height: 34.6px;
+    margin-left: -17.3px; margin-top: -17.3px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 34% 28%, #6b5140 0%, #33200f 42%, #1d120a 100%);
+    box-shadow: 0 1px 2px rgba(29, 18, 10, 0.45);
+  }
+  .eye.r .pupil { width: 32.2px; height: 32.2px; margin-left: -16.1px; margin-top: -16.1px; }
+  .pupil::after {
+    content: "";
+    position: absolute;
+    left: 24%; top: 20%;
+    width: 30%; height: 30%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+  }
+</style>
+</head>
+<body>
+  <div class="glow"></div>
+
+  <div class="copy">
+    <div class="wordmark"><img src="./animations/assets/wordmark-transparent.svg" alt="Kukis" /></div>
+    <h1>Declining cookies isn&rsquo;t a <em>dead end.</em></h1>
+    <p class="sub">Shoppers ask you to email them a cart, a product or a wishlist &mdash; and every yes is on record, with the wording they saw.</p>
+    <ul>
+      <li>
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+        Marketing box unticked, always
+      </li>
+      <li>
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+        Proof of every yes, and every no
+      </li>
+      <li>
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+        Sends from your own domain
+      </li>
+    </ul>
+  </div>
+
+  <div class="art">
+    <div class="face">
+      <img src="./animations/assets/mascot.png" alt="" />
+      <span class="eye l"><span class="pupil"></span></span>
+      <span class="eye r"><span class="pupil"></span></span>
+    </div>
+  </div>
+</body>
+</html>

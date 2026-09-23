@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./_base.css" />
+<style>
+  /* The proof record assembling, field by field. Every field named here is one
+     the app genuinely stores — see the consent log and its per-contact proof. */
+  .proof { width: 1120px; margin: 0 auto; }
+  .row {
+    display: grid; grid-template-columns: 300px 1fr; gap: 28px; align-items: baseline;
+    padding: 21px 30px; border-bottom: 1px solid var(--line);
+    opacity: 0; animation: rise .6s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  .row:last-child { border-bottom: 0; }
+  .k { font-size: 19px; color: var(--cream-dim); }
+  .v { font-size: 23px; color: var(--cream); font-weight: 500; }
+  .v.quote { font-family: Gabarito, Fraunces, Georgia, serif; font-style: italic; color: var(--amber); font-size: 24px; line-height: 1.35; }
+  .stamp {
+    /* Bottom-right, in the empty corner: at top-right it landed on top of the
+       quoted wording, which is the most important line on the card. */
+    position: absolute; right: 44px; bottom: 26px;
+    border: 2px solid var(--good); color: var(--good);
+    border-radius: 10px; padding: 10px 20px;
+    font-size: 18px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    transform: rotate(-7deg) scale(0.8); opacity: 0;
+    animation: popIn .6s cubic-bezier(0.22,1,0.36,1) forwards 3.6s;
+  }
+  .card { position: relative; padding: 14px 4px; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <h1 class="rise" style="animation-delay:.15s">Every yes, and every <em>no</em>, on record</h1>
+    <p class="lede rise" style="animation-delay:.45s">Not a tick in a database — the whole moment, kept</p>
+
+    <div class="proof card pop" style="animation-delay:.9s">
+      <div class="stamp">Proof</div>
+      <div class="row" style="animation-delay:1.25s">
+        <div class="k">The wording they saw</div>
+        <div class="v quote">“I would also like a discount code and occasional product news.”</div>
+      </div>
+      <div class="row" style="animation-delay:1.55s">
+        <div class="k">Version and language</div>
+        <div class="v">v1.0 · English</div>
+      </div>
+      <div class="row" style="animation-delay:1.85s">
+        <div class="k">When</div>
+        <div class="v">19 Sep 2026, 21:52:32 UTC</div>
+      </div>
+      <div class="row" style="animation-delay:2.15s">
+        <div class="k">Their cookie choice</div>
+        <div class="v">Declined — and still said yes to email</div>
+      </div>
+      <div class="row" style="animation-delay:2.45s">
+        <div class="k">Where it happened</div>
+        <div class="v">Save for later · product page</div>
+      </div>
+      <div class="row" style="animation-delay:2.75s">
+        <div class="k">If they said no</div>
+        <div class="v">Kept too — proof of refusal, not a gap</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

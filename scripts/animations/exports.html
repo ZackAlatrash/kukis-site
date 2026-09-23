@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./_base.css" />
+<style>
+  /* Rows that should not be mailed slide out of the file. Each exclusion here
+     is one the exporter genuinely applies: unsubscribed, bounced, complained,
+     blocked, or erased on request. */
+  .sheet { width: 1180px; margin: 0 auto; }
+  .row {
+    display: grid; grid-template-columns: 1fr 250px 210px; gap: 20px; align-items: center;
+    padding: 19px 28px; border-radius: 12px; margin-bottom: 11px;
+    background: var(--bark-lift); border: 1px solid var(--line);
+    opacity: 0; animation: rise .5s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  .row .addr { font-size: 22px; color: var(--cream); font-variant-numeric: tabular-nums; }
+  .row .meta { font-size: 18px; color: var(--cream-dim); }
+  .tag { font-size: 16px; font-weight: 600; text-align: right; }
+  .keep .tag { color: var(--good); }
+  .drop .tag { color: rgba(46,28,16,0.42); }
+  .drop { animation: rise .5s cubic-bezier(0.22,1,0.36,1) forwards, slideAway .7s cubic-bezier(0.55,0,1,0.45) forwards; }
+  .head {
+    display: grid; grid-template-columns: 1fr 250px 210px; gap: 20px;
+    padding: 0 28px 14px; font-size: 16px; letter-spacing: 0.05em;
+    text-transform: uppercase; color: var(--cream-dim);
+    opacity: 0; animation: fade .6s ease forwards .8s;
+  }
+  .foot {
+    text-align: center; margin-top: 34px; font-size: 23px; color: var(--cream);
+    opacity: 0; animation: rise .8s cubic-bezier(0.22,1,0.36,1) forwards 4.2s;
+  }
+  .foot b { color: var(--amber); font-weight: 600; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <h1 class="rise" style="animation-delay:.15s">A contact list that is <em>already clean</em></h1>
+    <p class="lede rise" style="animation-delay:.45s">Export the people you may email — and only them</p>
+
+    <div class="sheet">
+      <div class="head"><span>Contact</span><span>Consent</span><span></span></div>
+
+      <div class="row keep" style="animation-delay:1.05s">
+        <span class="addr">s•••••@example.com</span>
+        <span class="meta">Marketing · v1.0 · en</span>
+        <span class="tag">Exported</span>
+      </div>
+      <div class="row drop" style="animation-delay:1.3s, 3.0s">
+        <span class="addr">j•••••@example.com</span>
+        <span class="meta">Unsubscribed</span>
+        <span class="tag">Left out</span>
+      </div>
+      <div class="row keep" style="animation-delay:1.55s">
+        <span class="addr">a•••••@example.com</span>
+        <span class="meta">Marketing · v1.0 · nl</span>
+        <span class="tag">Exported</span>
+      </div>
+      <div class="row drop" style="animation-delay:1.8s, 3.2s">
+        <span class="addr">m•••••@example.com</span>
+        <span class="meta">Bounced</span>
+        <span class="tag">Left out</span>
+      </div>
+      <div class="row drop" style="animation-delay:2.05s, 3.4s">
+        <span class="addr">r•••••@example.com</span>
+        <span class="meta">Erased on request</span>
+        <span class="tag">Left out</span>
+      </div>
+      <div class="row keep" style="animation-delay:2.3s">
+        <span class="addr">k•••••@example.com</span>
+        <span class="meta">Marketing · v1.0 · de</span>
+        <span class="tag">Exported</span>
+      </div>
+    </div>
+
+    <p class="foot">Downloads as CSV, <b>ready for your email tool</b> — no cleaning up afterwards.</p>
+  </div>
+</body>
+</html>

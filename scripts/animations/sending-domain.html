@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./_base.css" />
+<style>
+  /* Why a merchant's own verified domain matters: the shared-sender failure
+     mode is real, and Kukis deliberately does not do it. */
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 8px; }
+  .col { padding: 34px 32px; border-radius: 16px; border: 1px solid var(--line); background: var(--bark-lift); }
+  .col.bad { opacity: 0.62; }
+  .col.good { border-color: rgba(47,111,176,0.45); }
+  .col h2 { font-family: Gabarito, Fraunces, Georgia, serif; font-weight: 600; font-size: 30px; margin-bottom: 8px; }
+  .col.bad h2 { color: var(--cream); }
+  .col.good h2 { color: var(--amber); }
+  .col p.note { font-size: 18px; color: var(--cream-dim); margin-bottom: 26px; }
+
+  .env {
+    display: flex; align-items: center; gap: 15px;
+    padding: 17px 20px; border-radius: 11px;
+    background: rgba(46,28,16,0.05); border: 1px solid var(--line);
+    font-size: 20px; margin-bottom: 12px;
+    opacity: 0; animation: rise .55s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  .env .from { color: var(--cream-dim); }
+  .env .who { color: var(--cream); font-weight: 500; }
+  .col.good .env .who { color: var(--amber); }
+
+  .dns { margin-top: 22px; display: grid; gap: 10px; }
+  .dns div {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 18px; color: var(--cream-dim);
+    padding: 12px 16px; border-radius: 9px; background: rgba(47,163,107,0.09);
+    opacity: 0; animation: rise .5s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  .dns b { color: var(--good); font-weight: 600; }
+
+  .foot {
+    text-align: center; margin-top: 50px; font-size: 23px; color: var(--cream);
+    opacity: 0; animation: rise .8s cubic-bezier(0.22,1,0.36,1) forwards 4.0s;
+  }
+  .foot b { color: var(--amber); font-weight: 600; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <h1 class="rise" style="animation-delay:.15s">Your domain. Your <em>reputation</em>.</h1>
+    <p class="lede rise" style="animation-delay:.45s">Most apps send from their own shared address. Kukis does not.</p>
+
+    <div class="cols">
+      <div class="col bad pop" style="animation-delay:.95s">
+        <h2>A shared sender</h2>
+        <p class="note">One bad actor, and everyone's mail suffers</p>
+        <div class="env" style="animation-delay:1.4s"><span class="from">from</span><span class="who">noreply@some-app.com</span></div>
+        <div class="env" style="animation-delay:1.55s"><span class="from">from</span><span class="who">noreply@some-app.com</span></div>
+        <div class="env" style="animation-delay:1.7s"><span class="from">from</span><span class="who">noreply@some-app.com</span></div>
+      </div>
+
+      <div class="col good pop" style="animation-delay:1.2s">
+        <h2>Your own domain</h2>
+        <p class="note">Verified once, and the reputation you build is yours</p>
+        <div class="env" style="animation-delay:2.1s"><span class="from">from</span><span class="who">store@mail.yourshop.com</span></div>
+        <div class="dns">
+          <div style="animation-delay:2.7s"><span>SPF</span><b>Verified</b></div>
+          <div style="animation-delay:2.95s"><span>DKIM</span><b>Verified</b></div>
+          <div style="animation-delay:3.2s"><span>DMARC</span><b>Verified</b></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="foot">Until it verifies, mail is <b>held, never lost</b> — and sent the moment it does.</p>
+  </div>
+</body>
+</html>

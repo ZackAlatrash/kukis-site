@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./_base.css" />
+<style>
+  /* The three mandatory Shopify compliance webhooks, which this app declares
+     in shopify.app.toml and answers: data request, customer redact, shop redact. */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 4px; }
+  .card { min-height: 250px; display: flex; flex-direction: column; }
+  .hook { font-size: 17px; color: var(--cream-dim); font-family: ui-monospace, Menlo, monospace; margin-bottom: 16px; }
+  .card h2 { font-family: Gabarito, Fraunces, Georgia, serif; font-weight: 600; font-size: 27px; color: var(--cream); margin-bottom: 12px; line-height: 1.25; }
+  .card p { font-size: 18px; color: var(--cream-dim); line-height: 1.5; }
+  .done {
+    margin-top: auto; display: flex; align-items: center; gap: 11px;
+    font-size: 17px; font-weight: 600; color: var(--good); padding-top: 20px;
+    opacity: 0; animation: fade .5s ease forwards;
+  }
+  .done svg { width: 19px; height: 19px; stroke: var(--good); stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .foot { text-align: center; margin-top: 52px; font-size: 23px; color: var(--cream);
+    opacity: 0; animation: rise .8s cubic-bezier(0.22,1,0.36,1) forwards 4.4s; }
+  .foot b { color: var(--amber); font-weight: 600; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <h1 class="rise" style="animation-delay:.15s">When a shopper asks, <em>you can answer</em></h1>
+    <p class="lede rise" style="animation-delay:.45s">Shopify's privacy requests, handled rather than forwarded to you</p>
+
+    <div class="grid">
+      <div class="card pop" style="animation-delay:.95s">
+        <div class="hook">customers/data_request</div>
+        <h2>“What do you have on me?”</h2>
+        <p>Everything Kukis holds for that shopper, gathered and ready to hand over.</p>
+        <div class="done" style="animation-delay:2.6s"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Answered</div>
+      </div>
+      <div class="card pop" style="animation-delay:1.2s">
+        <div class="hook">customers/redact</div>
+        <h2>“Delete me.”</h2>
+        <p>Their records are erased, and they are left out of every future export.</p>
+        <div class="done" style="animation-delay:3.0s"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Answered</div>
+      </div>
+      <div class="card pop" style="animation-delay:1.45s">
+        <div class="hook">shop/redact</div>
+        <h2>You uninstall</h2>
+        <p>The shop's data goes with it. Nothing is kept behind your back.</p>
+        <div class="done" style="animation-delay:3.4s"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Answered</div>
+      </div>
+    </div>
+
+    <p class="foot">Hosted in the EU, and <b>never used to train anything</b>.</p>
+  </div>
+</body>
+</html>

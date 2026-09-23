@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>App demo — Kukis</title>
+<meta name="description" content="A seven-minute walkthrough of Kukis: merchant setup, the shopper flow, and the consent records it leaves behind." />
+<meta name="robots" content="noindex" />
+<link rel="stylesheet" href="/legal/_style.css" />
+<style>
+  /* The player is the page. Everything else is caption. */
+  .player {
+    margin: 24px 0 8px;
+    border: 1px solid #ddcdb4;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #2C1E14;
+    line-height: 0;
+  }
+  .player video { width: 100%; height: auto; display: block; }
+  .wrap { max-width: 56rem; }
+  .chapters { margin: 8px 0 0; padding: 0; list-style: none; }
+  .chapters li { display: flex; gap: 12px; padding: 5px 0; border-bottom: 1px solid #efe2cc; }
+  .chapters li:last-child { border-bottom: 0; }
+  .chapters b { flex: none; width: 4.5rem; font-variant-numeric: tabular-nums; font-weight: 600; color: #6b4a22; }
+  .chapters button {
+    background: none; border: 0; padding: 0; font: inherit; color: #6b4a22;
+    cursor: pointer; text-align: left; text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+<a class="home" href="/">← kukis.nl</a>
+<p class="meta">Kukis</p>
+<h1>App demo</h1>
+<p class="meta">7 min 20 s · recorded on the live app and the demo storefront</p>
+
+<div class="player">
+  <video id="demo" controls preload="metadata" playsinline poster="/demo/poster.jpg">
+    <source src="/demo/kukis-demo.mp4" type="video/mp4" />
+    Your browser cannot play this video.
+    <a href="/demo/kukis-demo.mp4">Download the file</a> instead.
+  </video>
+</div>
+
+<h2>What it covers</h2>
+<ul class="chapters">
+  <li><b>0:00</b><button data-at="0">Introduction</button></li>
+  <li><b>0:18</b><button data-at="18">Onboarding — the five-step setup guide</button></li>
+  <li><b>1:54</b><button data-at="114">The shopper — save for later, save cart, wishlist</button></li>
+  <li><b>4:06</b><button data-at="246">Back in the admin — dashboard, consent log, proof</button></li>
+  <li><b>5:47</b><button data-at="347">Exports, sending domain, webhooks, privacy requests</button></li>
+</ul>
+
+<h2>Notes</h2>
+<p>Nothing in the video is a mockup. The merchant screens are the live app on a
+development store, and the storefront sections are recorded on that store's
+theme with the widgets installed as app blocks.</p>
+<p>Email addresses in the consent log are blurred in this recording only,
+because the page is published publicly. A merchant sees them in full.</p>
+
+<footer>
+  <a href="/legal/privacy.html">Privacy</a> ·
+  <a href="/legal/dpa.html">DPA</a> ·
+  <a href="/legal/subprocessors.html">Subprocessors</a>
+</footer>
+</main>
+
+<script>
+  // Chapter links, without putting a timestamp in the URL: the page is linked
+  // from an app listing, and a reviewer landing mid-film would be confusing.
+  var video = document.getElementById("demo");
+  document.querySelectorAll(".chapters button").forEach(function (button) {
+    button.addEventListener("click", function () {
+      video.currentTime = Number(button.dataset.at);
+      video.play();
+    });
+  });
+</script>
+</body>
+</html>

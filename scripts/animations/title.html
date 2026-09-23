@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./_base.css" />
+<style>
+  /* The logo, drawn as the file rather than set in type, so the video opens on
+     exactly the mark that is on the site and the app icon. */
+  body { display: grid; place-items: center; }
+  .stage { width: 1500px; display: grid; place-items: center; animation: none; }
+
+  .mark { opacity: 0; animation: arrive 1.2s cubic-bezier(0.22,1,0.36,1) forwards .25s; }
+  .mark img { width: 560px; display: block; }
+
+  @keyframes arrive {
+    from { opacity: 0; transform: translateY(26px) scale(0.96); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .tag {
+    margin-top: 34px; font-size: 29px; color: var(--crumb); text-align: center;
+    opacity: 0; animation: rise .9s cubic-bezier(0.22,1,0.36,1) forwards 1.15s;
+  }
+
+  .rule {
+    margin: 40px auto 0; width: 190px; height: 3px; border-radius: 2px;
+    background: var(--blueberry); transform-origin: center; transform: scaleX(0);
+    animation: drawLine .9s cubic-bezier(0.22,1,0.36,1) forwards 1.7s;
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="mark"><img src="./assets/wordmark-transparent.svg" alt="Kukis" /></div>
+    <p class="tag">Consent-first email capture for Shopify</p>
+    <div class="rule"></div>
+  </div>
+</body>
+</html>

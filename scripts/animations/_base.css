@@ -1,0 +1,132 @@
+/* Shared look and motion for the screencast's explainer animations.
+ *
+ * These replace screen recordings of the admin: a dev store's dashboard reads
+ * "$0 recovered", which undersells the feature it is meant to demonstrate, and
+ * a real cursor darting around is harder to follow than a deliberate reveal.
+ *
+ * Every scene is exactly 1920x1080 and starts animating on load, because the
+ * recorder simply opens the page and films for a fixed duration.
+ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  /* kukis-logo/tokens.json — the brand, not an approximation of it. */
+  --milk: #fff6e7;
+  --cream-card: #fffbf3;
+  --cocoa: #2e1c10;
+  --crumb: #6f5c48;
+  --blueberry: #2f6fb0;
+  --blueberry-ink: #245a8f;
+  --amber-brand: #e8b04b;
+  --consent: #2fa36b;
+  --cherry: #e24b3b;
+
+  /* The names the scenes already use, pointed at the brand. */
+  --bark: var(--milk);
+  --bark-lift: var(--cream-card);
+  --amber: var(--blueberry);
+  --cream: var(--cocoa);
+  --cream-dim: var(--crumb);
+  --good: var(--consent);
+  --line: rgba(46, 28, 16, 0.12);
+}
+
+html, body { width: 1920px; height: 1080px; overflow: hidden; }
+
+body {
+  background: var(--bark);
+  color: var(--cream);
+  font-family: Inter, -apple-system, system-ui, sans-serif;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+/* A warm bloom, so the flat field has some depth. */
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 40%, rgba(47, 111, 176, 0.07) 0%, transparent 64%);
+  pointer-events: none;
+}
+
+.stage {
+  width: 1500px;
+  position: relative;
+  z-index: 1;
+  /* A push-in slow enough to read as stillness, so the shot stays alive even
+     after every element has landed. */
+  animation: drift 20s linear forwards;
+}
+
+@keyframes drift {
+  from { transform: scale(1); }
+  to { transform: scale(1.035); }
+}
+
+h1 {
+  font-family: Gabarito, Fraunces, Georgia, serif;
+  font-weight: 600;
+  font-size: 62px;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+h1 em { font-style: normal; color: var(--amber); }
+
+.lede {
+  text-align: center;
+  font-size: 25px;
+  color: var(--cream-dim);
+  margin-bottom: 64px;
+}
+
+.card {
+  background: var(--bark-lift);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 34px 32px;
+  /* A light theme needs shadow where a dark one needed contrast. */
+  box-shadow: 0 10px 26px rgba(46, 28, 16, 0.06);
+}
+
+.num {
+  font-family: Gabarito, Fraunces, Georgia, serif;
+  font-weight: 700;
+  font-size: 76px;
+  line-height: 1;
+  color: var(--amber);
+  font-variant-numeric: tabular-nums;
+}
+
+.label { font-size: 21px; color: var(--cream); margin-top: 12px; font-weight: 500; }
+.sub { font-size: 17px; color: var(--cream-dim); margin-top: 6px; line-height: 1.4; }
+
+/* ── motion ───────────────────────────────────────────────────────────────
+   One easing everywhere, so the scenes feel like one piece of work. */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.82); }
+  60% { transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes drawLine { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+@keyframes slideAway {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: translateX(120px); }
+}
+
+.rise { opacity: 0; animation: rise 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.fade { opacity: 0; animation: fade 0.7s ease forwards; }
+.pop { opacity: 0; animation: popIn 0.62s cubic-bezier(0.22, 1, 0.36, 1) forwards; }

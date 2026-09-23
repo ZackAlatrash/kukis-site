@@ -9,3 +9,20 @@ dist-ssr
 .vite
 .superpowers/
 .worktrees/
+
+# cached webfont for scripts/build-logo.py — fetched on demand, not source
+scripts/.gabarito-extrabold.ttf
+
+# capture output: large media, not part of the site.
+# admin-shots/ is NOT ignored: those twenty stills are the only copy of the
+# admin footage — the embedded Shopify admin is authenticated, so unlike the
+# storefront it cannot be re-recorded by a script.
+shots/
+scenes/
+raw-admin/
+screencast/
+.screencast-build/
+.reviewer-build/
+
+# local TTS model and venv — large, reinstallable
+.venv-tts/

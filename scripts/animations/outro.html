@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./_base.css" />
+<style>
+  /* The site's own mascot (public/mascot/cookie.png), so the video, the site
+     and the app show the same character.
+     
+     It ships with blank eyes. The pupil positions come from a connected-
+     component pass over the artwork. Two earlier attempts were wrong in
+     different ways: a bounding box over all white pixels swept in the
+     eyebrows and put the left pupil 2.45% too high, and a centroid of only the
+     brightest pixels sat left of centre, because each eye is a lit sphere
+     whose shaded side is not bright white. Measuring the blob's bounding-box
+     centre at a threshold that still keeps the eyes apart puts them at
+     33.59%/47.51% and 63.48%/47.07%, radii 6.84% and 6.35% of the image width
+     — the right eye is smaller because the cookie is turned away. */
+  body { display: grid; place-items: center; }
+  .stage { width: 1500px; display: grid; place-items: center; animation: none; }
+
+  .mascot { position: relative; width: 470px; opacity: 0; animation: arrive 1.1s cubic-bezier(0.22,1,0.36,1) forwards .2s; }
+  .mascot img { width: 100%; display: block; filter: drop-shadow(0 30px 56px rgba(46,28,16,0.18)); }
+
+  @keyframes arrive {
+    from { opacity: 0; transform: translateY(40px) scale(0.94); }
+    to { opacity: 1; transform: none; }
+  }
+
+  /* A slow breath, so the character never freezes. */
+  .bob { animation: bob 4.6s ease-in-out infinite 1.3s; }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-13px) rotate(-1.2deg); }
+  }
+
+  .eye { position: absolute; }
+  .eye.l { left: 33.59%; top: 47.51%; }
+  .eye.r { left: 63.48%; top: 47.07%; }
+
+  /* Sized at ~45% of each eye, which is what reads as a pupil rather than a
+     dot. A flat disc looked pasted onto a glossy 3D render, so there is a
+     gradient for roundness and a catchlight to sit it in the same light. */
+  .pupil {
+    position: absolute;
+    width: 29px; height: 29px;
+    margin-left: -14.5px; margin-top: -14.5px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 34% 28%, #6b5140 0%, #33200f 42%, #1d120a 100%);
+    box-shadow: 0 1px 2px rgba(29, 18, 10, 0.45);
+    opacity: 0;
+    animation: pupilIn .45s ease forwards .95s, look 6.4s ease-in-out 1.6s 1 forwards;
+  }
+  .eye.r .pupil { width: 27px; height: 27px; margin-left: -13.5px; margin-top: -13.5px; }
+
+  /* The specular dot. Without it the eye reads as a hole. */
+  .pupil::after {
+    content: "";
+    position: absolute;
+    left: 24%; top: 20%;
+    width: 30%; height: 30%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+  }
+
+  @keyframes pupilIn { to { opacity: 1; } }
+
+  /* A small glance, then back to the viewer. Kept well inside the white, so
+     the pupil never rides the edge of the eye. */
+  @keyframes look {
+    0%   { transform: translate(0, 0); }
+    14%  { transform: translate(-6px, 1px); }
+    34%  { transform: translate(-6px, 1px); }
+    52%  { transform: translate(5px, -1px); }
+    70%  { transform: translate(5px, -1px); }
+    88%, 100% { transform: translate(0, 0); }
+  }
+
+  .words { text-align: center; margin-top: 54px; }
+  .words h1 {
+    font-size: 66px; margin-bottom: 16px;
+    opacity: 0; animation: rise .9s cubic-bezier(0.22,1,0.36,1) forwards 1.6s;
+  }
+  .words p {
+    font-size: 26px; color: var(--cream-dim);
+    opacity: 0; animation: rise .9s cubic-bezier(0.22,1,0.36,1) forwards 2.1s;
+  }
+  /* The real wordmark, not type set to look like it. */
+  .mark {
+    margin-top: 44px;
+    opacity: 0; animation: rise .9s cubic-bezier(0.22,1,0.36,1) forwards 3.0s;
+  }
+  .mark img { width: 290px; display: block; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="mascot">
+      <div class="bob">
+        <img src="./assets/mascot.png" alt="" />
+        <span class="eye l"><span class="pupil"></span></span>
+        <span class="eye r"><span class="pupil"></span></span>
+      </div>
+    </div>
+
+    <div class="words">
+      <h1>Shoppers get what they <em>asked for</em>.</h1>
+      <p>You get a contactable customer, and the consent on record.</p>
+      <div class="mark"><img src="./assets/wordmark-transparent.svg" alt="Kukis" /></div>
+    </div>
+  </div>
+</body>
+</html>
