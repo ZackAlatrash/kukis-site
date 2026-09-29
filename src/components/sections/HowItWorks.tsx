@@ -272,17 +272,13 @@ function DeviceBody({ stage, reduced }: { stage: number; reduced: boolean }) {
   if (stage === 0) {
     return (
       <div>
-        {/* product image (real photo drops into /how/product.jpg; placeholder shows until then) */}
+        {/* Product image placeholder. This used to request /how/product.jpg
+            with an onError that hid it, but the photo was never added, so
+            every homepage load logged a 404 while showing this gradient
+            anyway. To use a real photo, add the file and put an <img> back:
+            <img src="/how/product.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" /> */}
         <div className="relative flex aspect-[16/10] items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-amber/60 via-crumb/25 to-chip/55">
           <ImageIcon size={30} className="text-cocoa/25" aria-hidden />
-          <img
-            src="/how/product.jpg"
-            alt=""
-            className="absolute inset-0 h-full w-full object-cover"
-            onError={(e) => {
-              (e.currentTarget as HTMLImageElement).style.display = "none";
-            }}
-          />
         </div>
         <div className="mt-3.5 flex items-start justify-between gap-3">
           <div className="min-w-0">
