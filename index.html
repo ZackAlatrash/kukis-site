@@ -22,6 +22,13 @@
     <meta name="color-scheme" content="only light" />
     <link rel="canonical" href="https://kukis.nl/" />
 
+    <!-- The site had no favicon at all, so every tab showed a blank icon and
+         /favicon.ico 404'd. Sizes and paths are the ones the logo pack's README
+         names for exactly this (public/logo/README.md). -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/logo/kukis-logo-32.png" />
+    <link rel="icon" type="image/png" sizes="64x64" href="/logo/kukis-logo-64.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/logo/kukis-logo-180.png" />
+
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://kukis.nl/" />
     <meta property="og:site_name" content="Kukis" />
@@ -31,10 +38,15 @@
       property="og:description"
       content="Kukis captures email and marketing consent from EU Shopify shoppers who decline your cookies — the roughly half that cookie-based tools can't reach. No popups, no cookies."
     />
-    <!-- summary, not summary_large_image: the large card reserves a hero slot and
-         renders it as an empty box when og:image is absent. Switch to
-         summary_large_image in the same breath as adding og:image. -->
-    <meta name="twitter:card" content="summary" />
+    <!-- The wordmark is the share image the logo pack names for OG use. Now
+         that og:image exists, the card is summary_large_image, as the earlier
+         note here said it should become in the same breath. -->
+    <meta property="og:image" content="https://kukis.nl/logo/kukis-wordmark-1200.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="610" />
+    <meta property="og:image:alt" content="The Kukis wordmark in blue on a cream background." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://kukis.nl/logo/kukis-wordmark-1200.png" />
     <meta name="twitter:title" content="Kukis — The yes cookie tools can't get" />
     <meta
       name="twitter:description"
@@ -53,7 +65,9 @@
             "email": "hello@kukis.nl",
             "logo": {
               "@type": "ImageObject",
-              "url": "https://kukis.nl/mascot/cookie.png"
+              "url": "https://kukis.nl/logo/kukis-logo-512.png",
+              "width": 512,
+              "height": 512
             },
             "description": "Kukis captures email and marketing consent from EU Shopify shoppers who decline cookies."
           },

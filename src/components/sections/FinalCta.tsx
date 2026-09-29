@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, PlayCircle } from "lucide-react";
 import { Reveal } from "../ui/Reveal";
 import { Button } from "../ui/Button";
 import { CookieCrumbBackdrop } from "../ui/CookieCrumbBackdrop";
@@ -44,6 +44,13 @@ export function FinalCta() {
               {finalCta.cta} <ArrowRight size={18} aria-hidden />
             </Button>
           </div>
+          <a
+            href={site.videoHref}
+            className="mt-4 inline-flex items-center gap-1.5 rounded text-[0.9375rem] font-medium text-[#e0cdb6] underline-offset-4 hover:text-[#FBF3E4] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber"
+          >
+            <PlayCircle size={16} aria-hidden />
+            {finalCta.video}
+          </a>
           <p className="mt-5 text-[0.875rem] font-semibold text-amber">{finalCta.beta}</p>
           <div className="mt-2 text-[0.8125rem] text-[#a48d76]">{finalCta.note}</div>
         </Reveal>

@@ -45,7 +45,7 @@ export function WhyKukis() {
       <Reveal>
         <SectionHead
           title="Built for the shoppers others give up on."
-          sub="Cookie-based tools only reach the shoppers who accept cookies. Kukis catches the other half, the ones who declined."
+          sub="Cookie-based tools only reach the shoppers who accept cookies. Kukis can still reach the other half, the ones who declined."
         />
       </Reveal>
 
@@ -73,15 +73,15 @@ export function WhyKukis() {
                 </div>
                 <div className="mt-2 text-[0.96875rem] font-semibold text-cocoa">
                   {caught
-                    ? "decline cookies, caught by Kukis"
+                    ? "decline cookies, still reachable with Kukis"
                     : "decline cookies and slip away"}
                 </div>
               </motion.div>
             </AnimatePresence>
             <p className="mt-4 max-w-[40ch] text-[0.90625rem] leading-relaxed text-cocoa-soft">
               Cookie-based tools only see the shoppers who accept. The other half
-              decline and vanish. Kukis never needed cookies, so it captures a
-              consented email from that half, the crumbs everyone else drops.
+              decline and vanish. Kukis never needed cookies, so it can still offer
+              that half a way to say yes, the crumbs everyone else drops.
             </p>
           </div>
 
@@ -114,7 +114,7 @@ export function WhyKukis() {
             <div className="mt-3.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[0.75rem] text-cocoa-soft">
               <span className="flex items-center gap-1.5">
                 <User size={13} className="text-amber" strokeWidth={2.5} aria-hidden />
-                Declined cookies, caught by Kukis
+                Declined cookies, still reachable with Kukis
               </span>
               <span className="flex items-center gap-1.5">
                 <User size={13} className="text-blueberry/80" strokeWidth={2.5} aria-hidden />

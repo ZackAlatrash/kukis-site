@@ -10,7 +10,7 @@ import {
   ShoppingCart,
   Bookmark,
   Heart,
-  Bell,
+  Cookie,
   type LucideIcon,
 } from "lucide-react";
 import { Section, SectionHead } from "../ui/Section";
@@ -49,16 +49,18 @@ const CARDS: CardConfig[] = [
     key: "wishlist",
     img: publicAsset("widgets/wishlist.jpg"),
     chip: "Add to wishlist",
-    blurb: "A saved list, emailed, with gentle reminders.",
+    blurb: "No account needed, and price-drop alerts if they want them.",
     Icon: Heart,
     rot: 2,
   },
   {
-    key: "stock",
-    img: publicAsset("widgets/stock.jpg"),
-    chip: "Notify me when back",
-    blurb: "One email the moment it's back in stock.",
-    Icon: Bell,
+    // The stopwatch photo was shot for back-in-stock, but it suits this card
+    // honestly: the note is timed, appearing two seconds after the decline.
+    key: "recovery",
+    img: publicAsset("widgets/recovery.jpg"),
+    chip: "Save it by email",
+    blurb: "Declined cookies? Two seconds later, one small offer.",
+    Icon: Cookie,
     rot: -2.5,
   },
 ];
@@ -76,7 +78,7 @@ export function Widgets() {
         <SectionHead
           eyebrow="The widgets"
           title="Four surfaces. One consent model."
-          sub="Each widget sits on a different part of your store. Each one offers shoppers something genuinely useful — their cart saved, a product remembered, a restock notified, a wishlist built. In exchange: a consented email. No popups. No interruptions. Never a cookie."
+          sub="Each one offers shoppers something genuinely useful — their cart saved, a product remembered, a wishlist kept — and one appears only for the shoppers who just said no to cookies. In exchange: a consented email. No popups. No interruptions. Never a cookie."
         />
       </Reveal>
 

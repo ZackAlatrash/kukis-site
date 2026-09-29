@@ -5,9 +5,11 @@ import { CookieScrubHero } from "./components/sections/CookieScrubHero";
 import { InvisibleHalf } from "./components/sections/InvisibleHalf";
 import { Insight } from "./components/sections/Insight";
 import { HowItWorks } from "./components/sections/HowItWorks";
+import { InsideTheApp } from "./components/sections/InsideTheApp";
 import { Widgets } from "./components/sections/Widgets";
 import { WhyKukis } from "./components/sections/WhyKukis";
 import { BuiltFor } from "./components/sections/BuiltFor";
+import { Pricing } from "./components/sections/Pricing";
 import { Faq } from "./components/sections/Faq";
 import { FinalCta } from "./components/sections/FinalCta";
 import { Footer } from "./components/layout/Footer";
@@ -70,14 +72,17 @@ export default function App() {
         <Nav />
         <main id="main-content" tabIndex={-1} className="focus:outline-none">
           {/* AIDA order: hook → the problem (incl. the crumble scene) → why it's
-              fixable → what the widgets are → how they work → proof → fit → FAQ */}
+              fixable → what the widgets are → how they work → what the merchant
+              gets → proof → fit → price → FAQ */}
           <CookieScrubHero />
           <InvisibleHalf />
           <Insight />
           <Widgets />
           <HowItWorks />
+          <InsideTheApp />
           <WhyKukis />
           <BuiltFor />
+          <Pricing />
           <Faq />
         </main>
         <FinalCta />

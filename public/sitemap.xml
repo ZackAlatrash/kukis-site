@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- /demo/ is left out on purpose: it is noindex, and a sitemap should only
+     list pages that want to be found. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://kukis.nl/</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-29</lastmod>
+  </url>
+  <url>
+    <loc>https://kukis.nl/legal/</loc>
+    <lastmod>2026-09-29</lastmod>
+  </url>
+  <url>
+    <loc>https://kukis.nl/legal/privacy</loc>
+    <lastmod>2026-09-20</lastmod>
+  </url>
+  <url>
+    <loc>https://kukis.nl/legal/dpa</loc>
+    <lastmod>2026-09-20</lastmod>
+  </url>
+  <url>
+    <loc>https://kukis.nl/legal/subprocessors</loc>
+    <lastmod>2026-09-20</lastmod>
   </url>
 </urlset>

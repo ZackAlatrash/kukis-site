@@ -13,6 +13,25 @@ export function Footer() {
           © {footer.year} {site.name}
         </div>
       </div>
+
+      {/* The legal documents and the demo, which the page never linked to. */}
+      <nav
+        aria-label="Footer"
+        className="mx-auto mt-7 w-full max-w-[1120px] border-t border-white/[0.07] px-6 pt-6"
+      >
+        <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2.5 text-[0.8125rem] md:justify-start">
+          {footer.links.map((l) => (
+            <li key={l.href}>
+              <a
+                href={l.href}
+                className="rounded transition-colors hover:text-[#FBF3E4] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber"
+              >
+                {l.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </footer>
   );
 }
