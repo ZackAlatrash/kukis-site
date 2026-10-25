@@ -10,6 +10,7 @@ import { Widgets } from "./components/sections/Widgets";
 import { WhyKukis } from "./components/sections/WhyKukis";
 import { BuiltFor } from "./components/sections/BuiltFor";
 import { Pricing } from "./components/sections/Pricing";
+import { RevenueCalculator } from "./components/sections/RevenueCalculator";
 import { Faq } from "./components/sections/Faq";
 import { FinalCta } from "./components/sections/FinalCta";
 import { Footer } from "./components/layout/Footer";
@@ -73,7 +74,7 @@ export default function App() {
         <main id="main-content" tabIndex={-1} className="focus:outline-none">
           {/* AIDA order: hook → the problem (incl. the crumble scene) → why it's
               fixable → what the widgets are → how they work → what the merchant
-              gets → proof → fit → price → FAQ */}
+              gets → proof → fit → what it's worth → price → FAQ */}
           <CookieScrubHero />
           <InvisibleHalf />
           <Insight />
@@ -82,6 +83,7 @@ export default function App() {
           <InsideTheApp />
           <WhyKukis />
           <BuiltFor />
+          <RevenueCalculator />
           <Pricing />
           <Faq />
         </main>

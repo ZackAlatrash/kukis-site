@@ -12,6 +12,11 @@ export const site = {
   tagline: "The yes cookie tools can't get.",
   taglinePlayful: "No cookies? No problem.",
   demoHref: "#demo", // opens the demo request modal
+  // The public App Store listing. Its handle still carries "staging" because the
+  // listed app was first created as "Kukis (staging)", and Shopify keeps a
+  // listing's first handle.
+  installHref: "https://apps.shopify.com/kukis-staging",
+  installLabel: "Install on Shopify",
   // The recorded walkthrough — the same film the App Store reviewers get.
   videoHref: "/demo/",
   legalHref: "/legal/",
@@ -20,6 +25,7 @@ export const site = {
     { label: "Widgets", href: "#widgets" },
     { label: "How it works", href: "#how" },
     { label: "In the app", href: "#app" },
+    { label: "Calculator", href: "#calculator" },
     { label: "Pricing", href: "#pricing" },
     { label: "FAQ", href: "#faq" },
   ],
@@ -31,8 +37,8 @@ export const hero = {
   headlineEm: "yes",
   headlinePost: " cookie tools can't get.",
   sub: "Kukis captures a shopper's email and marketing consent even after they decline your cookies. That's the roughly half of EU traffic cookie-based tools can't see or reach. No popups. No cookies.",
-  primary: "Book a demo",
-  secondary: "See how it works",
+  primary: "Install on Shopify",
+  secondary: "Book a demo",
 };
 
 // Order matters: the unique problem (cookie rejection) leads, cart abandonment is
@@ -301,10 +307,11 @@ export const pricing = {
 
 export const finalCta = {
   title: "See Kukis on your store.",
-  body: "Book a short demo and we'll show you how much of your EU traffic you're currently leaving unreachable, and how Kukis brings it back with consent.",
-  cta: "Book a demo",
+  body: "Install Kukis from the Shopify App Store and try it free for 30 days. Prefer a walkthrough first? Book a short demo and we'll show you how much of your EU traffic you're leaving unreachable.",
+  cta: "Install on Shopify",
+  demo: "Book a demo",
   video: "Or watch the 7-minute walkthrough",
-  beta: "Now in private beta with Dutch Shopify merchants. Be among the first.",
+  live: "Live on the Shopify App Store · 30-day free trial",
   note: "EU Shopify merchants · NL / BE / DE first · English, Dutch, German",
 };
 
@@ -316,8 +323,10 @@ export const footer = {
   // The site had no links here at all — not even a privacy policy, on a page
   // with a form that collects a name and an email.
   links: [
+    { label: "Shopify App Store", href: site.installHref },
     { label: "Watch the demo", href: "/demo/" },
     { label: "Legal", href: "/legal/" },
+    { label: "Terms", href: "/legal/terms" },
     { label: "Privacy", href: "/legal/privacy" },
     { label: "DPA", href: "/legal/dpa" },
     { label: "Sub-processors", href: "/legal/subprocessors" },

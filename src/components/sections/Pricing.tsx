@@ -48,9 +48,15 @@ export function Pricing() {
           </ul>
 
           <div className="border-t border-chip/10 px-7 pb-7 pt-5 text-center">
-            <Button href={site.demoHref} size="lg" className="w-full">
-              Book a demo <ArrowRight size={18} aria-hidden />
+            <Button href={site.installHref} size="lg" className="w-full">
+              Start your free trial <ArrowRight size={18} aria-hidden />
             </Button>
+            <a
+              href={site.demoHref}
+              className="mt-3 inline-block rounded text-[0.9375rem] font-medium text-cocoa underline-offset-4 hover:text-blueberry hover:underline"
+            >
+              Or book a demo first
+            </a>
             <p className="mt-4 text-[0.8125rem] leading-relaxed text-crumb">{pricing.billing}</p>
             <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-crumb">{pricing.note}</p>
           </div>

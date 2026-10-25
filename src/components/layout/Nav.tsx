@@ -38,7 +38,7 @@ export function Nav() {
           <Logo />
         </a>
 
-        <div className="hidden items-center gap-7 text-[0.9375rem] md:flex">
+        <div className="hidden items-center gap-7 text-[0.9375rem] lg:flex">
           {site.nav.map((l) => (
             <a
               key={l.href}
@@ -51,15 +51,15 @@ export function Nav() {
           ))}
         </div>
 
-        <div className="hidden items-center gap-2.5 md:flex">
-          <Button href="#how" variant="ghost">
-            {"See how it works"}
+        <div className="hidden items-center gap-2.5 lg:flex">
+          <Button href={site.demoHref} variant="ghost">
+            Book a demo
           </Button>
-          <Button href={site.demoHref}>Book a demo</Button>
+          <Button href={site.installHref}>{site.installLabel}</Button>
         </div>
 
         <button
-          className="flex h-11 w-11 items-center justify-center rounded-full md:hidden"
+          className="flex h-11 w-11 items-center justify-center rounded-full lg:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           aria-controls="mobile-menu"
@@ -70,7 +70,7 @@ export function Nav() {
       </div>
 
       {open && (
-        <div id="mobile-menu" className="border-t border-chip/15 bg-milk px-6 py-4 md:hidden">
+        <div id="mobile-menu" className="border-t border-chip/15 bg-milk px-6 py-4 lg:hidden">
           <div className="flex flex-col gap-1">
             {site.nav.map((l) => (
               <a
@@ -85,7 +85,10 @@ export function Nav() {
                 {l.label}
               </a>
             ))}
-            <Button href={site.demoHref} className="mt-3 w-full">
+            <Button href={site.installHref} className="mt-3 w-full">
+              {site.installLabel}
+            </Button>
+            <Button href={site.demoHref} variant="ghost" className="mt-2 w-full">
               Book a demo
             </Button>
           </div>

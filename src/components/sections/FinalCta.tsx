@@ -39,9 +39,17 @@ export function FinalCta() {
           <p className="mx-auto mt-4 max-w-[52ch] text-lg text-[#c9b7a1]">
             {finalCta.body}
           </p>
-          <div className="mt-8 flex justify-center">
-            <Button href={site.demoHref} size="lg">
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Button href={site.installHref} size="lg">
               {finalCta.cta} <ArrowRight size={18} aria-hidden />
+            </Button>
+            <Button
+              href={site.demoHref}
+              variant="ghost"
+              size="lg"
+              className="border-white/25! text-[#FBF3E4]! hover:border-white/60!"
+            >
+              {finalCta.demo}
             </Button>
           </div>
           <a
@@ -51,7 +59,7 @@ export function FinalCta() {
             <PlayCircle size={16} aria-hidden />
             {finalCta.video}
           </a>
-          <p className="mt-5 text-[0.875rem] font-semibold text-amber">{finalCta.beta}</p>
+          <p className="mt-5 text-[0.875rem] font-semibold text-amber">{finalCta.live}</p>
           <div className="mt-2 text-[0.8125rem] text-[#a48d76]">{finalCta.note}</div>
         </Reveal>
       </div>

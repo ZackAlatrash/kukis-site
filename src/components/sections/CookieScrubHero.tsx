@@ -272,10 +272,10 @@ function Scrub({ mobile }: { mobile: boolean }) {
               {hero.headlinePost}
             </h1>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-              <Button href={site.demoHref} size="lg">
+              <Button href={site.installHref} size="lg">
                 {hero.primary}
               </Button>
-              <Button href="#how" variant="ghost" size="lg">
+              <Button href={site.demoHref} variant="ghost" size="lg">
                 {hero.secondary}
               </Button>
             </div>

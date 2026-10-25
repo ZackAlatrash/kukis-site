@@ -238,3 +238,72 @@ textarea.demo-field {
     animation: none;
   }
 }
+
+/* Revenue calculator sliders. The filled part of the track follows --fill,
+   which the component sets from the value, so WebKit matches Firefox's
+   native ::-moz-range-progress. */
+.calc-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 22px;
+  background: transparent;
+  cursor: pointer;
+}
+.calc-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--color-blueberry) 0 var(--fill, 50%),
+    rgba(90, 52, 32, 0.14) var(--fill, 50%) 100%
+  );
+}
+.calc-range::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(90, 52, 32, 0.14);
+}
+.calc-range::-moz-range-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-blueberry);
+}
+.calc-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  margin-top: -8px;
+  border-radius: 50%;
+  background: var(--color-cream);
+  border: 2px solid var(--color-blueberry);
+  box-shadow: 0 2px 6px rgba(46, 28, 16, 0.22);
+  transition: transform 150ms ease;
+}
+.calc-range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-cream);
+  border: 2px solid var(--color-blueberry);
+  box-shadow: 0 2px 6px rgba(46, 28, 16, 0.22);
+}
+.calc-range:active::-webkit-slider-thumb {
+  transform: scale(1.12);
+}
+.calc-range:focus-visible {
+  outline: none;
+}
+.calc-range:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--color-blueberry);
+  outline-offset: 3px;
+}
+.calc-range:focus-visible::-moz-range-thumb {
+  outline: 2px solid var(--color-blueberry);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .calc-range::-webkit-slider-thumb {
+    transition: none;
+  }
+}
