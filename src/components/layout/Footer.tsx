@@ -1,3 +1,4 @@
+import { Linkedin } from "lucide-react";
 import { footer, site } from "../../data/site";
 import { Logo } from "../ui/Logo";
 
@@ -9,8 +10,17 @@ export function Footer() {
         <div className="text-center">
           {footer.blurb} · {footer.location} · {footer.lang}
         </div>
-        <div>
-          © {footer.year} {site.name}
+        <div className="flex items-center gap-4">
+          <span>
+            © {footer.year} {site.name} · KvK {footer.kvk}
+          </span>
+          <a
+            href={footer.linkedin}
+            aria-label="Kukis on LinkedIn"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/12 transition-colors hover:border-white/30 hover:text-[#FBF3E4] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber"
+          >
+            <Linkedin size={16} aria-hidden />
+          </a>
         </div>
       </div>
 

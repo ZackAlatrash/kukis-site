@@ -318,6 +318,10 @@ export const finalCta = {
 export const footer = {
   blurb: "Consent after cookies.",
   location: "Based in the Netherlands",
+  // Dutch Chamber of Commerce registration. Dutch law expects a business site
+  // to show it; the legal pages carry it too.
+  kvk: "42138940",
+  linkedin: "https://www.linkedin.com/company/kukisapp/",
   lang: "English",
   year: 2026,
   // The site had no links here at all — not even a privacy policy, on a page
