@@ -219,7 +219,7 @@ export const faqs = [
   },
   {
     q: "What does it cost?",
-    a: "One plan: $49.99 a month after a 30-day free trial, billed through your Shopify invoice. You can cancel from Shopify at any time.",
+    a: "Nothing until it works. Kukis is free to install, and you pay €49.99 only in a billing cycle in which it recovers more than €250 for you. In any other cycle you pay €0. Billing cycles are Shopify's 30-day cycles, and the charge appears on your Shopify invoice. A recovered order is a paid order from a shopper who saved their cart, an item or a wishlist with Kukis in the 30 days before the order. Outside the euro area the same rule applies in US dollars: $49.99 over $250. Uninstall from Shopify at any time.",
   },
 ];
 
@@ -287,13 +287,24 @@ export const appFeatures: { icon: AppFeatureIcon; title: string; body: string }[
   },
 ];
 
+/**
+ * "Only pay when it works". The numbers mirror the app's single source,
+ * App/consented-cart/app/modules/billing/pricing.ts; `pricing-sync.test.ts`
+ * checks they still match. Change them there first.
+ */
 export const pricing = {
-  plan: "Standard",
-  price: "$49.99",
-  period: "a month",
-  trial: "30-day free trial",
-  // Shopify App Pricing bills in USD on the merchant's own Shopify invoice.
-  billing: "Billed through your Shopify invoice. Cancel from Shopify at any time.",
+  plan: "Pay when it works",
+  price: "€0",
+  period: "until Kukis earns it",
+  badge: "Install free",
+  rule: "€49.99 only in a month Kukis recovers more than €250 for you. Any other month: nothing.",
+  recovered:
+    "A recovered order is a paid order from a shopper who saved their cart, an item or a wishlist with Kukis in the 30 days before the order.",
+  // Stores Shopify bills in euros pay in euros; every other store pays the
+  // same numbers in US dollars. The €49.99 is also the monthly cap the
+  // merchant approves once in Shopify.
+  billing:
+    "Billed through your Shopify invoice, capped at €49.99 a month. Outside the euro area the same rule applies in US dollars. Uninstall from Shopify at any time.",
   includes: [
     "Save my cart, Save this for later and Wishlist",
     "Rejection Recovery after a cookie decline",
@@ -301,17 +312,18 @@ export const pricing = {
     "CSV exports and optional Shopify customer sync",
     "Email from your own verified domain",
     "English, Dutch and German",
+    "A Recovered orders page with every order counted and every charge",
   ],
-  note: "Emails send once your domain is verified. Until then Kukis records consent and holds the mail.",
+  note: "Emails send once your domain is verified. Until then Kukis records consent and holds the mail. Development stores are never charged.",
 };
 
 export const finalCta = {
   title: "See Kukis on your store.",
-  body: "Install Kukis from the Shopify App Store and try it free for 30 days. Prefer a walkthrough first? Book a short demo and we'll show you how much of your EU traffic you're leaving unreachable.",
+  body: "Install Kukis free from the Shopify App Store. You pay €49.99 only in a month it recovers more than €250 for you, and nothing in any other month. Prefer a walkthrough first? Book a short demo and we'll show you how much of your EU traffic you're leaving unreachable.",
   cta: "Install on Shopify",
   demo: "Book a demo",
   video: "Or watch the 7-minute walkthrough",
-  live: "Live on the Shopify App Store · 30-day free trial",
+  live: "Live on the Shopify App Store · Free to install, pay only when it works",
   note: "EU Shopify merchants · NL / BE / DE first · English, Dutch, German",
 };
 

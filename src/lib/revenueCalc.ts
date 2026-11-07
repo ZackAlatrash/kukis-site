@@ -7,8 +7,17 @@
  * back as orders at a fixed rate; orders times AOV is revenue.
  */
 
-/** Kukis costs $49.99 a month. The calculator works in euros, so about €46. */
-export const PRICE_EUR = 46;
+/**
+ * "Only pay when it works": Kukis charges €49.99 in a 30-day billing cycle in
+ * which it recovers MORE than €250, and €0 in any other. Mirrors the app's
+ * App/consented-cart/app/modules/billing/pricing.ts (EUR); the calculator
+ * treats a month as one billing cycle.
+ */
+export const PRICE_EUR = 49.99;
+export const THRESHOLD_EUR = 250;
+
+/** What Kukis would charge for a month with this much recovered revenue. */
+export const costFor = (revenue: number): number => (revenue > THRESHOLD_EUR ? PRICE_EUR : 0);
 
 export type RateKey = "atc" | "aband" | "pv" | "uc" | "up" | "ur" | "oc" | "op" | "mo";
 
@@ -102,8 +111,8 @@ export function calculate({ sessions, aov, declinePct, factor, rates }: CalcInpu
     declinedSaves,
     declinedMarketingYes: declinedSaves * r.mo,
     declinedRevenue: declinedOrders * aov,
-    payback: revenue / PRICE_EUR,
-    breakEvenOrders: Math.max(1, Math.ceil(PRICE_EUR / aov)),
+    charged: revenue > THRESHOLD_EUR,
+    cost: costFor(revenue),
   };
 }
 

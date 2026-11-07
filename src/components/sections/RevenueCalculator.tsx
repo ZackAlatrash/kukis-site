@@ -5,7 +5,7 @@ import { Reveal } from "../ui/Reveal";
 import { Button } from "../ui/Button";
 import { site } from "../../data/site";
 import { cn } from "../../lib/cn";
-import { DEFAULT_RATES, PRICE_EUR, SCENARIOS, calculate } from "../../lib/revenueCalc";
+import { DEFAULT_RATES, PRICE_EUR, SCENARIOS, THRESHOLD_EUR, calculate } from "../../lib/revenueCalc";
 
 // English page, euro amounts: en-IE gives "€1,234" and "1.5", which reads
 // right next to English copy.
@@ -13,6 +13,8 @@ const LOCALE = "en-IE";
 const eur = (n: number) => "€" + Math.round(n).toLocaleString(LOCALE);
 const int = (n: number) => Math.round(n).toLocaleString(LOCALE);
 const one = (n: number) => (Math.round(n * 10) / 10).toLocaleString(LOCALE);
+// The charge keeps its cents ("€49.99"); eur() would round it to €50.
+const price = "€" + PRICE_EUR.toFixed(2);
 
 const eyebrow = "text-xs font-semibold uppercase tracking-[0.12em]";
 
@@ -159,8 +161,9 @@ export function RevenueCalculator() {
             </div>
 
             <p className="mt-8 border-t border-chip/10 pt-5 text-[0.8125rem] leading-relaxed text-crumb md:mt-auto">
-              Estimates from typical e-commerce rates, not a promise. Once installed, the Kukis dashboard shows your
-              store's real recovered revenue, as Shopify reports it. $49.99 a month is used here as about €{PRICE_EUR}.
+              Estimates from typical e-commerce rates, not a promise. Once installed, the Recovered orders page in Kukis
+              lists your store's real recovered orders, as Shopify reports them, and every charge. Kukis charges {price} only in a
+              month it recovers more than €{THRESHOLD_EUR}; outside the euro area the same rule applies in US dollars.
             </p>
           </section>
 
@@ -188,10 +191,10 @@ export function RevenueCalculator() {
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
                 <span className="rounded-full bg-consent/20 px-3 py-1 text-[0.8125rem] font-semibold tabular-nums text-[#86dcae]">
-                  {r.payback >= 1 ? `${one(r.payback)}× what Kukis costs` : "Below cost at these rates"}
+                  {r.charged ? `You'd pay ${price} that month` : `Under €${THRESHOLD_EUR} recovered: you pay €0`}
                 </span>
                 <span className="rounded-full bg-white/[0.08] px-3 py-1 text-[0.8125rem] font-semibold tabular-nums text-[#e0cdb6]">
-                  Pays for itself at {r.breakEvenOrders} order{r.breakEvenOrders > 1 ? "s" : ""} a month
+                  {r.charged ? `${eur(r.revenue - r.cost)} left after Kukis` : `Kukis charges only above €${THRESHOLD_EUR}`}
                 </span>
               </div>
 
@@ -242,7 +245,7 @@ export function RevenueCalculator() {
               </div>
 
               <Button href={site.installHref} size="lg" className="mt-6 w-full">
-                Try it free for 30 days <ArrowRight size={18} aria-hidden />
+                Install free <ArrowRight size={18} aria-hidden />
               </Button>
             </div>
           </section>

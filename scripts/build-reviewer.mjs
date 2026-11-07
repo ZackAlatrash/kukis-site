@@ -91,8 +91,8 @@ const SEGMENTS = [
   {
     id: "06-step5-plan",
     image: "a5-step5-plan.png",
-    caption: "Step 5 — plan, on Shopify managed pricing",
-    say: "Step five is the plan. Billing runs through Shopify's managed pricing, with a thirty day trial, and it stays free on development stores.",
+    caption: "Step 5 — billing: pay only when it works",
+    say: "Step five is billing. Kukis is free to install; the merchant approves a forty-nine ninety-nine monthly maximum once, and Kukis only charges in a month it recovers more than two hundred and fifty euros. Development stores are never charged.",
   },
   {
     id: "07-widgets",

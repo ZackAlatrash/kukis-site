@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DEFAULT_RATES, calculate } from "./revenueCalc";
+import { DEFAULT_RATES, PRICE_EUR, THRESHOLD_EUR, calculate, costFor } from "./revenueCalc";
 
 const defaults = {
   sessions: 20000,
@@ -22,8 +22,8 @@ describe("calculate", () => {
     expect(r.marketingYes).toBeCloseTo(38.424);
     expect(r.declinedSaves).toBeCloseTo(77.92);
     expect(r.declinedRevenue).toBeCloseTo(314.4);
-    expect(r.payback).toBeCloseTo(555.6 / 46);
-    expect(r.breakEvenOrders).toBe(1);
+    expect(r.charged).toBe(true);
+    expect(r.cost).toBe(49.99);
   });
 
   it("scales saves with the scenario but not the order rate per save", () => {
@@ -33,8 +33,19 @@ describe("calculate", () => {
     expect(strong.orders / strong.saves).toBeCloseTo(base.orders / base.saves);
   });
 
-  it("needs more than one order to break even on a small basket", () => {
-    expect(calculate({ ...defaults, aov: 15 }).breakEvenOrders).toBe(4);
+  it("charges €49.99 only when recovered revenue is more than €250", () => {
+    expect(PRICE_EUR).toBe(49.99);
+    expect(THRESHOLD_EUR).toBe(250);
+    expect(costFor(0)).toBe(0);
+    expect(costFor(250)).toBe(0); // exactly the threshold is not "more than"
+    expect(costFor(250.01)).toBe(49.99);
+  });
+
+  it("costs nothing in a month under the threshold", () => {
+    const r = calculate({ ...defaults, sessions: 2000 });
+    expect(r.revenue).toBeLessThan(250);
+    expect(r.charged).toBe(false);
+    expect(r.cost).toBe(0);
   });
 
   it("has no Rejection Recovery revenue when nobody declines cookies", () => {

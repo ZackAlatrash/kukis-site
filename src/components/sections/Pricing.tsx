@@ -6,7 +6,9 @@ import { pricing, site } from "../../data/site";
 
 /**
  * One plan, so one card. A tier grid with a single column would imply choices
- * that do not exist, and the App Store listing has exactly this one plan.
+ * that do not exist, and the App Store listing has exactly this one plan:
+ * free to install, charged only in a billing cycle where Kukis recovered more
+ * than the threshold. The copy lives in `pricing` (src/data/site.ts).
  */
 export function Pricing() {
   return (
@@ -14,8 +16,8 @@ export function Pricing() {
       <Reveal>
         <SectionHead
           eyebrow="Pricing"
-          title="One plan. Everything in it."
-          sub="No tiers to compare and no usage charges. Try it free for 30 days."
+          title="€0 until Kukis earns it."
+          sub="One plan with everything in it. Install free, and pay only in a month Kukis brings real orders back."
         />
       </Reveal>
 
@@ -32,8 +34,12 @@ export function Pricing() {
               <span className="text-lg text-crumb">{pricing.period}</span>
             </div>
             <div className="mt-3 inline-flex items-center rounded-full bg-consent/15 px-3 py-1 text-[0.8125rem] font-semibold text-consent-ink">
-              {pricing.trial}
+              {pricing.badge}
             </div>
+            <p className="mx-auto mt-4 max-w-[400px] text-[0.9375rem] font-semibold leading-relaxed text-cocoa">
+              {pricing.rule}
+            </p>
+            <p className="mx-auto mt-2 max-w-[420px] text-[0.8125rem] leading-relaxed text-crumb">{pricing.recovered}</p>
           </div>
 
           <ul className="space-y-3 px-7 py-6">
@@ -49,7 +55,7 @@ export function Pricing() {
 
           <div className="border-t border-chip/10 px-7 pb-7 pt-5 text-center">
             <Button href={site.installHref} size="lg" className="w-full">
-              Start your free trial <ArrowRight size={18} aria-hidden />
+              Install free <ArrowRight size={18} aria-hidden />
             </Button>
             <a
               href={site.demoHref}
