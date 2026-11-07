@@ -100,6 +100,12 @@ const SEGMENTS = [
     caption: "One switch per widget, independent of the theme",
     say: "After setup, the Widgets page is a single switch for each one. Turning a widget off here hides it everywhere at once, without touching the theme.",
   },
+  {
+    id: "07b-recovered-orders",
+    image: "b2-recovered-orders.png",
+    caption: "Recovered orders — every order Kukis counts, and every charge",
+    say: "The Recovered orders page is what the merchant pays for. It shows this billing cycle against the threshold, every paid order from a shopper who saved with Kukis in the thirty days before, with refunds taken off, and every charge. On this development store the charge is a test, and never billed.",
+  },
 
   // ---- Customer flow --------------------------------------------------------
   {
