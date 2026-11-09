@@ -117,7 +117,7 @@ export function DemoRequestModal({
         <CookieCrumbBackdrop opacityScale={0.9} sizeScale={0.92} />
         <button
           type="button"
-          aria-label="Close demo request form"
+          aria-label="Close contact form"
           onClick={onClose}
           className="absolute right-3 top-3 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-cream text-cocoa shadow-[0_10px_30px_rgba(0,0,0,0.24)] transition-colors hover:bg-milk focus-visible:outline-2 focus-visible:outline-blueberry focus-visible:outline-offset-2 sm:h-10 sm:w-10"
         >

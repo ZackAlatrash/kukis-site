@@ -191,7 +191,7 @@ export function DemoRequestForm({
         });
 
         if (!response.ok) {
-          throw new Error("Demo request submission failed.");
+          throw new Error("Contact form submission failed.");
         }
 
         setStatus("success");
@@ -516,7 +516,7 @@ export function DemoRequestForm({
               disabled={isSubmitting}
               className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-cherry-deep px-5 py-3 text-[0.9375rem] font-semibold text-white transition-[transform,box-shadow] hover:-translate-y-px hover:shadow-[var(--shadow-hover)] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
             >
-              {isSubmitting ? "Sending..." : "Request demo"}
+              {isSubmitting ? "Sending..." : "Send message"}
               <ArrowRight size={18} aria-hidden />
             </button>
           </div>

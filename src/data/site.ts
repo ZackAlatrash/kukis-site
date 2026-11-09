@@ -11,7 +11,7 @@ export const site = {
   name: "Kukis",
   tagline: "The yes cookie tools can't get.",
   taglinePlayful: "No cookies? No problem.",
-  demoHref: "#demo", // opens the demo request modal
+  demoHref: "#demo", // opens the contact form modal
   // The public App Store listing. Its handle still carries "staging" because the
   // listed app was first created as "Kukis (staging)", and Shopify keeps a
   // listing's first handle.
@@ -38,7 +38,7 @@ export const hero = {
   headlinePost: " cookie tools can't get.",
   sub: "Kukis captures a shopper's email and marketing consent even after they decline your cookies. That's the roughly half of EU traffic cookie-based tools can't see or reach. No popups. No cookies.",
   primary: "Install on Shopify",
-  secondary: "Book a demo",
+  secondary: "Contact us",
 };
 
 // Order matters: the unique problem (cookie rejection) leads, cart abandonment is
@@ -319,9 +319,9 @@ export const pricing = {
 
 export const finalCta = {
   title: "See Kukis on your store.",
-  body: "Install Kukis free from the Shopify App Store. You pay €49.99 only in a month it recovers more than €250 for you, and nothing in any other month. Prefer a walkthrough first? Book a short demo and we'll show you how much of your EU traffic you're leaving unreachable.",
+  body: "Install Kukis free from the Shopify App Store. You pay €49.99 only in a month it recovers more than €250 for you, and nothing in any other month. Questions first? Contact us and we'll get back to you within 1-2 days.",
   cta: "Install on Shopify",
-  demo: "Book a demo",
+  demo: "Contact us",
   video: "Or watch the 7-minute walkthrough",
   live: "Live on the Shopify App Store · Free to install, pay only when it works",
   note: "EU Shopify merchants · NL / BE / DE first · English, Dutch, German",
@@ -356,20 +356,20 @@ export const demoRequest = {
   // the widget so dev works without it.
   turnstileSiteKey: import.meta.env.VITE_TURNSTILE_SITE_KEY || "",
   // Public (ships in the bundle): the mailto: shown if /api/demo ever fails, so a
-  // demo request is never silently lost. Must be a receiving address on the root
+  // message is never silently lost. Must be a receiving address on the root
   // domain — contact.kukis.nl is send-only and has no inbox.
   fallbackEmail: "hello@kukis.nl",
-  heading: "Request a demo",
+  heading: "Contact us",
   intro: "For EU Shopify merchants in NL, BE, and DE first.",
   replyNote: "Reply in 1-2 days",
-  helper: "Helps us make the reply specific instead of generic.",
-  privacy: "Only used to reply to this demo request. No newsletter opt-in.",
-  successTitle: "Request sent.",
-  successBody: "We'll take a look at your store and get back to you within 1-2 days.",
+  helper: "Helps us make the reply specific to your store.",
+  privacy: "Only used to reply to your message. No newsletter opt-in.",
+  successTitle: "Message sent.",
+  successBody: "Thanks for reaching out. We'll get back to you within 1-2 days.",
   successClose: "Close",
   mailtoTitle: "Opening your email app.",
-  mailtoBody: "Send the pre-filled email to finish the request.",
-  errorTitle: "The request did not send.",
+  mailtoBody: "Send the pre-filled email to finish your message.",
+  errorTitle: "Your message did not send.",
   errorBody: "Please try again, or use the fallback email link.",
   countries: ["Netherlands", "Belgium", "Germany", "Other EU", "Outside EU"],
   storeSizes: [

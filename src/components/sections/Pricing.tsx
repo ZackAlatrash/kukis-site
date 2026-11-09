@@ -61,7 +61,7 @@ export function Pricing() {
               href={site.demoHref}
               className="mt-3 inline-block rounded text-[0.9375rem] font-medium text-cocoa underline-offset-4 hover:text-blueberry hover:underline"
             >
-              Or book a demo first
+              Questions? Contact us
             </a>
             <p className="mt-4 text-[0.8125rem] leading-relaxed text-crumb">{pricing.billing}</p>
             <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-crumb">{pricing.note}</p>

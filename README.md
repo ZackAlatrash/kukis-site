@@ -43,10 +43,12 @@ src/
 7. `ConsentByDesign` — trust band
 8. `BuiltFor` — for / not-for
 9. `Faq` — accordion
-10. `FinalCta` — book a demo
+10. `FinalCta` — install or contact us
 
-## Demo request form
-The "Book a demo" CTAs open a request-demo form in a modal.
+## Contact form
+The "Contact us" CTAs open a contact form in a modal. (Internally it is
+still named `DemoRequestForm` and posts to `/api/demo`; it began as a
+book-a-demo form.)
 
 By default, if `VITE_DEMO_FORM_ENDPOINT` is empty, submissions open a pre-filled
 email to the fallback address in `src/data/site.ts`.

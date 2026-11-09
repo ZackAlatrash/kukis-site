@@ -81,7 +81,7 @@ export function buildDemoRequestPayload(values: DemoRequestValues): DemoRequestP
 }
 
 export function buildDemoRequestMailto(email: string, payload: DemoRequestPayload): string {
-  const subject = `Kukis demo request from ${payload.name}`;
+  const subject = `Kukis contact message from ${payload.name}`;
   const body = [
     `Name: ${payload.name}`,
     `Email: ${payload.email}`,

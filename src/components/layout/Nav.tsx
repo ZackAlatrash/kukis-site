@@ -53,7 +53,7 @@ export function Nav() {
 
         <div className="hidden items-center gap-2.5 lg:flex">
           <Button href={site.demoHref} variant="ghost">
-            Book a demo
+            Contact us
           </Button>
           <Button href={site.installHref}>{site.installLabel}</Button>
         </div>
@@ -89,7 +89,7 @@ export function Nav() {
               {site.installLabel}
             </Button>
             <Button href={site.demoHref} variant="ghost" className="mt-2 w-full">
-              Book a demo
+              Contact us
             </Button>
           </div>
         </div>

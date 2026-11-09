@@ -149,7 +149,7 @@ export function BuiltFor() {
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-cherry-deep px-5 py-2.5 text-[0.875rem] font-semibold text-milk transition-[transform,box-shadow] hover:-translate-y-px hover:shadow-[var(--shadow-hover)]"
                 >
-                  Book a demo
+                  Contact us
                   <ArrowRight size={15} aria-hidden />
                 </motion.a>
               )}

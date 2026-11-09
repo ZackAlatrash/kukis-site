@@ -162,7 +162,7 @@ export const onRequest = async ({
 
   const html = `
     <div style="font-family:ui-sans-serif,system-ui,sans-serif;color:#2e1c10;line-height:1.6">
-      <h2 style="margin:0 0 16px">New Kukis demo request</h2>
+      <h2 style="margin:0 0 16px">New Kukis contact message</h2>
       <table cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin-bottom:16px">
         ${rows
           .map(
@@ -184,7 +184,7 @@ export const onRequest = async ({
       from: env.DEMO_FROM_EMAIL,
       to: [env.DEMO_TO_EMAIL],
       reply_to: email, // hitting reply goes straight to the merchant
-      subject: oneLine(`Kukis demo request — ${name} (${storeUrl})`),
+      subject: oneLine(`Kukis contact message — ${name} (${storeUrl})`),
       text,
       html,
     }),
